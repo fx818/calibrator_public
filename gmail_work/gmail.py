@@ -158,6 +158,9 @@ def fetch_emails_with_attachments(username, vendor_email, num_email):
                     attachment_id = body['attachmentId']
                     attachment_content = get_file_data(gmail_service, msg_id, attachment_id, filename, save_location)
                     print(f"Attachment content type: {type(attachment_content)}")
+                    if not os.path.exists(save_location):
+                        os.makedirs(save_location)
+                    
                     with open(os.path.join(save_location, filename), 'wb') as _f:
                         _f.write(attachment_content)
                     print(f"Saved attachment: {filename} at {save_location}")

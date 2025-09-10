@@ -38,7 +38,7 @@ class Agent:
         if not vendor_email or not username:
             raise ValueError("Vendor email and your username is required.")
         print("username is ", username)
-        increment_attempts(username)
+        # increment_attempts(username)
         all_paths = fetch_emails_with_attachments(username, vendor_email, num_email)
         state.update({"pdf_file_path": all_paths})
         
