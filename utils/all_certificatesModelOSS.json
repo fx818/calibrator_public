@@ -1,0 +1,278 @@
+[
+    {
+        "certificate_number": "N/150525/2/3",
+        "issue_date": "16/05/2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41 Talkatora Industrial Area Lucknow, Uttar Pradesh Pin Code :226011"
+        },
+        "duc": {
+            "id": "",
+            "make_model": "",
+            "serial_number": null,
+            "range": "",
+            "least_count": "",
+            "location": "Test Bench",
+            "condition_at_receipt": "Satisfactory"
+        },
+        "calibration": {
+            "date": "15/05/2025",
+            "date_received": "15/05/2025",
+            "done_at": "Modtech Lab",
+            "environmental_conditions": {
+                "temperature_c": 23.5,
+                "relative_humidity_percent": 50.0
+            },
+            "procedure_references": [
+                "CP/101 (Direct Method)"
+            ],
+            "next_due": "14/05/2026"
+        },
+        "standard_equipment": {
+            "name": "Multi-Product Calibrator",
+            "id": "MPC/01",
+            "serial_number": "4350801",
+            "certificate_number": "FL/C/ET/02012025-C001",
+            "calibration_date": "07/01/2025",
+            "calibration_due_date": "08/01/2026"
+        },
+        "results": [
+            {
+                "duc_value": 1,
+                "std_value": 1,
+                "error": 0,
+                "expanded_uncertainty": 5.844
+            },
+            {
+                "duc_value": 10,
+                "std_value": 10,
+                "error": 0,
+                "expanded_uncertainty": 2
+            },
+            {
+                "duc_value": 99.7,
+                "std_value": 100,
+                "error": -0.3,
+                "expanded_uncertainty": 1.5
+            },
+            {
+                "duc_value": 0.995,
+                "std_value": 1,
+                "error": -0.5,
+                "expanded_uncertainty": 1.2
+            },
+            {
+                "duc_value": 1.894,
+                "std_value": 1.9,
+                "error": -0.316,
+                "expanded_uncertainty": 0.624
+            },
+            {
+                "duc_value": 9.97,
+                "std_value": 10,
+                "error": -0.3,
+                "expanded_uncertainty": 0.142
+            },
+            {
+                "duc_value": 18.95,
+                "std_value": 19,
+                "error": -0.263,
+                "expanded_uncertainty": 0.11
+            },
+            {
+                "duc_value": 99.9,
+                "std_value": 100,
+                "error": -0.1,
+                "expanded_uncertainty": 0.064
+            },
+            {
+                "duc_value": 189.5,
+                "std_value": 190,
+                "error": -0.263,
+                "expanded_uncertainty": 0.04
+            },
+            {
+                "duc_value": 0.998,
+                "std_value": 1,
+                "error": -0.2,
+                "expanded_uncertainty": 0.06
+            },
+            {
+                "duc_value": 1.896,
+                "std_value": 1.9,
+                "error": -0.211,
+                "expanded_uncertainty": 0.04
+            },
+            {
+                "duc_value": 9.93,
+                "std_value": 10,
+                "error": -0.7,
+                "expanded_uncertainty": 0.06
+            }
+        ],
+        "remarks": "",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor k (k=2, if not mentioned with the expanded uncertainty), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referes only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement.",
+            "This certificate shall not be reproduced except in full without permission of Modtech.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    },
+    {
+        "certificate_number": "N/150525/2/1",
+        "issue_date": "16/05/2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41 Talkatora Industrial Area Lucknow, Uttar Pradesh Pin Code :226011"
+        },
+        "duc": {
+            "id": "IMTE-20190308030",
+            "make_model": "HTC",
+            "serial_number": null,
+            "range": "-20 to 300 °C",
+            "least_count": "0.1 °C",
+            "location": "",
+            "condition_at_receipt": "Satisfactory"
+        },
+        "calibration": {
+            "date": "15/05/2025",
+            "date_received": "15/05/2025",
+            "done_at": "Modtech Lab",
+            "environmental_conditions": {
+                "temperature_c": 24.3,
+                "relative_humidity_percent": 51
+            },
+            "procedure_references": [
+                "CP/208, MSL Technical Guide22:2019"
+            ],
+            "next_due": "14/05/2026"
+        },
+        "standard_equipment": {
+            "name": "Infrared Thermometer",
+            "id": "IRT/01",
+            "serial_number": "43303023WS",
+            "certificate_number": "TSC/24-25/17279-1",
+            "calibration_date": "01/01/2025",
+            "calibration_due_date": "31/12/2025"
+        },
+        "results": [
+            {
+                "duc_value": 50.1,
+                "std_value": 50.2,
+                "error": -0.1,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 100,
+                "std_value": 100.3,
+                "error": -0.3,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 149.4,
+                "std_value": 150.2,
+                "error": -0.8,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 248.8,
+                "std_value": 250.1,
+                "error": -1.3,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 298.4,
+                "std_value": 299.9,
+                "error": -1.5,
+                "expanded_uncertainty": 2.6
+            }
+        ],
+        "remarks": "",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor k (k=2, if not mentioned with the expanded uncertainty), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referes only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement.",
+            "This certificate shall not be reproduced except in full without permission of Modtech.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    },
+    {
+        "certificate_number": "N/150525/2/2",
+        "issue_date": "16/05/2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41 Talkatora Industrial Area Lucknow, Uttar Pradesh Pin Code :226011"
+        },
+        "duc": {
+            "id": "IMTE-14052025001",
+            "make_model": "HTC",
+            "serial_number": null,
+            "range": "-20 to 300 °C",
+            "least_count": "0.1 °C",
+            "location": "",
+            "condition_at_receipt": "Satisfactory"
+        },
+        "calibration": {
+            "date": "15/05/2025",
+            "date_received": "15/05/2025",
+            "done_at": "Modtech Lab",
+            "environmental_conditions": {
+                "temperature_c": 24.1,
+                "relative_humidity_percent": 50
+            },
+            "procedure_references": [
+                "CP/208, MSL Technical Guide22:2019"
+            ],
+            "next_due": "14/05/2026"
+        },
+        "standard_equipment": {
+            "name": "Infrared Thermometer",
+            "id": "IRT/01",
+            "serial_number": "43303023WS",
+            "certificate_number": "TSC/24-25/17279-1",
+            "calibration_date": "01/01/2025",
+            "calibration_due_date": "31/12/2025"
+        },
+        "results": [
+            {
+                "duc_value": 50,
+                "std_value": 50.1,
+                "error": -0.1,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 99.9,
+                "std_value": 100.2,
+                "error": -0.3,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 149.5,
+                "std_value": 149.9,
+                "error": -0.4,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 248.3,
+                "std_value": 249.8,
+                "error": -1.5,
+                "expanded_uncertainty": 2.6
+            },
+            {
+                "duc_value": 298.1,
+                "std_value": 300,
+                "error": -1.9,
+                "expanded_uncertainty": 2.6
+            }
+        ],
+        "remarks": "",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor k (k=2, if not mentioned with the expanded uncertainty), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referes only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement.",
+            "This certificate shall not be reproduced except in full without permission of Modtech.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    }
+]

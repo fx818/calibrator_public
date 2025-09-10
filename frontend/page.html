@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificate Approval Dashboard</title>
+  <style>
+    :root {
+      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      font-weight: 400;
+      color-scheme: light dark;
+      color: rgba(255, 255, 255, 0.87);
+      background-color: #242424;
+      --primary-color: #646cff;
+      --success-color: #22c55e;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --bg-secondary: #2d2d2d;
+      --bg-card: #333;
+      --border-color: #404040;
+      --text-primary: rgba(255, 255, 255, 0.87);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+
+    #app {
+      min-height: 100vh;
+    }
+
+    .dashboard {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dashboard-header {
+      background: var(--bg-secondary);
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dashboard-header h1 {
+      margin: 0;
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .api-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-indicator.online {
+      background: var(--success-color);
+      box-shadow: 0 0 6px var(--success-color);
+    }
+
+    .status-indicator.offline {
+      background: var(--danger-color);
+      box-shadow: 0 0 6px var(--danger-color);
+    }
+
+    .status-indicator.checking {
+      background: var(--warning-color);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .dashboard-main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+      color: white;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success-color), #16a34a);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger-color), #dc2626);
+      color: white;
+    }
+
+    .info-card,
+    .certificate-card,
+    .approval-card,
+    .response-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .certificates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    .certificate-details p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+    }
+
+    .status-badge.pending {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning-color);
+      border: 1px solid var(--warning-color);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+
+    .status-badge.approved {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+
+    .status-badge.rejected {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--danger-color);
+      border: 1px solid var(--danger-color);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+
+    .toast {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(100, 108, 255, 0.3);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script>
+    class CertificateDashboard {
+      constructor() {
+        this.apiBaseUrl = 'http://127.0.0.1:8000';
+        this.certificates = [];
+        this.isLoading = false;
+        this.init();
+      }
+      init() { this.renderDashboard(); this.checkApiHealth(); this.bindEvents(); }
+      renderDashboard() {
+        const app = document.getElementById('app');
+        app.innerHTML = `
+          <div class="dashboard">
+            <header class="dashboard-header">
+              <h1>Certificate Approval Dashboard</h1>
+              <div class="api-status" id="apiStatus">
+                <span class="status-indicator checking"></span>
+                <span>Checking API...</span>
+              </div>
+            </header>
+            <main class="dashboard-main">
+              <div class="action-panel">
+                <input type="text" id="username" placeholder="Enter Unique UserID" class="btn"
+                  style="margin-right: 1rem; padding: 0.75rem; border-radius: 0.5rem; border:1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); width: 250px;" required />
+                <input type="email" id="vendorEmail" placeholder="Enter Vendor Email" class="btn"
+                  style="margin-right: 1rem; padding: 0.75rem; border-radius: 0.5rem; border:1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); width: 250px;" required />
+                <input type="number" id="numEmails" placeholder="Number of Emails" min="1" class="btn"
+                  style="margin-right: 1rem; padding: 0.75rem; border-radius: 0.5rem; border:1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); width: 200px;" required />
+                <button id="extractBtn" class="btn btn-primary">📊 Extract Certificates</button>
+              </div>
+              <div class="results-section" id="resultsSection" style="display:none;">
+                <div class="certificate-list" id="certificateList"></div>
+                <div class="approval-panel" id="approvalPanel" style="display:none;">
+                  <div class="approval-card">
+                    <h3>⚠️ Approval Required</h3>
+                    <p>Do you approve pushing these certificates to calendar?</p>
+                    <button id="approveBtn" class="btn btn-success">✅ Approve</button>
+                    <button id="rejectBtn" class="btn btn-danger">❌ Reject</button>
+                  </div>
+                </div>
+              </div>
+              <div class="response-section" id="responseSection" style="display:none;">
+                <div class="response-card">
+                  <h3>API Response</h3>
+                  <pre id="responseContent"></pre>
+                </div>
+              </div>
+            </main>
+          </div>
+          <div class="toast" id="toast"></div>
+          <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+          </div>`;
+      }
+      bindEvents() {
+        document.addEventListener('click', e => {
+          if (e.target.closest('#extractBtn')) this.extractCertificates();
+          if (e.target.closest('#approveBtn')) this.sendApproval('yes');
+          if (e.target.closest('#rejectBtn')) this.sendApproval('no');
+          if (e.target.closest('.finalize-btn')) {
+            const certNumber = e.target.dataset.cert;
+            this.finalizeApproval(certNumber);
+          }
+        });
+      }
+      async checkApiHealth() {
+        const statusElement = document.getElementById('apiStatus');
+        try {
+          const response = await fetch(`${this.apiBaseUrl}/`);
+          const data = await response.json();
+          if (response.ok && data.status === 'API is running') {
+            statusElement.innerHTML = `<span class="status-indicator online"></span><span>API Connected</span>`;
+          } else throw new Error('API health check failed');
+        } catch {
+          statusElement.innerHTML = `<span class="status-indicator offline"></span><span>API Offline</span>`;
+          this.showToast('Failed to connect to API', 'error');
+        }
+      }
+      async extractCertificates() {
+        const username = document.getElementById('username').value.trim();
+        const vendorEmail = document.getElementById('vendorEmail').value.trim();
+        const numEmails = parseInt(document.getElementById('numEmails').value.trim(), 10);
+        if (!vendorEmail || isNaN(numEmails) || numEmails <= 0) {
+          this.showToast("Please enter valid username, vendor email and number of emails.", "error");
+          return;
+        }
+        this.setLoading(true);
+        try {
+          const response = await fetch(`${this.apiBaseUrl}/extract_certificates`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: username, vendor_email: vendorEmail, number_of_email_to_fetch: numEmails })
+          });
+          const data = await response.json();
+          if (response.ok) {
+            this.certificates = data.raw_certs || [];
+            this.handleExtractResponse(data);
+            this.showToast(data.message || 'Certificates extracted', 'success');
+          } else throw new Error(data.message || 'Failed to extract');
+        } catch (error) {
+          this.showToast(`Error: ${error.message}`, 'error');
+        } finally { this.setLoading(false); }
+      }
+      handleExtractResponse(data) {
+        const resultsSection = document.getElementById('resultsSection');
+        const certificateList = document.getElementById('certificateList');
+        const approvalPanel = document.getElementById('approvalPanel');
+        const responseSection = document.getElementById('responseSection');
+        const responseContent = document.getElementById('responseContent');
+        resultsSection.style.display = 'block';
+        if (this.certificates.length > 0) this.renderCertificates(this.certificates);
+        else {
+          certificateList.innerHTML = `<div class="info-card"><h3>📋 Extraction Result</h3><p><strong>Status:</strong> ${data.status}</p><p><strong>Message:</strong> ${data.message}</p></div>`;
+        }
+        if (data.status === 'Waiting') approvalPanel.style.display = 'block';
+        responseSection.style.display = 'block';
+        responseContent.textContent = JSON.stringify(data, null, 2);
+      }
+      renderCertificates(certificates) {
+        const certificateList = document.getElementById('certificateList');
+        const cards = certificates.map((cert, i) => {
+          const certStatus = cert.status || "pending";
+          return `
+            <div class="certificate-card">
+              <div class="certificate-header" style="display:flex;justify-content:space-between;align-items:center;">
+                <h4>Certificate #${i + 1}</h4>
+                <span class="status-badge ${certStatus}">
+                  ${certStatus.charAt(0).toUpperCase() + certStatus.slice(1)}
+                </span>
+              </div>
+              <div class="certificate-details">
+                <p><strong>Certificate Number:</strong> ${cert.certificate_number || "N/A"}</p>
+                <p><strong>Issue Date:</strong> ${cert.issue_date || "N/A"}</p>
+                <p><strong>Calibration Next Due:</strong> ${cert.calibration_next_due || "N/A"}</p>
+                <p><strong>Customer Name:</strong> ${cert.customer_name || "N/A"}</p>
+                <p><strong>Customer Address:</strong> ${cert.customer_address || "N/A"}</p>
+                <p><strong>DUC ID:</strong> ${cert.duc_id || "N/A"}</p>
+                <p><strong>DUC Make/Model:</strong> ${cert.duc_make_model || "N/A"}</p>
+              </div>
+            </div>`;
+        }).join('');
+        certificateList.innerHTML = `<div class="certificates-header"><h3>📋 Extracted Certificates (${certificates.length})</h3></div><div class="certificates-grid">${cards}</div>`;
+      }
+      async sendApproval(decision) {
+        this.setLoading(true);
+        try {
+          const response = await fetch(`${this.apiBaseUrl}/approval?user_input=${decision}`, { method: 'POST' });
+          const data = await response.json();
+          if (response.ok) {
+            this.handleApprovalResponse(data, decision);
+            this.showToast(data.message, 'success');
+          } else throw new Error(data.message || 'Failed approval');
+        } catch (e) { this.showToast(`Error: ${e.message}`, 'error'); }
+        finally { this.setLoading(false); }
+      }
+      async finalizeApproval(certNumber) {
+        this.setLoading(true);
+        try {
+          const response = await fetch(`${this.apiBaseUrl}/approval?certificate_number=${certNumber}`, { method: 'POST' });
+          const data = await response.json();
+          if (response.ok) {
+            this.showToast(`Certificate ${certNumber} finalized`, 'success');
+            this.updateCertificateStatus('finalized');
+          } else throw new Error(data.message);
+        } catch (e) { this.showToast(`Error: ${e.message}`, 'error'); }
+        finally { this.setLoading(false); }
+      }
+      handleApprovalResponse(data, decision) {
+        document.getElementById('approvalPanel').style.display = 'none';
+        this.updateCertificateStatus(decision === 'yes' ? 'approved' : 'rejected');
+        document.getElementById('responseContent').textContent = JSON.stringify(data, null, 2);
+      }
+      updateCertificateStatus(status) {
+        document.querySelectorAll('.status-badge').forEach(badge => {
+          badge.className = `status-badge ${status}`;
+          badge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        });
+      }
+      setLoading(l) {
+        this.isLoading = l;
+        document.getElementById('loadingOverlay').style.display = l ? 'flex' : 'none';
+        const btn = document.getElementById('extractBtn'); if (btn) btn.disabled = l;
+      }
+      showToast(msg, type = 'info') {
+        const toast = document.getElementById('toast');
+        toast.className = `toast ${type} show`;
+        toast.textContent = msg;
+        setTimeout(() => { toast.className = 'toast'; }, 4000);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => new CertificateDashboard());
+  </script>
+</body>
+
+</html>

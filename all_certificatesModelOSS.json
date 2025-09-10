@@ -1,0 +1,318 @@
+[
+    {
+        "certificate_number": "25000008034",
+        "issue_date": "24 May2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41, Talkatora Industrial Area, Lucknow-226011"
+        },
+        "duc": {
+            "id": "GTM-13",
+            "make_model": "Gera Research",
+            "range": "0 to110°C",
+            "least_count": 0.1,
+            "serial_number": null,
+            "condition_at_receipt": "No Damage",
+            "location": "Design Room"
+        },
+        "calibration": {
+            "date": "15 May2025",
+            "date_received": "15 May2025",
+            "done_at": "Laboratory",
+            "environmental_conditions": {
+                "temperature_c": -24.6,
+                "relative_humidity_percent": 43
+            },
+            "next_due": "14 May2026",
+            "procedure_references": [
+                "VCS/WI/56",
+                "IS6274:1971 (Reaffirmed2017)"
+            ]
+        },
+        "standard_equipment": {
+            "name": "RTD (4 Wire) With Digital Thermometer",
+            "id": "VCS/RTD/01 & VCS/THM/01",
+            "serial_number": null,
+            "calibration_date": "08 June2024",
+            "calibration_due_date": "07 June2025",
+            "certificate_number": "2401888"
+        },
+        "results": [
+            {
+                "duc_value": 20.0,
+                "std_value": 19.85,
+                "error": 0.15,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 40.0,
+                "std_value": 39.69,
+                "error": 0.31,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 60.0,
+                "std_value": 59.47,
+                "error": 0.53,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 80.0,
+                "std_value": 79.21,
+                "error": 0.79,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 110.0,
+                "std_value": 109.05,
+                "error": 0.95,
+                "expanded_uncertainty": 1.15
+            }
+        ],
+        "remarks": "None",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referees only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement",
+            "This certificate shall not be reproduced except in full without permission of Head of Laboratory.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    },
+    {
+        "certificate_number": "25000008035",
+        "issue_date": "24 May2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41, Talkatora Industrial Area, Lucknow-226011"
+        },
+        "duc": {
+            "id": "GTM-14",
+            "make_model": "Gera Research",
+            "range": "0 to110°C",
+            "least_count": 0.1,
+            "serial_number": null,
+            "condition_at_receipt": "No Damage",
+            "location": "Design Room"
+        },
+        "calibration": {
+            "date": "15 May2025",
+            "date_received": "15 May2025",
+            "done_at": "Laboratory",
+            "environmental_conditions": {
+                "temperature_c": -24.7,
+                "relative_humidity_percent": 44
+            },
+            "next_due": "14 May2026",
+            "procedure_references": [
+                "VCS/WI/56",
+                "IS6274:1971 (Reaffirmed2017)"
+            ]
+        },
+        "standard_equipment": {
+            "name": "RTD (4 Wire) With Digital Thermometer",
+            "id": "VCS/RTD/01 & VCS/THM/01",
+            "serial_number": null,
+            "calibration_date": "08 June2024",
+            "calibration_due_date": "07 June2025",
+            "certificate_number": "2401888"
+        },
+        "results": [
+            {
+                "duc_value": 20.0,
+                "std_value": 20.39,
+                "error": -0.39,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 40.0,
+                "std_value": 40.55,
+                "error": -0.55,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 60.0,
+                "std_value": 60.71,
+                "error": -0.71,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 80.0,
+                "std_value": 80.91,
+                "error": -0.91,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 110.0,
+                "std_value": 111.05,
+                "error": -1.05,
+                "expanded_uncertainty": 1.15
+            }
+        ],
+        "remarks": "None",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referes only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement",
+            "This certificate shall not be reproduced except in full without permission of Head of Laboratory.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    },
+    {
+        "certificate_number": "25000008036",
+        "issue_date": "24 May2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41, Talkatora Industrial Area, Lucknow-226011"
+        },
+        "duc": {
+            "id": "GTM-15",
+            "make_model": "Gera Research",
+            "range": "0 to110°C",
+            "least_count": 0.1,
+            "serial_number": null,
+            "condition_at_receipt": "No Damage",
+            "location": "Design Room"
+        },
+        "calibration": {
+            "date": "15 May2025",
+            "date_received": "15 May2025",
+            "done_at": "Laboratory",
+            "environmental_conditions": {
+                "temperature_c": -24.6,
+                "relative_humidity_percent": 43
+            },
+            "next_due": "14 May2026",
+            "procedure_references": [
+                "VCS/WI/56",
+                "IS6274:1971 (Reaffirmed2017)"
+            ]
+        },
+        "standard_equipment": {
+            "name": "RTD (4 Wire) With Digital Thermometer",
+            "id": "VCS/RTD/01 & VCS/THM/01",
+            "serial_number": null,
+            "calibration_date": "08 June2024",
+            "calibration_due_date": "07 June2025",
+            "certificate_number": "2401888"
+        },
+        "results": [
+            {
+                "duc_value": 20.0,
+                "std_value": 20.13,
+                "error": -0.13,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 40.0,
+                "std_value": 40.27,
+                "error": -0.27,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 60.0,
+                "std_value": 60.42,
+                "error": -0.42,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 80.0,
+                "std_value": 80.58,
+                "error": -0.58,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 110.0,
+                "std_value": 110.82,
+                "error": -0.82,
+                "expanded_uncertainty": 1.15
+            }
+        ],
+        "remarks": "None",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referes only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement",
+            "This certificate shall not be reproduced except in full without permission of Head of Laboratory.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    },
+    {
+        "certificate_number": "25000008037",
+        "issue_date": "24 May2025",
+        "customer": {
+            "name": "Prag Polymers",
+            "address": "A-40 & A-41, Talkatora Industrial Area, Lucknow-226011"
+        },
+        "duc": {
+            "id": "GTM-16",
+            "make_model": "Gera Research",
+            "range": "0 to110°C",
+            "least_count": 0.1,
+            "serial_number": null,
+            "condition_at_receipt": "No Damage",
+            "location": "Design Room"
+        },
+        "calibration": {
+            "date": "15 May2025",
+            "date_received": "15 May2025",
+            "done_at": "Laboratory",
+            "environmental_conditions": {
+                "temperature_c": -24.8,
+                "relative_humidity_percent": 45
+            },
+            "next_due": "14 May2026",
+            "procedure_references": [
+                "VCS/WI/56",
+                "IS6274:1971 (Reaffirmed2017)"
+            ]
+        },
+        "standard_equipment": {
+            "name": "RTD (4 Wire) With Digital Thermometer",
+            "id": "VCS/RTD/01 & VCS/THM/01",
+            "serial_number": null,
+            "calibration_date": "08 June2024",
+            "calibration_due_date": "07 June2025",
+            "certificate_number": "2401888"
+        },
+        "results": [
+            {
+                "duc_value": 20.0,
+                "std_value": 20.31,
+                "error": -0.31,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 40.0,
+                "std_value": 40.46,
+                "error": -0.46,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 60.0,
+                "std_value": 60.69,
+                "error": -0.69,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 80.0,
+                "std_value": 80.87,
+                "error": -0.87,
+                "expanded_uncertainty": 1.15
+            },
+            {
+                "duc_value": 110.0,
+                "std_value": 111.08,
+                "error": -1.08,
+                "expanded_uncertainty": 1.15
+            }
+        ],
+        "remarks": "None",
+        "notes": [
+            "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately95%.",
+            "This certificate is referes only to the particular item submitted for calibration.",
+            "Results reported are valid at the time of and under stated conditions of measurement",
+            "This certificate shall not be reproduced except in full without permission of Head of Laboratory.",
+            "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+        ]
+    }
+]

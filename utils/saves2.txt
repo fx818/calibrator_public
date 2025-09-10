@@ -1,0 +1,383 @@
+MODTECH CREATIVE LABS PVT. LTD.
+Plot No.: 3802, Laxman Vihar-II, Gurgaon-122006, Haryana, India
+Phone: +91 9911052344, 9818768501
+Email: mkt@mcl-pl.in <!-- text, from page 0 (l=0.092,t=0.034,r=0.761,b=0.108), with ID afd8f9fb-50cf-46ab-8170-2dd4c60ec69b -->
+
+Summary : This is a logo for "MODTECH CREATIVE LABS PVT. LTD." featuring bold text and shield/checkmark graphics on an orange background.
+
+logo: MODTECH CREATIVE LABS PVT. LTD.
+
+Company Name & Tagline :
+  • Top black band: "MODTECH" in white uppercase letters.
+  • Central orange field: "CREATIVE" in bold white uppercase letters.
+  • Bottom black band: "LABS PVT. LTD." in white uppercase letters.
+
+Graphic Elements :
+  • Above "CREATIVE": White checkmark symbol.
+  • Below "CREATIVE": White shield icon.
+
+Colour & Layout :
+  • Main background: Orange rectangle.
+  • Top and bottom bands: Black rectangles with white text.
+  • Central alignment of all text and graphics.
+
+Dimensions & Placement :
+  • Rectangular vertical layout.
+  • All elements are centered horizontally.
+
+Analysis :
+  • The logo uses a bold orange colour to convey energy and creativity.
+  • The checkmark and shield suggest reliability and protection, reinforcing the brand's values.
+  • The overall design is simple, modern, and professional, suitable for a technology or creative lab company. <!-- figure, from page 0 (l=0.818,t=0.038,r=0.924,b=0.137), with ID 49f7b32e-7c60-4cd1-a2b1-b3bce15c7d4f -->
+
+Calibration Certificate <!-- text, from page 0 (l=0.266,t=0.111,r=0.732,b=0.141), with ID 71d355d6-9ff7-4bf2-bd5a-65471a688c44 -->
+
+<table><thead><tr><td colspan="2">Certificate No.: N/150525/2/3</td><td>Certificate Issue Date.: 16/05/2025</td><td>Page 1 of 2</td></tr></thead><tbody><tr><td colspan="2">Name & Address of Customer<br>Prag Polymers (A-40)<br>A-40 & A-41Talkatora Industrial Area Lucknow, Uttar Pradesh<br>Pin Code : 226011</td><td colspan="2">CC-3996</td></tr><tr><td>Discipline (Group)</td><td>Unique Lab Report No.</td><td colspan="2">Calibration Performed At</td></tr><tr><td>Electro-Technical (Direct Current)</td><td>CC3996250000054305F</td><td colspan="2">Modtech Lab</td></tr><tr><td>Calibration Start Date</td><td>Calibration Completion Date</td><td>Next Calibration Due Date</td><td>Calibration Done By</td></tr><tr><td>15/05/2025</td><td>15/05/2025</td><td>14/05/2026</td><td>Virendra Yadav</td></tr><tr><td colspan="4">Details of Device Under Calibration (DUC)</td></tr></tbody></table> <!-- table, from page 0 (l=0.066,t=0.158,r=0.967,b=0.352), with ID 67be7410-7611-45ef-8ff1-22951debbf4c -->
+
+Nomenclature :  Digital Mili-Ohm Meter
+Identification No. :  PP/HVAC/IMTE/104
+Serial No.:  -
+Make :  Crown
+Model No.:  52C
+
+Range :  199.9 mΩ to 199.9 kΩ
+Least Count :  As per range
+Location :  Test Bench
+Condition at Receipt :  Satisfactory
+Date of Receipt :  15/05/2025 <!-- text, from page 0 (l=0.065,t=0.349,r=0.964,b=0.443), with ID fc2462c5-93b7-482f-9cdf-33809305164d -->
+
+Environmental Conditions :   Temperature (°C): 23.5 to 24.1, Relative Humidity (%RH) : 50.0 to 51.0
+Calibration Procedure Reference :   CP/101 (Direct Method) <!-- text, from page 0 (l=0.065,t=0.440,r=0.963,b=0.479), with ID f18b5a4b-a4e2-48b4-83ce-32c7433fe7ce -->
+
+<table><thead><tr><th colspan="6">Standard (STD) Equipment(s) Used</th></tr><tr><th>Nomenclature</th><th>Identification No.</th><th>Serial No.</th><th>Calibration Certificate No.</th><th>Calibration Done Date</th><th>Calibration Due Date</th></tr></thead><tbody><tr><td>Multi-Product Calibrator</td><td>MPC/01</td><td>4350801</td><td>FL/C/ET/02012025-C001</td><td>07/01/2025 to 09/01/2025</td><td>08/01/2026</td></tr><tr><td>Standard Resistance Box</td><td>RB/01</td><td>53120L18</td><td>TSC/24-25/17279-4</td><td>01/01/2025</td><td>31/12/2026</td></tr><tr><td colspan="6">Standard equipment(s) are traceable to National/International Standards through NMI or ISO/IEC 17025 Accreditted Laboratory</td></tr></tbody></table> <!-- table, from page 0 (l=0.063,t=0.476,r=0.963,b=0.610), with ID 13bc8ca0-9b55-4588-8d34-2ffeb9323819 -->
+
+Calibration Results
+<table><thead><tr><th>Range</th><th>Value of DUC</th><th>Value of STD</th><th>Error in %</th><th>Expanded Uncertainty in % (±)</th></tr></thead><tbody><tr><td rowspan="3">199.9 mΩ</td><td>1.0 mΩ</td><td>1 mΩ</td><td>0.000</td><td>5.844</td></tr><tr><td>10.0 mΩ</td><td>10 mΩ</td><td>0.000</td><td>2.000</td></tr><tr><td>99.7 mΩ</td><td>100 mΩ</td><td>-0.300</td><td>1.500</td></tr><tr><td rowspan="2">1.999 Ω</td><td>0.995 Ω</td><td>1 Ω</td><td>-0.500</td><td>1.200</td></tr><tr><td>1.894 Ω</td><td>1.9 Ω</td><td>-0.316</td><td>0.624</td></tr><tr><td rowspan="2">19.99 Ω</td><td>9.97 Ω</td><td>10 Ω</td><td>-0.300</td><td>0.142</td></tr><tr><td>18.95 Ω</td><td>19 Ω</td><td>-0.263</td><td>0.110</td></tr><tr><td rowspan="2">199.9 Ω</td><td>99.9 Ω</td><td>100 Ω</td><td>-0.100</td><td>0.064</td></tr><tr><td>189.5 Ω</td><td>190 Ω</td><td>-0.263</td><td>0.040</td></tr><tr><td rowspan="2">1.999 kΩ</td><td>0.998 kΩ</td><td>1 kΩ</td><td>-0.200</td><td>0.060</td></tr><tr><td>1.896 kΩ</td><td>1.9 kΩ</td><td>-0.211</td><td>0.040</td></tr><tr><td>19.99 kΩ</td><td>9.93 kΩ</td><td>10 kΩ</td><td>-0.700</td><td>0.060</td></tr></tbody></table> <!-- table, from page 0 (l=0.061,t=0.608,r=0.962,b=0.870), with ID f0df2cdb-82c8-4f9a-81e3-23605941d263 -->
+
+Summary : This image shows an official stamp and signature block used for document authorization by a company.
+
+stamp:  
+Shape & Border :  
+  • Circular stamp with a single-line border.  
+  • Blue ink.
+
+Text :  
+  • Outer ring: "WODTECH CREATIVE LABS PVT. LTD."  
+  • Inner ring: "GURUGRAM" (centered).
+
+Signature :  
+  • Blue ink, stylized, partially overlaps the stamp.
+
+Authorization Block :  
+  • Printed text: "Anil Kumar" (name), "Director" (designation).  
+  • Below: "Reviewed & Authorized By".
+
+Placement & Dimensions :  
+  • Stamp and signature are within a rectangular box.  
+  • Signature crosses from right to left, overlapping both the stamp and the printed text.
+
+Analysis :  
+  • The stamp and signature together indicate formal review and authorization by Anil Kumar, Director, for WODTECH CREATIVE LABS PVT. LTD., Gurugram. The blue ink and overlapping placement are typical of official document validation. <!-- figure, from page 0 (l=0.694,t=0.869,r=0.959,b=0.975), with ID 26fbeaaa-5f9e-4506-85dd-2ded9267efdf -->
+
+# MODTECH CREATIVE LABS PVT. LTD.
+Plot No.: 3802, Laxman Vihar-II, Gurgaon-122006, Haryana, India  
+Phone: +91 9911052344, 9818768501  
+Email: mkt@mcl-pl.in <!-- text, from page 1 (l=0.092,t=0.034,r=0.760,b=0.108), with ID a32b9fdd-b914-4c2a-8f05-677aa8c82947 -->
+
+Summary : This image is a logo for "MODTECH CREATIVE LABS PVT. LTD.", featuring bold text and graphic elements on an orange background.
+
+logo: MODTECH CREATIVE LABS PVT. LTD.
+
+Company Name & Tagline :
+  • "MODTECH" at the top in white uppercase letters on a black band.
+  • "CREATIVE" in large, bold white uppercase letters centered on an orange field.
+  • "LABS PVT. LTD." at the bottom in white uppercase letters on a black band.
+
+Graphic Elements :
+  • A white checkmark above the word "CREATIVE".
+  • A white shield shape below the word "CREATIVE".
+
+Colour & Layout :
+  • Main background is orange.
+  • Top and bottom bands are black with white text.
+  • Central area features white text and graphics.
+
+Dimensions & Placement :
+  • Rectangular layout, vertically oriented.
+  • Text and graphics are centrally aligned.
+
+Analysis :
+  • The logo uses bold colours and simple shapes to convey a sense of creativity and security, likely reflecting the company's branding as innovative and trustworthy. <!-- figure, from page 1 (l=0.817,t=0.038,r=0.923,b=0.136), with ID b47e57db-79cc-4200-b8aa-cbcf9251eecb -->
+
+Calibration Certificate <!-- text, from page 1 (l=0.266,t=0.111,r=0.731,b=0.141), with ID f08d75f0-d313-4c59-8330-56171cf089f3 -->
+
+<table><thead><tr><th>Certificate No.: N/150525/2/3</th><th>Certificate Issue Date.: 16/05/2025</th><th>Page 2 of 2</th></tr></thead><tbody><tr><td></td><td>18.86 kΩ</td><td>19 kΩ</td><td>-0.737</td><td>0.036</td></tr><tr><td>199.9 kΩ</td><td>99.8 kΩ</td><td>100 kΩ</td><td>-0.200</td><td>0.060</td></tr><tr><td></td><td>189.7 kΩ</td><td>190 kΩ</td><td>-0.158</td><td>0.038</td></tr></tbody></table> <!-- table, from page 1 (l=0.067,t=0.158,r=0.968,b=0.233), with ID 4987e617-fea5-4619-bd11-c6cfd9d0f816 -->
+
+Notes: 1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor k (k=2, if not mentioned with the expanded uncertainty), which for a normal distribution corresponds a coverage probability of approximately 95%.
+2. This certificate is referes only to the particular item submitted for calibration.
+3. Results reported are valid at the time of and under stated conditions of measurement.
+4. This certificate shall not be reproduced except in full without permission of Modtech.
+5. This certificate is for industrial and scientific purpose and can not be used in legal matters.
+
+Format No.-F/01, Rev.-0, Rev. Date-01/01/2024           ** End of Certificate ** <!-- text, from page 1 (l=0.061,t=0.869,r=0.665,b=0.970), with ID b508cfd5-28bc-4d38-abfb-adbc27bed651 -->
+
+Summary : This image shows an official stamp and signature block used for document authorization by Modtech Creative Labs Pvt. Ltd., Gurugram, including the director's name and title.
+
+stamp:  
+Shape & Border :  
+  • Circular stamp with a double-ring border.  
+  • Blue ink.
+
+Text Elements :  
+  • Outer ring: "MODTECH CREATIVE LABS PVT. LTD."  
+  • Inner ring: "GURUGRAM" (centered).
+
+Signature :  
+  • Handwritten signature in blue ink, overlapping the stamp and text block.  
+  • Signature is stylized and not fully legible.
+
+Authorization Block :  
+  • Printed text:  
+    – "Anil Kumar"  
+    – "Director"  
+    – "Reviewed & Authorized By"
+
+Placement & Dimensions :  
+  • Stamp and signature are placed in the upper left of the block, with the text block aligned to the right and below.  
+  • Stamp diameter approximately matches the height of the text block.
+
+Analysis :  
+  • The stamp and signature together indicate official review and authorization by the company director, Anil Kumar, for documents originating from Gurugram.  
+  • The use of blue ink and overlapping placement is typical for formal document validation. <!-- figure, from page 1 (l=0.688,t=0.874,r=0.965,b=0.975), with ID e2ae2af5-3e5e-479f-bacc-813873003df6 -->
+
+# MODTECH CREATIVE LABS PVT. LTD.
+Plot No.: 3802, Laxman Vihar-II, Gurgaon-122006, Haryana, India
+Phone: +91 9911052344, 9818768501
+Email: mkt@mcl-pl.in <!-- text, from page 2 (l=0.099,t=0.035,r=0.764,b=0.110), with ID dca6440d-b478-4de8-955c-0c4afd8ba21f -->
+
+Summary : This image is a logo for a company named "MODTECH CREATIVE LABS PVT. LTD." featuring bold text and shield/checkmark graphics.
+
+logo: MODTECH CREATIVE LABS PVT. LTD.
+
+Visible Text & Elements :
+  • Top black band with white text: "MODTECH"
+  • Central orange rectangle with white text: "CREATIVE"
+  • Above "CREATIVE": white checkmark symbol
+  • Below "CREATIVE": white shield-like shape
+  • Bottom black band with white text: "LABS PVT. LTD."
+
+Design & Layout :
+  • Rectangular logo with three horizontal sections (black-orange-black)
+  • Central section (orange) contains both text and graphic elements
+  • All text is in uppercase, bold sans-serif font
+  • White graphics (checkmark and shield) are centered above and below the word "CREATIVE"
+
+Dimensions & Placement :
+  • Proportions: vertical rectangle, approximately 3:2 height-to-width ratio
+  • All elements are horizontally centered within their respective bands
+
+Analysis :
+  • The logo uses a bold orange and black colour scheme to create strong visual contrast.
+  • The checkmark and shield symbols may suggest reliability, security, or quality.
+  • The word "CREATIVE" is emphasized as the central focus, likely reflecting the company's brand identity. <!-- figure, from page 2 (l=0.823,t=0.038,r=0.928,b=0.136), with ID 27b7e4e0-e5af-4d47-ba01-710e9cd38c06 -->
+
+# Calibration Certificate <!-- text, from page 2 (l=0.273,t=0.112,r=0.738,b=0.141), with ID a3286365-3b37-416c-9598-0ac862eec446 -->
+
+<table><tr><td colspan="3">Certificate No.: N/150525/2/1 Certificate Issue Date.: 16/05/2025 Page 1 of 1</td></tr><tr><td>Name & Address of Customer<br>Prag Polymers (A-40)<br>A-40 & A-41Talkatora Industrial Area Lucknow, Uttar Pradesh<br>Pin Code : 226011</td><td colspan="2">CC-3996</td></tr><tr><td>Discipline (Group)</td><td>Unique Lab Report No.</td><td>Calibration Performed At</td></tr><tr><td>Thermal- Temperature</td><td>CC3996250000054285F</td><td>Modtech Lab</td></tr><tr><td>Calibration Start Date<br>15/05/2025</td><td>Calibration Completion Date<br>15/05/2025</td><td>Next Calibration Due Date<br>14/05/2026</td><td>Calibration Done By<br>Sneh Lata</td></tr></table> <!-- table, from page 2 (l=0.069,t=0.159,r=0.968,b=0.335), with ID 4e942f50-8f15-4cd7-b7dc-fc41d80dacd4 -->
+
+Details of Device Under Calibration (DUC)
+
+Nomenclature :  Thermal Imager Camera
+Identification No. :  IMTE-20190308030
+Serial No.:  -
+Make :  HTC
+Model No.:  -
+
+Range :  -20 to 300 °C
+Least Count :  0.1 °C
+Location :  -
+Condition at Receipt :  Satisfactory
+Date of Receipt :  15/05/2025 <!-- text, from page 2 (l=0.068,t=0.333,r=0.965,b=0.442), with ID bfd04669-b8a4-450c-b6a9-422b47acbad6 -->
+
+Environmental Conditions: Temperature (°C): 24.3 to 24.5, Relative Humidity (%RH): 51.0 to 53.0
+Calibration Procedure Reference: CP/208, MSL Technical Guide 22:2019 <!-- text, from page 2 (l=0.067,t=0.439,r=0.964,b=0.478), with ID de5c93bf-27c4-4153-a4dd-c5e99b03ad26 -->
+
+<table><thead><tr><th colspan="6">Standard (STD) Equipment(s) Used</th></tr><tr><th>Nomenclature</th><th>Identification No.</th><th>Serial No.</th><th>Calibration Certificate No.</th><th>Calibration Done Date</th><th>Calibration Due Date</th></tr></thead><tbody><tr><td>Infrared Thermometer</td><td>IRT/01</td><td>43303023WS</td><td>TSC/24-25/17279-1</td><td>01/01/2025</td><td>31/12/2025</td></tr></tbody><tfoot><tr><td colspan="6">Standard equipment(s) are traceable to National/International Standards through NMI or ISO/IEC 17025 Accreditted Laboratory</td></tr></tfoot></table> <!-- table, from page 2 (l=0.065,t=0.475,r=0.964,b=0.563), with ID e235df95-11cc-4dc7-9e3f-2c6c4e471099 -->
+
+<table><thead><tr><th colspan="5">Calibration Results</th></tr><tr><th>Set Value in °C</th><th>Value of DUC in °C</th><th>Value of STD in °C</th><th>Error of DUC in °C</th><th>Expanded Uncertainty in °C (±)</th></tr></thead><tbody><tr><td>50</td><td>50.1</td><td>50.2</td><td>-0.1</td><td>2.60</td></tr><tr><td>100</td><td>100.0</td><td>100.3</td><td>-0.3</td><td>2.60</td></tr><tr><td>150</td><td>149.4</td><td>150.2</td><td>-0.8</td><td>2.60</td></tr><tr><td>250</td><td>248.8</td><td>250.1</td><td>-1.3</td><td>2.60</td></tr><tr><td>300</td><td>298.4</td><td>299.9</td><td>-1.5</td><td>2.60</td></tr></tbody></table> <!-- table, from page 2 (l=0.064,t=0.563,r=0.964,b=0.697), with ID 6ad1b059-13cd-469e-b59d-9670c5d95807 -->
+
+Notes: 1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor k (k=2, if not mentioned with the expanded uncertainty), which for a normal distribution corresponds a coverage probability of approximately 95%.
+2. This certificate is referes only to the particular item submitted for calibration.
+3. Results reported are valid at the time of and under stated conditions of measurement.
+4. This certificate shall not be reproduced except in full without permission of Modtech.
+5. This certificate is for industrial and scientific purpose and can not be used in legal matters. <!-- text, from page 2 (l=0.066,t=0.868,r=0.667,b=0.952), with ID ccdf24e1-91e0-4d1d-9b7b-e1a9b2d7f669 -->
+
+Summary : This image shows an official stamp and signature used for document authorization, including company details, location, and the name and title of the authorizing person.
+
+stamp:  
+Shape & Border :  
+  • Circular stamp with a double-line border.
+
+Text Elements :  
+  • Outer ring: "MODTECH CREATIVE LABS PVT. LTD."
+  • Inner area: "GURUGRAM" (location).
+
+Ink Colour :  
+  • Blue ink for both stamp and signature.
+
+Signature :  
+  • Handwritten signature in blue ink, overlapping the stamp.
+  • Signed name: "Anil Kumar".
+
+Authorization Details :  
+  • Printed text: "Anil Kumar", "Director", "Reviewed & Authorized By".
+
+Placement & Orientation :  
+  • Stamp is placed to the left, signature overlaps the right side of the stamp and extends over the printed text.
+
+Analysis :  
+  • The stamp and signature together serve as an official mark of review and authorization for documents from MODTECH CREATIVE LABS PVT. LTD., Gurugram, signed by the Director, Anil Kumar. <!-- figure, from page 2 (l=0.698,t=0.867,r=0.956,b=0.971), with ID 8c18d4a4-1435-4b4f-a1b1-b745b12e4df5 -->
+
+Format No.-F/01, Rev.-0, Rev. Date-01/01/2024 <!-- marginalia, from page 2 (l=0.065,t=0.954,r=0.387,b=0.968), with ID 88677fb7-ffd0-4fab-ac77-d5fc39bd3f3f -->
+
+** End of Certificate ** <!-- marginalia, from page 2 (l=0.434,t=0.954,r=0.608,b=0.970), with ID eb8bfca7-295f-404b-bb1f-6ab0afffd25d -->
+
+MODTECH CREATIVE LABS PVT. LTD.
+Plot No.: 3802, Laxman Vihar-II, Gurgaon-122006, Haryana, India
+Phone: +91 9911052344, 9818768501
+Email: mkt@mcl-pl.in <!-- text, from page 3 (l=0.100,t=0.035,r=0.764,b=0.109), with ID 89967ea8-aeaf-4e25-968b-42282f008f8d -->
+
+Summary : This is a logo for a company named "MODTECH CREATIVE LABS PVT. LTD." featuring bold text and shield-like graphic elements.
+
+logo: MODTECH CREATIVE LABS PVT. LTD.
+
+Company Name & Tagline :
+  • "MODTECH" at the top in uppercase white letters on a black background.
+  • "CREATIVE" in large, bold, uppercase white letters centered on an orange background.
+  • "LABS PVT. LTD." at the bottom in uppercase white letters on a black background.
+
+Graphic Elements :
+  • A white checkmark or tick symbol above the word "CREATIVE".
+  • A white shield-like shape below the word "CREATIVE".
+  • The main background is orange, with black bands at the top and bottom.
+
+Dimensions & Placement :
+  • Rectangular layout, vertically oriented.
+  • Text and symbols are centrally aligned.
+
+Analysis :
+  • The use of bold, uppercase text and shield/checkmark graphics suggests a focus on creativity, security, and reliability. The orange color may convey energy and innovation. <!-- figure, from page 3 (l=0.825,t=0.037,r=0.929,b=0.136), with ID 3af783cf-82cc-4d2b-94cb-692455d2161d -->
+
+Calibration Certificate <!-- text, from page 3 (l=0.274,t=0.112,r=0.738,b=0.140), with ID 4805e9f2-a13d-4665-a236-92937c400461 -->
+
+Certificate No.:      N/150525/2/2                Certificate Issue Date.: 16/05/2025                Page 1 of 1
+
+Name & Address of Customer
+Prag Polymers (A-40)
+A-40 & A-41 Talkatora Industrial Area Lucknow, Uttar Pradesh
+Pin Code : 226011
+
+logo: ilac-MRA
+
+stamp: round black, "राष्ट्रीय प्रत्यायन बोर्ड परीक्षण एवं अंशांकन प्रयोगशालाएँ NABL" with star in center, CC-3996
+
+barcode: [QR code, content not visible]
+
+barcode: [QR code, content not visible]
+
+Discipline (Group): Thermal- Temperature
+
+Unique Lab Report No.: CC399625000005429F
+
+Calibration Performed At: Modtech Lab
+
+Calibration Start Date: 15/05/2025
+
+Calibration Completion Date: 15/05/2025
+
+Next Calibration Due Date: 14/05/2026
+
+Calibration Done By: Sneh Lata <!-- text, from page 3 (l=0.070,t=0.159,r=0.968,b=0.335), with ID 57313d2d-da92-4d63-b13f-cbd7330711dd -->
+
+Details of Device Under Calibration (DUC)
+
+Nomenclature:  Thermal Imager Camera
+Identification No.:  IMTE-14052025001
+Serial No.:  -
+Make:  HTC
+Model No.:  -
+
+Range:  -20 to 300 °C
+Least Count:  0.1 °C
+Location:  -
+Condition at Receipt:  Satisfactory
+Date of Receipt:  15/05/2025 <!-- text, from page 3 (l=0.069,t=0.333,r=0.966,b=0.442), with ID 853767f3-e7a9-49e7-8c80-5c0d996ebaa7 -->
+
+Environmental Conditions :   Temperature (°C): 24.1 to 24.3, Relative Humidity (%RH) : 50.0 to 53.0
+
+Calibration Procedure Reference :   CP/208, MSL Technical Guide 22:2019 <!-- text, from page 3 (l=0.068,t=0.439,r=0.965,b=0.478), with ID 01088b37-3de2-4164-804a-2b4a38f43187 -->
+
+<table>
+  <tr>
+    <th colspan="2">Nomenclature</th>
+    <th>Identification No.</th>
+    <th>Serial No.</th>
+    <th>Calibration Certificate No.</th>
+    <th>Calibration Done Date</th>
+    <th>Calibration Due Date</th>
+  </tr>
+  <tr>
+    <td colspan="2">Infrared Thermometer</td>
+    <td>IRT/01</td>
+    <td>43303023WS</td>
+    <td>TSC/24-25/17279-1</td>
+    <td>01/01/2025</td>
+    <td>31/12/2025</td>
+  </tr>
+  <tr>
+    <td colspan="7" style="text-align:left;">Standard equipment(s) are traceable to National/International Standards through NMI or ISO/IEC 17025 Accredited Laboratory</td>
+  </tr>
+</table> <!-- table, from page 3 (l=0.066,t=0.475,r=0.965,b=0.563), with ID 72ebeac8-6dcd-413e-ba99-b707eaffc97b -->
+
+Calibration Results
+<table><thead><tr><th>Set Value in °C</th><th>Value of DUC in °C</th><th>Value of STD in °C</th><th>Error of DUC in °C</th><th>Expanded Uncertainty in °C (±)</th></tr></thead><tbody><tr><td>50</td><td>50.0</td><td>50.1</td><td>-0.1</td><td>2.60</td></tr><tr><td>100</td><td>99.9</td><td>100.2</td><td>-0.3</td><td>2.60</td></tr><tr><td>150</td><td>149.5</td><td>149.9</td><td>-0.4</td><td>2.60</td></tr><tr><td>250</td><td>248.3</td><td>249.8</td><td>-1.5</td><td>2.60</td></tr><tr><td>300</td><td>298.1</td><td>300.0</td><td>-1.9</td><td>2.60</td></tr></tbody></table> <!-- table, from page 3 (l=0.065,t=0.562,r=0.965,b=0.698), with ID 7203820d-b498-4033-bf82-081db788bb3b -->
+
+Notes: 1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor k (k=2, if not mentioned with the expanded uncertainty), which for a normal distribution corresponds a coverage probability of approximately 95%.
+2. This certificate is referes only to the particular item submitted for calibration.
+3. Results reported are valid at the time of and under stated conditions of measurement.
+4. This certificate shall not be reproduced except in full without permission of Modtech.
+5. This certificate is for industrial and scientific purpose and can not be used in legal matters. <!-- text, from page 3 (l=0.067,t=0.869,r=0.669,b=0.954), with ID 6d8bc4f0-a6e6-42ea-ad14-cdf291453e15 -->
+
+Summary : This image shows a blue ink stamp and a signature overlapping printed text, used for document authorization by Modtech Creative Labs Pvt. Ltd.
+
+stamp:  
+Shape & Border :  
+  • Circular stamp with a single-line border.  
+  • Blue ink.
+
+Text Elements :  
+  • Outer ring: "MODTECH CREATIVE LABS PVT. LTD."  
+  • Inner area: "GURUGRAM" (centered).
+
+Graphic Elements :  
+  • No graphic icons, only text.
+
+Signature :  
+  • Handwritten blue ink signature overlapping the stamp and printed text.  
+  • Signed name: Anil Kumar.  
+  • Signature is cursive, with a flourish and underline.
+
+Placement & Orientation :  
+  • Stamp is placed to the left, signature overlaps right edge of stamp and printed text.  
+  • Printed text below and to the right of the stamp reads:  
+    – "Anil Kumar"  
+    – "Director"  
+    – "Reviewed & Authorized By"
+
+Analysis :  
+  • The stamp and signature together serve as an official authorization mark for documents from Modtech Creative Labs Pvt. Ltd., Gurugram.  
+  • The placement and overlap indicate a standard practice for document validation. <!-- figure, from page 3 (l=0.721,t=0.864,r=0.956,b=0.971), with ID a53ed6db-9355-4e14-9fe0-738714f9e681 -->
+
+Format No.-F/01, Rev.-0, Rev. Date-01/01/2024 <!-- marginalia, from page 3 (l=0.065,t=0.954,r=0.386,b=0.969), with ID e2a0de1a-9406-4f74-8539-e96735b7bd13 -->
+
+** End of Certificate ** <!-- marginalia, from page 3 (l=0.435,t=0.955,r=0.611,b=0.971), with ID 32e15037-c3bc-41c7-b758-bbfb7b5f8750 -->

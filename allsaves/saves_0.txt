@@ -1,0 +1,483 @@
+Summary : This image is a logo for a company or brand named "VCS" with the tagline "Value Care Solution". The design features the letters "VCS" in large font, with "V" and "S" in black and "C" in red, and a series of red circular dots forming an arc around the text.
+
+logo: VCS Value Care Solution
+
+  Company Name & Tagline :
+    � Main text: "VCS"
+    � Tagline: "Value Care Solution" in italicized red font
+
+  Design Elements :
+    � "V" and "S" in black, "C" in red
+    � Series of red circular dots of varying sizes forming an arc from the lower left to the upper right around the text
+    � Dots are shaded to give a three-dimensional effect
+
+  Placement & Dimensions :
+    � "VCS" is centered, with the arc of dots starting below the "V" and ending above the "S"
+    � Tagline is placed to the right and slightly below the "C" and "S"
+
+  Analysis :
+    � The use of red and black creates a strong visual contrast, with the arc of dots suggesting motion, connectivity, or a dynamic solution. The tagline reinforces a focus on value and care. <!-- figure, from page 0 (l=0.044,t=0.025,r=0.218,b=0.115), with ID a1782a7a-d869-450a-8569-68bc3e883fe3 -->
+
+# Modtek Vaishno Labs Pvt. Ltd.
+Office / Laboratory : E-405, S.G.M. Nagar, (Near Badkhal Lake) N.I.T. Faridabad-121001, (Haryana)
+E-mail : vaishnocalibration@yahoo.com, Mobile : 8527565501 <!-- text, from page 0 (l=0.272,t=0.035,r=0.924,b=0.105), with ID 01941b65-2a0a-40d6-916f-27e96c59168c -->
+
+Calibration Certificate <!-- text, from page 0 (l=0.323,t=0.116,r=0.686,b=0.147), with ID 79c99d04-920b-4e02-bc76-29f5cb590048 -->
+
+Unique Lab Report No.: CC-388425000008034F
+
+Customer Name & Address: Prag Polymers
+A-40 & A-41, Talkatora Industrial Area,
+Lucknow-226011
+
+Certificate Number: 25000008034
+Issue Date of Certificate: 24 May 2025
+Calibration Done At: Laboratory
+
+Date of Receipt of DUC: 15 May 2025
+Date of Calibration: 15 May 2025
+Next Due Date (as per customer request): 14 May 2026
+
+logo: round black and white logo with Hindi and English text, CC-3884 <!-- text, from page 0 (l=0.103,t=0.152,r=0.928,b=0.299), with ID 68d8f785-62df-48ff-a6fe-8e2d5abb54bb -->
+
+Details of DUC: 
+
+ID No.: GTM-13
+Range: 0 to 110�C
+Condition at Receipt: No Damage
+
+Serial No.: -
+Least Count: 0.1�C
+
+Make/Model: Gera Research
+Location: Design Room <!-- text, from page 0 (l=0.103,t=0.296,r=0.927,b=0.381), with ID e7789b65-0083-45bb-a79b-79d2b8a8e437 -->
+
+Environmental Conditions:-  Temperature (�C):-  24.6  Relative Humidity (%):-  43
+
+Calibration Procedure References:- VCS/WI/56, IS 6274:1971 (Reaffirmed 2017) <!-- text, from page 0 (l=0.103,t=0.379,r=0.925,b=0.415), with ID f94d0621-5d7b-400f-91ac-b4767b9b3d89 -->
+
+Standard Equipment Used For Calibration (Traceable to National/International Standards)
+
+Equipment Name: RTD (4 Wire) With Digital Thermometer
+Identification No.: VCS/RTD/01 & VCS/THM/01
+Serial Number: -
+Calibration Certificate No.: 2401888
+Calibration Date: 08 June 2024
+Calibration Due Date: 07 June 2025 <!-- text, from page 0 (l=0.103,t=0.413,r=0.924,b=0.521), with ID 69b72eca-8ef9-41ad-8a43-e8eedad87792 -->
+
+CALIBRATION RESULTS-THERMAL
+<table><thead><tr><th>Values of DUC (�C)</th><th>Values of STD (�C)</th><th>Error (�C)</th><th>Expanded Uncertainty (��C)</th></tr></thead><tbody><tr><td>20.0</td><td>19.85</td><td>0.15</td><td>1.15</td></tr><tr><td>40.0</td><td>39.69</td><td>0.31</td><td>1.15</td></tr><tr><td>60.0</td><td>59.47</td><td>0.53</td><td>1.15</td></tr><tr><td>80.0</td><td>79.21</td><td>0.79</td><td>1.15</td></tr><tr><td>110.0</td><td>109.05</td><td>0.95</td><td>1.15</td></tr></tbody></table>
+Remarks: None <!-- table, from page 0 (l=0.102,t=0.519,r=0.923,b=0.727), with ID 27c169ec-583c-4791-892e-ba4aeab200a4 -->
+
+- Abbreviations: STD-Standrad Equipment, DUC-Device Under Calibration
+
+- Notes:
+  1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately 95%.
+  2. This certificate is referees only to the particular item submitted for calibration.
+  3. Results reported are valid at the time of and under stated conditions of measurement
+  4. This certificate shall not be reproduced except in full without permission of Head of Laboratory.
+  5. This certificate is for industrial and scientific purpose and can not be used in legal matters.
+
+- Format No.-F/46, Rev.-01, Rev. Date-23/11/2020 <!-- text, from page 0 (l=0.100,t=0.725,r=0.925,b=0.840), with ID 298f7ef4-3825-405b-ab24-976314eb35a0 -->
+
+Summary : This image shows an official stamp from "Nortek Vaishno Labs Pvt. Ltd." with overlaid text indicating authorization by Vinit Sharma (Quality Manager).
+
+stamp:
+Shape & Border :
+  � Circular stamp with a single-line border.
+  � Blue ink.
+  � Contains a small star at the bottom center inside the border.
+
+Text Elements :
+  � Outer ring: "NORTEK VAISHNO LABS PVT. LTD."
+  � Inner ring: "FARIDABAD" (centered).
+  � Overlaid printed text: "Vinit Sharma (Quality Manager) Authorized By".
+  � All text is in uppercase except the overlaid printed text.
+
+Graphic Elements :
+  � Diagonal line crossing through the stamp from lower left to upper right.
+
+Orientation & Placement :
+  � Stamp is upright, with the diagonal line slashing through the center.
+  � Overlaid text is horizontally centered and partially obscures the stamp.
+
+Analysis :
+  � The stamp is used for official authorization, with the diagonal line likely indicating cancellation or validation.
+  � The overlaid text identifies the authorizing individual and their role, confirming the stamp's purpose for quality assurance documentation. <!-- figure, from page 0 (l=0.686,t=0.840,r=0.943,b=0.953), with ID f17352ce-51c2-4c31-b9b2-72a247a59651 -->
+
+Page 1 of 1 <!-- marginalia, from page 0 (l=0.469,t=0.915,r=0.567,b=0.935), with ID bc21edf1-6778-4d5a-b322-774ee843678c -->
+
+Summary : This image is a logo for "Value Care Solution" featuring the acronym "VCS" and a series of red circular dots arranged in a curved pattern.
+
+logo: Value Care Solution
+
+Company Name & Tagline :
+  � Acronym "VCS" is prominently displayed, with "V" and "S" in dark blue and "C" in red.
+  � The tagline "Value Care Solution" appears in red italic font to the right of the acronym.
+
+Graphic Elements :
+  � Multiple red circular dots of varying sizes form a curved, almost semi-circular arc around the text, starting below the "V" and ending above the tagline.
+  � The dots increase in size toward the center and decrease toward the ends, creating a dynamic, flowing effect.
+
+Colour & Font :
+  � Main colours: dark blue (for "V" and "S"), red (for "C", tagline, and dots).
+  � Font: "VCS" uses a bold serif typeface; tagline uses a smaller, italic serif font.
+
+Layout & Placement :
+  � "VCS" is centered, with the tagline aligned to the lower right.
+  � Dots curve from lower left to upper right, encircling the text.
+
+Analysis :
+  � The logo uses a combination of bold and italic fonts and a dynamic arrangement of red dots to convey movement and energy, suggesting a focus on care and solutions. The colour red may imply passion or urgency, while the curved dot pattern adds visual interest and a sense of completeness. <!-- figure, from page 1 (l=0.041,t=0.024,r=0.215,b=0.112), with ID aa38f068-2f32-4ece-8332-bcbc7e409b1d -->
+
+Modtek Vaishno Labs Pvt. Ltd.
+Office / Laboratory : E-405, S.G.M. Nagar, (Near Badkhal Lake) N.I.T. Faridabad-121001, (Haryana)
+E-mail : vaishnocalibration@yahoo.com, Mobile : 8527565501 <!-- text, from page 1 (l=0.271,t=0.036,r=0.925,b=0.104), with ID 6aa99fc1-cfbd-4e86-9f51-4664adc45c72 -->
+
+Summary : This image displays the title "Calibration Certificate" in a stylized script font, likely serving as the heading for a document related to instrument calibration.
+
+logo:  
+  Scene Overview :  
+    � Main subject is the text "Calibration Certificate" rendered in a bold, italicized, cursive typeface.  
+    � The text is centered horizontally on a white background.  
+  Technical Details :  
+    � No graphic elements, icons, or additional text are present.  
+    � Font style is decorative, resembling calligraphy or script.  
+    � No company name, tagline, or logo mark is visible.  
+  Spatial Relationships :  
+    � The text occupies the central portion of the image, with ample white space above and below.  
+  Analysis :  
+    � The stylized presentation of "Calibration Certificate" suggests formality and official documentation, but no branding or additional information is conveyed. <!-- figure, from page 1 (l=0.322,t=0.116,r=0.686,b=0.146), with ID 0ecbce5e-8ff5-4135-9244-aeff40f4a101 -->
+
+Unique Lab Report No. : CC-388425000008035F
+
+Customer Name & Address: Prag Polymers
+A-40 & A-41, Talkatora Industrial Area,
+Lucknow-226011
+
+<table>
+  <tr>
+    <th>Certificate Number</th>
+    <th>Issue Date of Certificate</th>
+    <th>Calibration Done At</th>
+  </tr>
+  <tr>
+    <td>25000008035</td>
+    <td>24 May 2025</td>
+    <td>Laboratory</td>
+  </tr>
+  <tr>
+    <th>Date of Receipt of DUC</th>
+    <th>Date of Calibration</th>
+    <th>Next Due Date (as per customer request)</th>
+  </tr>
+  <tr>
+    <td>15 May 2025</td>
+    <td>15 May 2025</td>
+    <td>14 May 2026</td>
+  </tr>
+</table>
+
+logo: round logo with star and Hindi/English text, CC-3884 <!-- text, from page 1 (l=0.101,t=0.154,r=0.930,b=0.298), with ID 77cf1d00-921b-4caa-bf17-7260eaa8c685 -->
+
+Details of DUC: 
+
+ID No.: GTM-14
+Range: 0 to 110�C
+Condition at Receipt: No Damage
+
+Serial No.: -
+Least Count: 0.1�C
+
+Make/Model: Gera Research
+Location: Design Room <!-- text, from page 1 (l=0.103,t=0.296,r=0.928,b=0.381), with ID c834a7d9-cf30-4f19-8f7b-04804ecd24e6 -->
+
+Environmental Conditions:-  Temperature (�C):- 24.7
+Relative Humidity (%):- 44
+
+Calibration Procedure References:- VCS/WI/56, IS 6274:1971 (Reaffirmed 2017) <!-- text, from page 1 (l=0.104,t=0.379,r=0.927,b=0.414), with ID 682f8240-84f2-4335-a9b3-5a8dd91f5b2d -->
+
+Standard Equipment Used For Calibration (Traceable to National/International Standards)
+
+Equipment Name: RTD (4 Wire) With Digital Thermometer
+Identification No.: VCS/RTD/01 & VCS/THM/01
+Serial Number: -
+Calibration Certificate No.: 2401888
+Calibration Date: 08 June 2024
+Calibration Due Date: 07 June 2025 <!-- text, from page 1 (l=0.104,t=0.413,r=0.927,b=0.519), with ID f3067afe-1848-4a72-93d4-c6f305c6b97b -->
+
+CALIBRATION RESULTS-THERMAL
+<table><thead><tr><th>Values of DUC (�C)</th><th>Values of STD (�C)</th><th>Error (�C)</th><th>Expanded Uncertainty (��C)</th></tr></thead><tbody><tr><td>20.0</td><td>20.39</td><td>-0.39</td><td>1.15</td></tr><tr><td>40.0</td><td>40.55</td><td>-0.55</td><td>1.15</td></tr><tr><td>60.0</td><td>60.71</td><td>-0.71</td><td>1.15</td></tr><tr><td>80.0</td><td>80.91</td><td>-0.91</td><td>1.15</td></tr><tr><td>110.0</td><td>111.05</td><td>-1.05</td><td>1.15</td></tr></tbody></table>
+Remarks: None <!-- table, from page 1 (l=0.104,t=0.518,r=0.926,b=0.718), with ID d69e6b5b-6eb6-4fb6-bd29-9c05b2632c76 -->
+
+Remarks: None
+Abbreviations: STD-Standrad Equipment, DUC-Device Under Calibration
+Notes: 1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately 95%.
+2. This certificate is referes only to the particular item submitted for calibration.
+3. Results reported are valid at the time of and under stated conditions of measurement
+4. This certificate shall not be reproduced except in full without permission of Head of Laboratory.
+5. This certificate is for industrial and scientific purpose and can not be used in legal matters.
+
+Format No.-F/46, Rev.-01, Rev. Date-23/11/2020
+
+[illegible curved line] <!-- text, from page 1 (l=0.103,t=0.711,r=0.927,b=0.833), with ID 808e599b-93f1-438f-8ca5-dd0019c4092c -->
+
+Summary : This image shows an official round blue ink stamp from "VIDTEK VAISHNO LABS PVT. LTD." with the location "FARIDABAD" in the center, overlaid by a diagonal signature and printed text indicating authorization by "Vijay Sharma (Quality Manager)".
+
+stamp:
+Shape & Border :
+  � Circular stamp with a single-line border.
+  � Blue ink.
+  � Small five-pointed star at the bottom center inside the border.
+
+Text Elements :
+  � Outer ring: "VIDTEK VAISHNO LABS PVT. LTD."
+  � Inner center: "FARIDABAD" in uppercase.
+  � Printed text below and to the right: "Vijay Sharma (Quality Manager) Authorized By".
+
+Graphic Elements :
+  � Diagonal handwritten signature crossing the stamp from lower left to upper right.
+
+Dimensions & Placement :
+  � Stamp diameter approximately 2.5�3 cm (estimated from text size).
+  � Signature overlays the stamp, crossing through the center.
+  � Printed text partially overlaps the lower portion of the stamp.
+
+Analysis :
+  � The stamp and signature together indicate official authorization, likely for document validation or certification. The blue ink and clear company/location text suggest formal use. The presence of the Quality Manager's name and title further supports the stamp's function as an approval mark. <!-- figure, from page 1 (l=0.692,t=0.827,r=0.942,b=0.932), with ID 23f3ba06-0b1b-4739-989c-9be75e3aff03 -->
+
+Page 1 of 1 <!-- marginalia, from page 1 (l=0.474,t=0.907,r=0.568,b=0.926), with ID 74278cc0-11f3-46e3-9f07-6ad56d3f9f2a -->
+
+Summary : This image is a logo for a company or brand named "VCS" with the tagline "Value Care Solution". The logo features stylized text and a circular arrangement of red dots.
+
+logo: VCS Value Care Solution
+
+Main Elements :
+  � Large, bold letters "VCS" in black and red; "C" is red, "V" and "S" are black.
+  � Tagline "Value Care Solution" in smaller, italicized red font, positioned below and to the right of "VCS".
+  � A curved arc of red dots of varying sizes, starting from the lower left and sweeping above and around to the upper right, encircling the text.
+
+Design Details :
+  � Dots are shaded with a gradient effect, giving a three-dimensional appearance.
+  � The arc of dots creates a sense of motion and unity around the text.
+  � The logo uses only two colours: black and red.
+
+Dimensions & Placement :
+  � "VCS" is centrally placed, with the arc of dots forming a semi-circle around it.
+  � Tagline is right-aligned beneath the "CS" portion.
+
+Analysis :
+  � The use of red conveys energy and attention, while the circular dot arrangement suggests completeness or a holistic approach.
+  � The tagline "Value Care Solution" indicates a focus on providing valuable and caring solutions, likely in a service-oriented industry.
+  � The logo is clean and modern, with a clear emphasis on the brand initials and tagline. <!-- figure, from page 2 (l=0.043,t=0.042,r=0.211,b=0.125), with ID 28f7e980-96ba-4639-8f45-c7e28fc42eae -->
+
+Modtek Vaishno Labs Pvt. Ltd.
+Office / Laboratory : E-405, S.G.M. Nagar, (Near Badkhal Lake) N.I.T. Faridabad-121001, (Haryana)
+E-mail : vaishnocalibration@yahoo.com, Mobile : 8527565501 <!-- text, from page 2 (l=0.266,t=0.048,r=0.923,b=0.115), with ID 97e0fb3c-9764-4774-b67a-e1811d7c353e -->
+
+Calibration Certificate <!-- text, from page 2 (l=0.319,t=0.128,r=0.684,b=0.158), with ID e0aec753-a7dc-488d-a5dc-57b81bfd706f -->
+
+Unique Lab Report No. : CC-388425000008036F
+
+Customer Name & Address: Prag Polymers
+A-40 & A-41, Talkatora Industrial Area,
+Lucknow-226011
+
+Certificate Number: 25000008036
+Issue Date of Certificate: 24 May 2025
+Calibration Done At: Laboratory
+
+Date of Receipt of DUC: 15 May 2025
+Date of Calibration: 15 May 2025
+Next Due Date (as per customer request): 14 May 2026
+
+logo: round seal with "St. Xavthar Polytest Laboratory" and "CC-3884" <!-- text, from page 2 (l=0.098,t=0.164,r=0.928,b=0.305), with ID 5cf57ac0-7cba-4867-a94f-ab15842e90e7 -->
+
+GLASS THERMOMETER
+
+Details of DUC
+
+ID No.: GTM-15
+Range: 0 to 110�C
+Condition at Receipt: No Damage
+
+Serial No.: -
+Least Count: 0.1�C
+
+Make/Model: Gera Research
+Location: Design Room <!-- text, from page 2 (l=0.099,t=0.303,r=0.927,b=0.385), with ID 95fd6a6b-c575-4cbb-9d85-a166a91b075d -->
+
+Environmental Conditions:-  Temperature (�C):- 24.6  Relative Humidity (%):- 43
+
+Calibration Procedure References:- VCS/WI/56, IS 6274:1971 (Reaffirmed 2017) <!-- text, from page 2 (l=0.099,t=0.383,r=0.926,b=0.418), with ID f34ca148-4e9a-4623-8349-6b82bb4e16dd -->
+
+Standard Equipment Used For Calibration (Traceable to National/International Standards)
+
+Equipment Name: RTD (4 Wire) With Digital Thermometer
+Identification No.: VCS/RTD/01 & VCS/THM/01
+Serial Number: -
+Calibration Certificate No.: 2401888
+Calibration Date: 08 June 2024
+Calibration Due Date: 07 June 2025 <!-- text, from page 2 (l=0.099,t=0.417,r=0.926,b=0.520), with ID f66ef8f6-8756-4266-9317-ef32eb81aeaf -->
+
+CALIBRATION RESULTS-THERMAL
+<table><thead><tr><th>Values of DUC (�C)</th><th>Values of STD (�C)</th><th>Error (�C)</th><th>Expanded Uncertainty (��C)</th></tr></thead><tbody><tr><td>20.0</td><td>20.13</td><td>-0.13</td><td>1.15</td></tr><tr><td>40.0</td><td>40.27</td><td>-0.27</td><td>1.15</td></tr><tr><td>60.0</td><td>60.42</td><td>-0.42</td><td>1.15</td></tr><tr><td>80.0</td><td>80.58</td><td>-0.58</td><td>1.15</td></tr><tr><td>110.0</td><td>110.82</td><td>-0.82</td><td>1.15</td></tr></tbody></table>
+Remarks: None <!-- table, from page 2 (l=0.099,t=0.518,r=0.926,b=0.719), with ID 40120ca6-d1db-402a-a9d2-30c45077f70a -->
+
+Abbreviations: STD-Standard Equipment, DUC-Device Under Calibration
+Notes: 1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately 95%.
+2. This certificate is referes only to the particular item submitted for calibration.
+3. Results reported are valid at the time of and under stated conditions of measurement
+4. This certificate shall not be reproduced except in full without permission of Head of Laboratory.
+5. This certificate is for industrial and scientific purpose and can not be used in legal matters.
+
+Format No.-F/46, Rev.-01, Rev. Date-23/11/2020 <!-- text, from page 2 (l=0.098,t=0.717,r=0.927,b=0.830), with ID 3114bddd-26cc-49e8-bdee-462cf7bb4d31 -->
+
+Summary : This image shows a blue-ink round stamp from "Model Ek Vaishno Labs Pvt. Ltd." with a diagonal signature and overlaid text indicating authorization by Vinod Sharma (Quality Manager), located in Faridabad.
+
+stamp:
+Shape & Border :
+  � Circular stamp with a single-line border.
+  � Blue ink.
+  � Small five-pointed star at the bottom center inside the border.
+
+Text Elements :
+  � Outer ring text: "MODEL EK VAISHNO LABS PVT. LTD."
+  � Inner text: "FARIDABAD" (centered).
+  � Overlaid printed text: "Vinod Sharma (Quality Manager) Authorized By" (partially obscured by stamp and signature).
+
+Graphic Elements :
+  � Diagonal handwritten signature crossing the stamp from lower left to upper right.
+  � No date or additional graphics visible.
+
+Dimensions & Placement :
+  � Stamp diameter approximately 2.5�3 cm (estimated from typical stamp size).
+  � Signature crosses through both text and border.
+
+Analysis :
+  � The stamp serves as an official mark of authorization from Model Ek Vaishno Labs Pvt. Ltd., Faridabad, with the Quality Manager's name and signature indicating approval or validation of a document. <!-- figure, from page 2 (l=0.690,t=0.837,r=0.945,b=0.943), with ID a9245ad9-db3b-43e9-ad68-bca56819c39b -->
+
+Page 1 of 1 <!-- marginalia, from page 2 (l=0.471,t=0.902,r=0.566,b=0.921), with ID fe9a89e4-4cf9-4bfa-8d89-2767b7143b72 -->
+
+Summary : This image is a logo for "Value Care Solution" featuring the acronym "VCS" and a series of red circular dots arranged in an arc.
+
+logo: Value Care Solution
+
+Company Name & Tagline :
+  � Acronym "VCS" prominently displayed in large font.
+  � Tagline "Value Care Solution" in smaller, italicized font to the right of the acronym.
+
+Design Elements :
+  � Series of red circular dots of varying sizes forming an arc around the text, starting from the lower left and curving to the upper right.
+  � "V" and "S" in dark blue, "C" in red, matching the colour of the dots.
+  � White background for clear contrast.
+
+Layout & Placement :
+  � "VCS" is centered, with the arc of dots encircling the text from lower left to upper right.
+  � Tagline is positioned to the right and slightly below the acronym.
+
+Analysis :
+  � The logo uses a combination of bold and italic fonts and a dynamic arc of red dots to create a sense of movement and modernity.
+  � The colour scheme (red and blue) suggests professionalism and energy.
+  � The arrangement of dots may symbolize connectivity, growth, or a holistic approach. <!-- figure, from page 3 (l=0.045,t=0.047,r=0.214,b=0.130), with ID f3c81b3a-1f47-481d-99c2-3eadf0c7a461 -->
+
+Modtek Vaishno Labs Pvt. Ltd.
+
+Office / Laboratory : E-405, S.G.M. Nagar, (Near Badkhal Lake) N.I.T. Faridabad-121001, (Haryana)
+E-mail : vaishnocalibration@yahoo.com, Mobile : 8527565501 <!-- text, from page 3 (l=0.269,t=0.051,r=0.923,b=0.120), with ID 6823dd67-0a27-4a86-abe3-9ce328b00e44 -->
+
+Calibration Certificate <!-- text, from page 3 (l=0.320,t=0.131,r=0.684,b=0.160), with ID 321b9c0f-21ac-4146-9d8e-3b21d2286c51 -->
+
+Unique Lab Report No. :  CC-388425000008037F
+
+Customer Name & Address: Prag Polymers  
+A-40 & A-41, Talkatora Industrial Area,  
+Lucknow-226011
+
+<table>
+  <tr>
+    <th>Certificate Number</th>
+    <th>Issue Date of Certificate</th>
+    <th>Calibration Done At</th>
+  </tr>
+  <tr>
+    <td>25000008037</td>
+    <td>24 May 2025</td>
+    <td>Laboratory</td>
+  </tr>
+  <tr>
+    <th>Date of Receipt of DUC</th>
+    <th>Date of Calibration</th>
+    <th>Next Due Date (as per customer request)</th>
+  </tr>
+  <tr>
+    <td>15 May 2025</td>
+    <td>15 May 2025</td>
+    <td>14 May 2026</td>
+  </tr>
+</table>
+
+logo: circular logo with text in Hindi and English, featuring a star and tick mark in the center, and the code CC-3884 below <!-- text, from page 3 (l=0.102,t=0.164,r=0.928,b=0.307), with ID 3145d789-cffb-4b6d-b1b0-965ba57acd59 -->
+
+Details of DUC: 
+
+ID No.: GTM-16
+Range: 0 to 110�C
+Condition at Receipt: No Damage
+
+Serial No.: -
+Least Count: 0.1�C
+
+Make/Model: Gera Research
+Location: Design Room <!-- text, from page 3 (l=0.103,t=0.303,r=0.928,b=0.384), with ID 70ca9bef-7b1f-4877-9752-ae149c47e943 -->
+
+Environmental Conditions:-  Temperature (�C):- 24.8  Relative Humidity (%):- 45
+
+Calibration Procedure References:- VCS/WI/56, IS 6274:1971 (Reaffirmed 2017) <!-- text, from page 3 (l=0.104,t=0.380,r=0.928,b=0.416), with ID 9ebb9c0b-a64f-4369-90c1-0e4e91c0d561 -->
+
+Standard Equipment Used For Calibration (Traceable to National/International Standards)
+
+Equipment Name: RTD (4 Wire) With Digital Thermometer
+Identification No.: VCS/RTD/01 & VCS/THM/01
+Serial Number: -
+Calibration Certificate No.: 2401888
+Calibration Date: 08 June 2024
+Calibration Due Date: 07 June 2025 <!-- text, from page 3 (l=0.103,t=0.415,r=0.929,b=0.518), with ID 943c7679-e17c-4874-adbe-f7e3e408fa59 -->
+
+CALIBRATION RESULTS-THERMAL
+<table><thead><tr><th>Values of DUC (�C)</th><th>Values of STD (�C)</th><th>Error (�C)</th><th>Expanded Uncertainty (��C)</th></tr></thead><tbody><tr><td>20.0</td><td>20.31</td><td>-0.31</td><td>1.15</td></tr><tr><td>40.0</td><td>40.46</td><td>-0.46</td><td>1.15</td></tr><tr><td>60.0</td><td>60.69</td><td>-0.69</td><td>1.15</td></tr><tr><td>80.0</td><td>80.87</td><td>-0.87</td><td>1.15</td></tr><tr><td>110.0</td><td>111.08</td><td>-1.08</td><td>1.15</td></tr></tbody></table> <!-- table, from page 3 (l=0.104,t=0.515,r=0.930,b=0.701), with ID c9f206e8-2491-4445-a6bb-d1a19975ac1e -->
+
+Remarks: None
+Abbreviations: STD-Standrad Equipment, DUC-Device Under Calibration
+Notes: 1. The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately 95%.
+2. This certificate is referes only to the particular item submitted for calibration.
+3. Results reported are valid at the time of and under stated conditions of measurement
+4. This certificate shall not be reproduced except in full without permission of Head of Laboratory.
+5. This certificate is for industrial and scientific purpose and can not be used in legal matters. <!-- text, from page 3 (l=0.102,t=0.701,r=0.932,b=0.809), with ID 47d3d684-aa9d-4a46-b318-b64901ac7c39 -->
+
+Format No.-F/46, Rev.-01, Rev. Date-23/11/2020 <!-- text, from page 3 (l=0.101,t=0.804,r=0.417,b=0.824), with ID 246ff624-cc81-47a4-b8e2-928b5382d339 -->
+
+Summary : This image shows an official stamp from MITEK VAISHNO LABS PVT. LTD., Faridabad, with a signature and overlaid authorization text.
+
+stamp:
+  Shape & Border :
+    � Circular stamp with a double-line border.
+    � Contains a small star at the bottom center within the border.
+    � Blue ink.
+
+  Text Elements :
+    � Outer ring: "MITEK VAISHNO LABS PVT. LTD."
+    � Inner ring: "FARIDABAD" (centered).
+    � Overlaid printed text: "Vinit Sharma (Quality Manager) Authorized By".
+
+  Graphic Elements :
+    � Diagonal signature crossing through the stamp, from lower left to upper right.
+
+  Orientation & Placement :
+    � Stamp is upright; signature is diagonal.
+    � Overlaid text is horizontally aligned and partially covers the stamp.
+
+Analysis :
+  � The stamp serves as an official mark of authorization from MITEK VAISHNO LABS PVT. LTD., Faridabad, and is validated by the signature and printed name/title of the quality manager. <!-- figure, from page 3 (l=0.697,t=0.821,r=0.951,b=0.932), with ID b7c04622-7bcb-4458-a176-78229c0aa8ff -->
+
+Page 1 of 1 <!-- marginalia, from page 3 (l=0.475,t=0.896,r=0.573,b=0.916), with ID c5edf602-7d72-44d8-bc73-f8625ec85fd2 -->

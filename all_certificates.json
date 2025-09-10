@@ -1,0 +1,234 @@
+[
+    {
+        "certificate_number": "CAL-2024-001",
+        "issue_date": "2024-03-15",
+        "customer": {
+            "name": "ABC Manufacturing Ltd.",
+            "address": "123 Industrial Park Drive, Suite 400, Detroit, MI 48201, USA"
+        },
+        "duc": {
+            "id": "DUC-001",
+            "make_model": "Mitutoyo 293-831-30 Digimatic Micrometer",
+            "range": "0-25 mm",
+            "least_count": 0.001,
+            "condition_at_receipt": "Good, minor wear on thimble",
+            "location": "Main Assembly Line #3",
+            "serial_number": "M-293-831-30-2023"
+        },
+        "calibration": {
+            "done_at": "Sri Lanka Standards Institution",
+            "date": "2024-03-10",
+            "next_due": "2025-03-10",
+            "date_received": "2024-03-05",
+            "procedure_references": [
+                "SLS ISO 3611:2014",
+                "SLS 104:2020",
+                "NCSLI RP-6:2022"
+            ],
+            "environmental_conditions": {
+                "temperature_c": 20.2,
+                "relative_humidity_percent": 48.5
+            }
+        },
+        "standard_equipment": {
+            "name": "Laser Interferometer System",
+            "id": "STD-REF-001",
+            "certificate_number": "SLSI-CAL-2023-045",
+            "calibration_date": "2023-12-01",
+            "calibration_due_date": "2024-12-01",
+            "serial_number": "LIS-2020-034"
+        },
+        "results": [
+            {
+                "duc_value": 5.0,
+                "std_value": 5.001,
+                "error": 0.001,
+                "expanded_uncertainty": 0.0015
+            },
+            {
+                "duc_value": 10.0,
+                "std_value": 10.002,
+                "error": 0.002,
+                "expanded_uncertainty": 0.0015
+            },
+            {
+                "duc_value": 15.0,
+                "std_value": 14.998,
+                "error": -0.002,
+                "expanded_uncertainty": 0.0015
+            },
+            {
+                "duc_value": 20.0,
+                "std_value": 19.999,
+                "error": -0.001,
+                "expanded_uncertainty": 0.0015
+            },
+            {
+                "duc_value": 25.0,
+                "std_value": 25.003,
+                "error": 0.003,
+                "expanded_uncertainty": 0.0015
+            }
+        ],
+        "remarks": "All measurements within ±0.005 mm tolerance. Device ready for use.",
+        "notes": [
+            "Customer requested expedited service due to production schedule.",
+            "Micrometer was cleaned and lubricated before calibration.",
+            "Digital display tested for consistency across full range."
+        ]
+    },
+    {
+        "certificate_number": "CAL-2024-002",
+        "issue_date": "2024-03-16",
+        "customer": {
+            "name": "Precision Tools Co.",
+            "address": "Unit 7B, Tech Park, Colombo 07, Sri Lanka"
+        },
+        "duc": {
+            "id": "DUC-002",
+            "make_model": "TESA 0-150 mm Digital Caliper",
+            "range": "0-150 mm",
+            "least_count": 0.01,
+            "condition_at_receipt": "Fair, battery low, display flickering",
+            "location": "Quality Control Department",
+            "serial_number": "TESA-DC-2022-089"
+        },
+        "calibration": {
+            "done_at": "Sri Lanka Standards Institution",
+            "date": "2024-03-12",
+            "next_due": "2025-03-12",
+            "date_received": "2024-03-08",
+            "procedure_references": [
+                "SLS ISO 13385-1:2011",
+                "SLS 105:2021"
+            ],
+            "environmental_conditions": {
+                "temperature_c": 20.5,
+                "relative_humidity_percent": 50.2
+            }
+        },
+        "standard_equipment": {
+            "name": "Grade 0 Gauge Block Set",
+            "id": "STD-REF-002",
+            "certificate_number": "SLSI-CAL-2023-098",
+            "calibration_date": "2023-11-15",
+            "calibration_due_date": "2024-11-15",
+            "serial_number": "GB-2023-015"
+        },
+        "results": [
+            {
+                "duc_value": 25.0,
+                "std_value": 24.99,
+                "error": -0.01,
+                "expanded_uncertainty": 0.015
+            },
+            {
+                "duc_value": 50.0,
+                "std_value": 49.98,
+                "error": -0.02,
+                "expanded_uncertainty": 0.015
+            },
+            {
+                "duc_value": 75.0,
+                "std_value": 75.01,
+                "error": 0.01,
+                "expanded_uncertainty": 0.015
+            },
+            {
+                "duc_value": 100.0,
+                "std_value": 99.99,
+                "error": -0.01,
+                "expanded_uncertainty": 0.015
+            },
+            {
+                "duc_value": 150.0,
+                "std_value": 150.02,
+                "error": 0.02,
+                "expanded_uncertainty": 0.015
+            }
+        ],
+        "remarks": "Battery replaced and display issue resolved. All measurements within ±0.03 mm tolerance.",
+        "notes": [
+            "Caliper was cleaned with isopropyl alcohol before calibration.",
+            "External and internal jaws both tested for accuracy.",
+            "Depth rod function verified and calibrated."
+        ]
+    },
+    {
+        "certificate_number": "CAL-2024-003",
+        "issue_date": "2024-03-18",
+        "customer": {
+            "name": "Tech Solutions Inc.",
+            "address": "456 Research Boulevard, Suite 200, Austin, TX 78759, USA"
+        },
+        "duc": {
+            "id": "DUC-003",
+            "make_model": "Fluke 87V True RMS Multimeter",
+            "range": "0-1000 V DC/AC",
+            "least_count": 0.001,
+            "condition_at_receipt": "Excellent, like new",
+            "location": "Lab Station #7",
+            "serial_number": "F87V-2023-0456"
+        },
+        "calibration": {
+            "done_at": "Sri Lanka Standards Institution",
+            "date": "2024-03-14",
+            "next_due": "2025-03-14",
+            "date_received": "2024-03-11",
+            "procedure_references": [
+                "SLS ISO/IEC 17025:2019",
+                "SLS 120:2022"
+            ],
+            "environmental_conditions": {
+                "temperature_c": 20.0,
+                "relative_humidity_percent": 47.8
+            }
+        },
+        "standard_equipment": {
+            "name": "Fluke 5520A Multi-Product Calibrator",
+            "id": "STD-REF-003",
+            "certificate_number": "SLSI-CAL-2023-123",
+            "calibration_date": "2023-10-20",
+            "calibration_due_date": "2024-10-20",
+            "serial_number": "5520A-2020-078"
+        },
+        "results": [
+            {
+                "duc_value": 100.0,
+                "std_value": 100.002,
+                "error": 0.002,
+                "expanded_uncertainty": 0.0005
+            },
+            {
+                "duc_value": 250.0,
+                "std_value": 249.997,
+                "error": -0.003,
+                "expanded_uncertainty": 0.0005
+            },
+            {
+                "duc_value": 500.0,
+                "std_value": 500.001,
+                "error": 0.001,
+                "expanded_uncertainty": 0.0005
+            },
+            {
+                "duc_value": 750.0,
+                "std_value": 749.999,
+                "error": -0.001,
+                "expanded_uncertainty": 0.0005
+            },
+            {
+                "duc_value": 1000.0,
+                "std_value": 1000.003,
+                "error": 0.003,
+                "expanded_uncertainty": 0.0005
+            }
+        ],
+        "remarks": "All voltage ranges tested and within ±0.01 % of full scale. Device meets specifications.",
+        "notes": [
+            "Resistance and current functions also tested - all passed.",
+            "External fuse checked and verified good.",
+            "Backlight and continuity beeper tested and functional."
+        ]
+    }
+]

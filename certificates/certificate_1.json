@@ -1,0 +1,83 @@
+{
+    "certificate_number": "VCS/VC/23-24/0010",
+    "issue_date": "16-10-2023",
+    "customer": {
+        "name": "M/s. KANPUR POLYGRIP LTD.",
+        "address": "Plot No. 4 & 5, Sector-3, P.O. Bithua, Distt.-Sonipat-131001, Haryana"
+    },
+    "duc": {
+        "id": "VC/DPG/008",
+        "make_model": "Digital Pressure Gauge",
+        "range": "0-100 bar",
+        "least_count": 0.01,
+        "condition_at_receipt": "Good",
+        "location": "Shop Floor",
+        "serial_number": null
+    },
+    "calibration": {
+        "done_at": "Modtek Vaishno Labs Pvt. Ltd.",
+        "date": "16-10-2023",
+        "next_due": "15-10-2024",
+        "date_received": "15-10-2023",
+        "procedure_references": [
+            "NABL-141",
+            "JIS B 7547"
+        ],
+        "environmental_conditions": {
+            "temperature_c": 23.2,
+            "relative_humidity_percent": 44.5
+        }
+    },
+    "standard_equipment": {
+        "name": "Dead Weight Tester",
+        "id": "MTE-DWT-01",
+        "certificate_number": "NABL-101/23-24/001",
+        "calibration_date": "16-04-2023",
+        "calibration_due_date": "15-04-2024"
+    },
+    "results": [
+        {
+            "duc_value": 0.0,
+            "std_value": 0.0,
+            "error": 0.0,
+            "expanded_uncertainty": 0.02
+        },
+        {
+            "duc_value": 20.0,
+            "std_value": 20.01,
+            "error": -0.01,
+            "expanded_uncertainty": 0.03
+        },
+        {
+            "duc_value": 40.0,
+            "std_value": 40.02,
+            "error": -0.02,
+            "expanded_uncertainty": 0.03
+        },
+        {
+            "duc_value": 60.0,
+            "std_value": 60.02,
+            "error": -0.02,
+            "expanded_uncertainty": 0.04
+        },
+        {
+            "duc_value": 80.0,
+            "std_value": 80.03,
+            "error": -0.03,
+            "expanded_uncertainty": 0.04
+        },
+        {
+            "duc_value": 100.0,
+            "std_value": 100.03,
+            "error": -0.03,
+            "expanded_uncertainty": 0.05
+        }
+    ],
+    "remarks": "Calibrated against Dead Weight Tester as per NABL-141 & JIS B 7547. The instrument is in good working condition.",
+    "notes": [
+        "The calibration results are traceable to national standards.",
+        "The calibration was performed under controlled environmental conditions.",
+        "This certificate relates only to the instrument calibrated and cannot be reproduced except in full.",
+        "No adjustment was made during calibration."
+    ]
+}

@@ -1,0 +1,79 @@
+{
+    "certificate_number": "25000008035",
+    "issue_date": "24 May 2025",
+    "customer": {
+        "name": "Prag Polymers",
+        "address": "A-40 & A-41, Talkatora Industrial Area, Lucknow-226011"
+    },
+    "duc": {
+        "id": "GTM-14",
+        "make_model": "Gera Research",
+        "range": "0 to 110°C",
+        "least_count": 0.1,
+        "condition_at_receipt": "No Damage",
+        "location": "Design Room",
+        "serial_number": null
+    },
+    "calibration": {
+        "done_at": "Laboratory",
+        "date": "15 May 2025",
+        "next_due": "14 May 2026",
+        "date_received": "15 May 2025",
+        "procedure_references": [
+            "VCS/WI/56",
+            "IS 6274:1971 (Reaffirmed 2017)"
+        ],
+        "environmental_conditions": {
+            "temperature_c": 24.7,
+            "relative_humidity_percent": 44
+        }
+    },
+    "standard_equipment": {
+        "name": "RTD (4 Wire) With Digital Thermometer",
+        "id": "VCS/RTD/01 & VCS/THM/01",
+        "certificate_number": "2401888",
+        "calibration_date": "08 June 2024",
+        "calibration_due_date": "07 June 2025",
+        "serial_number": null
+    },
+    "results": [
+        {
+            "duc_value": 20.0,
+            "std_value": 20.39,
+            "error": -0.39,
+            "expanded_uncertainty": 1.15
+        },
+        {
+            "duc_value": 40.0,
+            "std_value": 40.55,
+            "error": -0.55,
+            "expanded_uncertainty": 1.15
+        },
+        {
+            "duc_value": 60.0,
+            "std_value": 60.71,
+            "error": -0.71,
+            "expanded_uncertainty": 1.15
+        },
+        {
+            "duc_value": 80.0,
+            "std_value": 80.91,
+            "error": -0.91,
+            "expanded_uncertainty": 1.15
+        },
+        {
+            "duc_value": 110.0,
+            "std_value": 111.05,
+            "error": -1.05,
+            "expanded_uncertainty": 1.15
+        }
+    ],
+    "remarks": "None",
+    "notes": [
+        "The reported expanded uncertainty is stated as the standard uncertainty in measurement multiplied by the coverage factor (k=2), which for a normal distribution corresponds a coverage probability of approximately 95%.",
+        "This certificate is referes only to the particular item submitted for calibration.",
+        "Results reported are valid at the time of and under stated conditions of measurement",
+        "This certificate shall not be reproduced except in full without permission of Head of Laboratory.",
+        "This certificate is for industrial and scientific purpose and can not be used in legal matters."
+    ]
+}
