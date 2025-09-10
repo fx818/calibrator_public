@@ -48,7 +48,9 @@ from fastapi.middleware.cors import CORSMiddleware
 origins = [
     "https://fx818.github.io",   # your frontend URL
     "http://localhost:5500",     # optional local testing
-    "http://127.0.0.1:5500"
+    "http://127.0.0.1:5500",
+    "http://127.0.0.1:8000",
+    "http://13.222.22.7:8000/"
 ]
 
 app.add_middleware(
