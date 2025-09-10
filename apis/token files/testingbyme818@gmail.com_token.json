@@ -1,0 +1,17 @@
+{
+  "token": "ya29.a0AS3H6Nzf33OnfGIeM7BRuO6irpHbZJB4tH-w6a2PNst1MPwoKwA-4N6aVHu10rfBFEJvEBJL9M7atGHp6LgLMFqEB2SoPWAvB7-OfuPHKL9tOMsIE71Mqyzv0XVcToKPLDWEEM-GjNRhp5NHOmkKGNfyWnwp2PnOheRGdJSLzaqeOTOtLaR8rCLK88tBfv8WUvxxT5QaCgYKAdoSARYSFQHGX2MiDv5KtGEyah6v4DeZ8BBObQ0206",
+  "refresh_token": "1//0gHDrTnz6MwMRCgYIARAAGBASNwF-L9IrzLhReHCSvPPudVsEI18cyDj9kd_Rwzgle_5hevJ3Hxv5iOVVKSnb1poYRncI3G39KTY",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "client_id": "478641910458-vd7at938uqvfn2mfrhqosuq4r0cokg77.apps.googleusercontent.com",
+  "client_secret": "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",
+  "scopes": [
+    "https://mail.google.com/",
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+  ],
+  "universe_domain": "googleapis.com",
+  "account": "testingbyme818@gmail.com",
+  "expiry": "2025-09-10T16:55:48.295344Z"
+}

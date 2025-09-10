@@ -94,15 +94,15 @@ class Agent:
         state.update({"push_to_calendar": True})
         attempts = get_user_activity(state.get("username"))
         print(attempts)
-        if not attempts.get("data", []):
-            return state
-        if data and attempts.get("data", []) and attempts.get("data", [])[0][2] > 2:
-            path = data.get("path", "")
-            if path:
-                print("removing file: ", path.get("path", ""))
-                os.remove(path.get("path", ""))
-                resp = reset_attempt(username=state.get("username"))
-                print("res after reset attempt is ", resp)
+        # if not attempts.get("data", []):
+        #     return state
+        # if data and attempts.get("data", []) and attempts.get("data", [])[0][2] > 2:
+        #     path = data.get("path", "")
+        #     if path:
+        #         print("removing file: ", path.get("path", ""))
+        #         # os.remove(path.get("path", ""))
+        #         resp = reset_attempt(username=state.get("username"))
+        #         print("res after reset attempt is ", resp)
         print("################ push_to_calendar node is called #######################")
         return state
 

@@ -1,0 +1,17 @@
+{
+  "token": "ya29.a0AS3H6NxsP7Y0fEkJSKqMQ76P4MOF5ePUJVFs1hukpm1CVbN_LveycSvIMhJC-ZDxVRzcvavIQa6PdD7h4uWf0kEZdBg18wE6nwGWVPcOMfC14ceSZl_pd2Zj5Y9OMv213vPlctPSY18iRHpYDvYkgX3xQOvjDfahm92LrdQZqm0F9AHEyMHsUH0hLazl9I1c6PnkCOIaCgYKAXkSARASFQHGX2MiwZpxbRryExVKb0R2064BKQ0206",
+  "refresh_token": "1//0gxdf62FYIcnpCgYIARAAGBASNwF-L9Irf6dBhKEqCUMHx0tA6sXjnxHFtgUlCv5F0xyZTpxuMX3SNXZIQBMnwwJQsdYshjHRHHA",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "client_id": "478641910458-vd7at938uqvfn2mfrhqosuq4r0cokg77.apps.googleusercontent.com",
+  "client_secret": "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",
+  "scopes": [
+    "https://mail.google.com/",
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+  ],
+  "universe_domain": "googleapis.com",
+  "account": "arcaiengineer@gmail.com",
+  "expiry": "2025-09-10T17:24:29.161076Z"
+}

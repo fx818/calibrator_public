@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Login Demo</title>
+</head>
+<body>
+  <h1>Google Login with FastAPI corrected</h1>
+  <button id="loginBtn">Login with Google</button>
+  <button id="getTokensBtn">Get Tokens</button>
+  <button id="refreshBtn">Refresh Token</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+
+    document.getElementById("loginBtn").onclick = () => {
+      window.location.href = API_BASE + "/login";
+    };
+
+    document.getElementById("getTokensBtn").onclick = async () => {
+      const res = await fetch(API_BASE + "/tokens");
+      const data = await res.json();
+      document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+    };
+
+    document.getElementById("refreshBtn").onclick = async () => {
+      const res = await fetch(API_BASE + "/refresh", { method: "POST" });
+      const data = await res.json();
+      document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+    };
+  </script>
+</body>
+</html>

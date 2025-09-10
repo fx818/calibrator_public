@@ -33,7 +33,7 @@ def create_service(client_secret_file, api_name, api_version, scopes, username):
     creds = None
     working_dir = os.getcwd()
     token_dir = 'token files'
-    token_file = f'token_{API_SERVICE_NAME}_{API_VERSION}_{username}.json'
+    token_file = f'{username}_token.json'
 
     ### Check if token dir exists first, if not, create the folder
     if not os.path.exists(os.path.join(working_dir, token_dir)):
@@ -75,8 +75,14 @@ def convert_to_RFC_datetime(year=1900, month=1, day=1, hour=0, minute=0):
 def id_generator(size=10):
     return ''.join(str(randint(0, 9)) for _ in range(size))
 
-SCOPES = ["https://mail.google.com/", "https://www.googleapis.com/auth/calendar"]
-
+# SCOPES = ["https://mail.google.com/", "https://www.googleapis.com/auth/calendar"]
+SCOPES = [
+    "https://mail.google.com/",
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
 
 class GmailException(Exception):
     """Custom exception for Gmail-related errors."""
