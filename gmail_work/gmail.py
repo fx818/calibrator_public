@@ -25,6 +25,35 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 
+
+
+# Helper functions
+import os
+import time
+from googleapiclient.errors import HttpError
+def mark_as_read(gmail_service, message_id):
+    """
+    Marks a message as read by removing the 'UNREAD' label.
+    
+    Args:
+        gmail_service: The authenticated Gmail API service object.
+        message_id (str): The ID of the message to mark as read.
+    """
+    try:
+        # The 'UNREAD' label is a system label, and we remove it to mark the email as read.
+        gmail_service.users().messages().modify(
+            userId='me',
+            id=message_id,
+            body={'removeLabelIds': ['UNREAD']}
+        ).execute()
+        print(f"Message with ID {message_id} successfully marked as read.")
+    except HttpError as error:
+        print(f"An error occurred when marking message {message_id} as read: {error}")
+
+
+
+
+
 def create_service(client_secret_file, api_name, api_version, scopes, username):
     CLIENT_SECRET_FILE = client_secret_file
     API_SERVICE_NAME = api_name
@@ -78,6 +107,7 @@ def id_generator(size=10):
 # SCOPES = ["https://mail.google.com/", "https://www.googleapis.com/auth/calendar"]
 SCOPES = [
     "https://mail.google.com/",
+    'https://www.googleapis.com/auth/gmail.modify',
     "https://www.googleapis.com/auth/calendar",
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
@@ -135,17 +165,14 @@ def get_message_details(service, message_id, msg_format='metadata', metadata_hea
     except Exception as e:
         raise GmailException(f"Error fetching message details: {e}")
 
-def fetch_emails_with_attachments(username, vendor_email, num_email):
+def fetch_emails_with_attachments(username):
     gmail_service, ig1 , ig2 = create_service("client.json", ["gmail", "calendar"], ["v1", "v3"], SCOPES, username)
     # gmail_service, _= create_service(client_file, api_name, api_version, scopes)
-    query_string = f"from:({vendor_email}) has:attachment"
+    query_string = f"has:attachment subject:(Certificate) is:unread"
     save_location = "downloaded_attachments"
     email_messages = search_emails(gmail_service,query_string)
     all_paths = []
-    i = 0
     for email_message in email_messages:
-        if i==num_email: break
-        i += 1
         msg_id = email_message['id']
         message_detail = get_message_details(gmail_service, msg_id, msg_format='full', metadata_headers=['parts'])
         message_detailPayload = message_detail.get('payload', {})
@@ -153,6 +180,9 @@ def fetch_emails_with_attachments(username, vendor_email, num_email):
             for msgPayload in message_detailPayload['parts']:
                 filename = msgPayload.get('filename')
                 # ext = filename.split('.')[-1]
+                # Check if the filename exists and ends with .pdf before proceeding
+                if not filename or not filename.lower().endswith('.pdf'):
+                    continue
                 body = msgPayload.get('body', {})
                 if 'attachmentId' in body:
                     attachment_id = body['attachmentId']
@@ -165,6 +195,7 @@ def fetch_emails_with_attachments(username, vendor_email, num_email):
                         _f.write(attachment_content)
                     print(f"Saved attachment: {filename} at {save_location}")
                     all_paths.append(os.path.join(save_location, filename))
+        mark_as_read(gmail_service, msg_id)
         time.sleep(1)
     return all_paths
 
@@ -185,8 +216,8 @@ def create_event(username, user_date, certificate_number):
         "reminders": {
             "useDefault": False,
             "overrides": [
-                {"method": "email", "minutes": 24 * 60},  # 1 day before
-                {"method": "popup", "minutes": 10},      # 10 minutes before
+                {"method": "email", "minutes": 24 * 60 * 38},  # 38 days before
+                {"method": "popup", "minutes": 24 * 60},      # 1 day before
             ],
         },
     }

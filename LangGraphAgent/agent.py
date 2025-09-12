@@ -11,37 +11,34 @@ load_dotenv()
 from apis.database import get_user_activity, increment_attempts, reset_attempt
 
 from utils.utility import get_certificate_data, get_text_from_pdf
-from utils.utility import update_approval
-from utils.utility import push_data
+from apis.database import push_data, update_approval
 from gmail_work.gmail import fetch_emails_with_attachments
 
 class State(TypedDict):
     username: str
-    vendor_email: str
-    number_of_email_to_fetch: int
     certificate_number: Optional[list[str]]
     sentiment: bool
     pdf_file_path: Optional[List[str]]
     certificate_data: Optional[List[dict]]
     push_to_db: Optional[bool]
     push_to_calendar: Optional[bool]
-    
+    prev_node: str
+    curr_node: str
+
 from langgraph.types import interrupt
 class Agent:
     def __init__(self):
         self.graph = self.build_graph()
 
     def gmail_file_node(self, state: State):
-        vendor_email = state.get("vendor_email", "")
         username = state.get("username", "")
-        num_email = state.get("number_of_email_to_fetch", 1)
-        if not vendor_email or not username:
-            raise ValueError("Vendor email and your username is required.")
+        state.update({"curr_node": "gmail_file_node", "prev_node": "Starting point"})
+        if not username:
+            raise ValueError("Bro, You need to login.")
         print("username is ", username)
         # increment_attempts(username)
-        all_paths = fetch_emails_with_attachments(username, vendor_email, num_email)
+        all_paths = fetch_emails_with_attachments(username)
         state.update({"pdf_file_path": all_paths})
-        
         print("################ Gmail node is called #######################")
         return state
 
@@ -51,16 +48,23 @@ class Agent:
             text = get_text_from_pdf(path)
             data = get_certificate_data(text)
             all_data.extend(data)
-            os.remove(path)  # Clean up file after processing
+            # os.remove(path)  # Clean up file after processing
         state.update({"certificate_data": all_data})
         state.update({"certificate_number": [certi["certificate_number"] for certi in all_data]})
+        state.update({"curr_node": "certificate_data", "prev_node": "gmail_file_node"})
+        print("################ certificate_data node is called #######################")
         return state
     
     def push_data_to_db(self, state:State):
         alldata = state.get("certificate_data", [])
+        print("Data to be pushed to DB: ", alldata)
         if alldata:
-            push_data(alldata)
+            push_data(alldata, state.get("username", ""))
+            print("Data successfully pushed to DB")
+        else:
+            print("No data to push to DB")
         state.update({"push_to_db": True})
+        state.update({"curr_node": "push_data_to_db", "prev_node": "certificate_data"})
         print("################ push_data_to_db node is called #######################")
         return state
 
@@ -77,10 +81,9 @@ class Agent:
         # Pause until API provides user approval
         approval = interrupt({"message": "Waiting for user approval..."})
         state.update({"sentiment": approval in ["yes", "y", "approve", "approved"]})
+        state.update({"curr_node": "user_approval", "prev_node": "push_data_to_db"})
         print("################ user_approval node is called #######################")
         return state
-
-        # return state
     
     def push_to_calendar(self, state: State):
         if not state.get("sentiment", False):
@@ -90,7 +93,7 @@ class Agent:
         if not certificate_numbers: raise Exception("no certificate extracted")
         data = {}
         for certificate_number in certificate_numbers:
-            data = update_approval(state.get("username", ""), certificate_number)
+            data = update_approval(certificate_number, state.get("username", ""))
         state.update({"push_to_calendar": True})
         attempts = get_user_activity(state.get("username"))
         print(attempts)
@@ -103,6 +106,7 @@ class Agent:
         #         # os.remove(path.get("path", ""))
         #         resp = reset_attempt(username=state.get("username"))
         #         print("res after reset attempt is ", resp)
+        state.update({"curr_node": "push_to_calendar", "prev_node": "user_approval"})
         print("################ push_to_calendar node is called #######################")
         return state
 

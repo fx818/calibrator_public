@@ -12,7 +12,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from langgraph.types import Command
 from LangGraphAgent.agent import Agent, State
-from database import add_user, increment_attempts
+from database import add_user, increment_attempts, get_calibrated_data_from_db, delete_calibrated_data_from_db, deleted_push_data
 load_dotenv()
 
 import requests
@@ -29,13 +29,14 @@ thread_config = {"configurable": {"thread_id": THREAD_ID}}
 # Initial state
 initial_state = State(
     username="",
-    vendor_email="",
     certificate_number=None,
     sentiment=False,
     pdf_file_path=None,
     certificate_data=None,
     push_to_db=None,
     push_to_calendar=None,
+    curr_node="",
+    prev_node="",
 )
 
 app = FastAPI()
@@ -82,6 +83,7 @@ CLIENT_SECRET = os.getenv(
     "GOOGLE_CLIENT_SECRET",
     "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"
 )
+# REDIRECT_URI = "https://calibration.prossimatech.com/auth/callback"
 REDIRECT_URI = "http://127.0.0.1:8000/auth/callback"
 FRONTEND_URL = "https://fx818.github.io/frontend_calibrator/page.html" # Separate frontend
 SCOPES = [
@@ -157,6 +159,7 @@ def auth_callback(request: Request):
 
     user_info = response.json()
     tokens["account"] = user_info.get("email")
+    initial_state["username"] = tokens["account"]
     print("Storing tokens:", tokens)  # debug
     # with open(tokens["account"]+TOKEN_FILE, "w") as f:
     #     json.dump(tokens, f, indent=2)
@@ -346,22 +349,17 @@ class ExtractRequest(BaseModel):
     number_of_email_to_fetch: int
 
 @app.post("/extract_certificates")
-def extract_certificates(req: ExtractRequest):
+def extract_certificates():
     """Start workflow: fetch → extract → push DB → wait for approval"""
     try:
-        vendor_email = req.vendor_email
-        num_email = req.number_of_email_to_fetch
-        username = req.username
-        if not vendor_email:
-            raise ValueError("Vendor email is required.")
-        initial_state["vendor_email"] = vendor_email
-        initial_state["number_of_email_to_fetch"] = num_email
-        initial_state["username"] = username
+        username = initial_state.get("username", "")
+        if not username:
+            raise ValueError("You need to login bro.")
         status = add_user(username)
         # if status.get("exist"):
         # increment_attempts(username)
         print("user added in the db")
-        print("res.username is ", req.username)
+        print("res.username is ")
         result = {}
         print("######################################################################################################")
         result = compiled_graph.invoke(initial_state, config=thread_config)
@@ -386,7 +384,7 @@ def extract_certificates(req: ExtractRequest):
                 "status": "Waiting",
                 "message": msg or "Waiting for user approval...",
                 "certificates": certificates,
-                "raw_certs": raw_certs,  # optional for debugging
+                "raw_certs": raw_certs,  # sending full data
             }
 
         # Case 2: Workflow finished successfully
@@ -417,7 +415,29 @@ def take_approval(user_input: str):
 
     return {"status": "Approved", "result": result}
     
+@app.post("/get_calibrated_data")
+def get_calibrated_data():
+    email = initial_state.get("username", "")
+    if not email:
+        raise ValueError("You need to be logged in to see the data")
+    data = get_calibrated_data_from_db(email)
+    print("the data is ", data)
+    return {
+        "data": data
+    }
 
+@app.delete("/delete_records")
+def delete_records(pk: str):
+    email = initial_state.get("username", "")
+    if not email:
+        raise ValueError("You need to be logged in to see the data")
+    data = delete_calibrated_data_from_db(pk, email)
+    print("The data that is to be inserted in the deleteddb is ", data)
+    deleted_push_data(data, email)
+    print("the data is ", data)
+    return {
+        "data": data
+    }
 
 # @app.post("/extract_certificates")
 # def extract_certificates():

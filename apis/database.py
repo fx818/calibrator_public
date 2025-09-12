@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from typing import List, Optional
 
 # Your JSON data (replace with loading from file if needed)
 # data = [
@@ -126,22 +127,25 @@ import json
 # ]
 
 # Connect to SQLite DB
-conn = sqlite3.connect("calibration.db")
-cursor = conn.cursor()
-cursor.execute("select * from user")
-result = cursor.fetchall()
-print(result)
-conn.commit()
-conn.close()
+# conn = sqlite3.connect("calibration.db")
+# cursor = conn.cursor()
+# cursor.execute("delete from calibration_data")
+# result = cursor.fetchall()
+# cursor.execute("select * from calibration_certificates")
+# result2 = cursor.fetchall()
+# print(len(result))
+# print(len(result2))
+# conn.commit()
+# conn.close()
 # # Create table
 # cursor.execute("""
-# CREATE TABLE IF NOT EXISTS calibration_certificates (
-#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+# CREATE TABLE IF NOT EXISTS deleted_calibration_data (
+#     id INTEGER,
 #     certificate_number TEXT NOT NULL,
 #     issue_date TEXT,
 #     customer_name TEXT,
 #     customer_address TEXT,
-#     duc_id TEXT,
+#     duc_id TEXT PRIMARY KEY,
 #     duc_serial_number TEXT,
 #     duc_make_model TEXT,
 #     duc_range TEXT,
@@ -165,64 +169,119 @@ conn.close()
 #     result_expanded_uncertainty REAL,
 #     remarks TEXT,
 #     notes TEXT,
-#     approval TEXT
+#     approval TEXT,
+#     email TEXT NOT NULL
 # );
 # """)
 
 
+# conn.commit()
+# conn.close()
 
-def push_data(data):
+def push_data(data, email):
+    if not email: 
+        raise ValueError("You are not logged in or some error in fetching mail, see push_db node")
     try:
         conn = sqlite3.connect("calibration.db")
         cursor = conn.cursor()
         # Insert data
         for record in data:
+            pk = record.get("duc_id")
+            # Check if record with same primary key exists
+            cursor.execute("SELECT 1 FROM calibration_data WHERE duc_id = ?", (pk,))
+            exists = cursor.fetchone() is not None
+            if exists:
+                print(f"Record with duc_id {pk} already exists so we delete it so that new one can be added.")
+                cursor.execute("DELETE FROM calibration_data WHERE duc_id = ?", (pk,))
+            values = [
+                str(record.get("certificate_number")),
+                str(record.get("issue_date")),
+                str(record.get("customer_name")),
+                str(record.get("customer_address")),
+                str(record.get("duc_id")),
+                str(record.get("duc_serial_number")),
+                str(record.get("duc_make_model")),
+                str(record.get("duc_range")),
+                record.get("duc_least_count"),  # keep as is (float/int)
+                str(record.get("duc_condition_at_receipt")),
+                str(record.get("duc_location")),
+                str(record.get("calibration_done_at")),
+                str(record.get("calibration_date")),
+                str(record.get("calibration_next_due")),
+                str(record.get("calibration_date_received")),
+                str(record.get("calibration_procedure_references_types")),
+                str(record.get("standard_equipment_id")),
+                str(record.get("standard_equipment_name")),
+                str(record.get("standard_equipment_serial_number")),
+                str(record.get("standard_equipment_certificate_number")),
+                str(record.get("standard_equipment_calibration_date")),
+                str(record.get("standard_equipment_calibration_due_date")),
+                str(record.get("result_duc_value")),
+                str(record.get("result_std_value")),
+                str(record.get("result_error")),
+                str(record.get("result_expanded_uncertainty")),
+                str(record.get("remarks")),
+                str(record.get("notes")),
+                "Pending",
+                str(email)
+            ]
             cursor.execute("""
-            INSERT INTO calibration_certificates (
+            INSERT INTO calibration_data (
                 certificate_number, issue_date, customer_name, customer_address,
-                duc_id, duc_serial_number, duc_make_model, duc_range, duc_least_count,
-                duc_condition_at_receipt, duc_location, calibration_done_at,
-                calibration_date, calibration_next_due, calibration_date_received,
-                calibration_procedure_references_types, standard_equipment_id,
-                standard_equipment_name, standard_equipment_serial_number,
-                standard_equipment_certificate_number, standard_equipment_calibration_date,
-                standard_equipment_calibration_due_date, result_duc_value, result_std_value,
-                result_error, result_expanded_uncertainty, remarks, notes, approval
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-            """, (
-                record["certificate_number"], record["issue_date"], record["customer_name"], record["customer_address"],
-                record["duc_id"], record["duc_serial_number"], record["duc_make_model"], record["duc_range"], record["duc_least_count"],
-                record["duc_condition_at_receipt"], record["duc_location"], record["calibration_done_at"],
-                record["calibration_date"], record["calibration_next_due"], record["calibration_date_received"],
-                record["calibration_procedure_references_types"], record["standard_equipment_id"],
-                record["standard_equipment_name"], record["standard_equipment_serial_number"],
-                record["standard_equipment_certificate_number"], record["standard_equipment_calibration_date"],
-                record["standard_equipment_calibration_due_date"], record["result_duc_value"], record["result_std_value"],
-                record["result_error"], record["result_expanded_uncertainty"], record["remarks"], record["notes"],"Pending"
-            ))
+                duc_id, duc_serial_number, duc_make_model, duc_range, duc_least_count, duc_condition_at_receipt, duc_location, calibration_done_at, calibration_date, calibration_next_due, calibration_date_received, calibration_procedure_references_types, standard_equipment_id,standard_equipment_name, standard_equipment_serial_number,standard_equipment_certificate_number, standard_equipment_calibration_date,standard_equipment_calibration_due_date, result_duc_value, result_std_value,result_error, result_expanded_uncertainty, remarks, notes, approval, email
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """, tuple(values))
 
         # Commit and close
         conn.commit()
         conn.close()
+        print("pushed the data in the db")
         return {"status":"successful"}
     except Exception as e:
+        print("Failed to push the data")
         return {"status":"failed"}
     
-def update_approval(certificate_number):
+
+def update_approval(certificate_number, email):
     try:
         conn = sqlite3.connect("calibration.db")
         cursor = conn.cursor()
         command = """
-        UPDATE calibration_certificates
+        UPDATE calibration_data
         SET approval = ?
-        where certificate_number = ?
+        where certificate_number = ? and email = ?
         """
-        cursor.execute(command,("approved", certificate_number))
+        cursor.execute(command,("approved", certificate_number, email))
         conn.commit()
         conn.close()
         return {"status":"successful"}
     except Exception as e:
         return {"status":"failed"}
+
+
+def get_calibrated_data_from_db(email: str) -> Optional[List]:
+    command = """
+        SELECT * FROM calibration_data WHERE email = ? AND approval = ?
+    """
+    conn = sqlite3.connect("calibration.db")
+    cursor = conn.cursor()
+    cursor.execute(command, (email, "approved"))
+    result = cursor.fetchall()
+    conn.close()
+    return result
+
+def delete_calibrated_data_from_db(pk: str, email: str) -> Optional[List]:
+    conn = sqlite3.connect("calibration.db")
+    cursor = conn.cursor()
+    get_data = cursor.execute("SELECT * FROM calibration_data WHERE duc_id = ? AND email = ? AND approval = ?", (pk, email, "approved"))
+    result = get_data.fetchall()[0]
+    command = """
+        DELETE FROM calibration_data WHERE duc_id = ? AND email = ? AND approval = ?
+    """
+    cursor.execute(command, (pk, email, "approved"))
+    conn.commit()
+    conn.close()
+    return result
 
 
 def create_user_table():
@@ -312,6 +371,45 @@ def reset_attempt(username: str):
     except Exception as e:
         print("username is in heeree is ", username)
         return {"status":"failed"} 
+
+
+def deleted_push_data(record, email):
+    if not email: 
+        raise ValueError("You are not logged in or some error in fetching mail, see push_db node")
+    try:
+        print("the record is ", record)
+        record = record[1:]
+        if not record:
+            print("No record data found to push to deleted_db")
+            return {"status":"failed"}
+        conn = sqlite3.connect("calibration.db")
+        cursor = conn.cursor()
+        # Insert data
+        pk = record[5]
+        # Check if record with same primary key exists
+        cursor.execute("SELECT 1 FROM deleted_calibration_data WHERE duc_id = ?", (pk,))
+        exists = cursor.fetchone() is not None
+        if exists:
+            print(f"Record with duc_id {pk} already exists so we delete it so that new one can be added.")
+            cursor.execute("DELETE FROM deleted_calibration_data WHERE duc_id = ?", (pk,))
+        print("Now starting the cursor execution")
+        cursor.execute("""
+        INSERT INTO deleted_calibration_data (
+            certificate_number, issue_date, customer_name, customer_address,
+            duc_id, duc_serial_number, duc_make_model, duc_range, duc_least_count, duc_condition_at_receipt, duc_location, calibration_done_at, calibration_date, calibration_next_due, calibration_date_received, calibration_procedure_references_types, standard_equipment_id,standard_equipment_name, standard_equipment_serial_number,standard_equipment_certificate_number, standard_equipment_calibration_date,standard_equipment_calibration_due_date, result_duc_value, result_std_value,result_error, result_expanded_uncertainty, remarks, notes, approval, email
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, record)
+        print("Inserted dude.................")
+        # Commit and close
+        conn.commit()
+        conn.close()
+        print("pushed the data in the deleted db")
+        return {"status":"successful"}
+    except Exception as e:
+        print("Failed to push the data")
+        return {"status":"failed"}
+  
+
 # data = get_user_activity("fx818anuraghehe")
 # print(data)
 # print(add_user("testuser"))

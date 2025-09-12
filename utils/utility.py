@@ -351,45 +351,7 @@ def update_sheet_with_certificates(url, all_cert_text):
     return {"status": "success"}
 
 
-
-import sqlite3
-def push_data(data):
-    try:
-        conn = sqlite3.connect("calibration.db")
-        cursor = conn.cursor()
-        # Insert data
-        for record in data:
-            cursor.execute("""
-            INSERT INTO calibration_certificates (
-                certificate_number, issue_date, customer_name, customer_address,
-                duc_id, duc_serial_number, duc_make_model, duc_range, duc_least_count,
-                duc_condition_at_receipt, duc_location, calibration_done_at,
-                calibration_date, calibration_next_due, calibration_date_received,
-                calibration_procedure_references_types, standard_equipment_id,
-                standard_equipment_name, standard_equipment_serial_number,
-                standard_equipment_certificate_number, standard_equipment_calibration_date,
-                standard_equipment_calibration_due_date, result_duc_value, result_std_value,
-                result_error, result_expanded_uncertainty, remarks, notes
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-            """, (
-                record["certificate_number"], record["issue_date"], record["customer_name"], record["customer_address"],
-                record["duc_id"], record["duc_serial_number"], record["duc_make_model"], record["duc_range"], record["duc_least_count"],
-                record["duc_condition_at_receipt"], record["duc_location"], record["calibration_done_at"],
-                record["calibration_date"], record["calibration_next_due"], record["calibration_date_received"],
-                record["calibration_procedure_references_types"], record["standard_equipment_id"],
-                record["standard_equipment_name"], record["standard_equipment_serial_number"],
-                record["standard_equipment_certificate_number"], record["standard_equipment_calibration_date"],
-                record["standard_equipment_calibration_due_date"], record["result_duc_value"], record["result_std_value"],
-                record["result_error"], record["result_expanded_uncertainty"], record["remarks"], record["notes"]
-            ))
-
-        # Commit and close
-        conn.commit()
-        conn.close()
-        return {"status":"successful"}
-    except Exception as e:
-        return {"status":"failed"}
-    
+import sqlite3 
 def update_approval(username, certificate_number):
     try:
         conn = sqlite3.connect("calibration.db")
