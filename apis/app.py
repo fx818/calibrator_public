@@ -85,7 +85,7 @@ CLIENT_SECRET = os.getenv(
 )
 # REDIRECT_URI = "https://calibration.prossimatech.com/auth/callback"
 REDIRECT_URI = "http://127.0.0.1:8000/auth/callback"
-FRONTEND_URL = "https://fx818.github.io/frontend_calibrator/page.html" # Separate frontend
+FRONTEND_URL = "https://fx818.github.io/frontend_calibrator/testpage2.html" # Separate frontend
 SCOPES = [
     "https://mail.google.com/",
     "https://www.googleapis.com/auth/calendar",

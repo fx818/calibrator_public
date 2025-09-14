@@ -13,6 +13,7 @@ from apis.database import get_user_activity, increment_attempts, reset_attempt
 from utils.utility import get_certificate_data, get_text_from_pdf
 from apis.database import push_data, update_approval
 from gmail_work.gmail import fetch_emails_with_attachments
+from utils.Sheets import update_approval_in_sheet, update_sheet_with_certificates, update_data_in_sheet, get_data_from_sheet, get_worksheet_from_url
 
 class State(TypedDict):
     username: str
@@ -63,8 +64,30 @@ class Agent:
             print("Data successfully pushed to DB")
         else:
             print("No data to push to DB")
+            return {"status": "No data to be pushed"}
         state.update({"push_to_db": True})
         state.update({"curr_node": "push_data_to_db", "prev_node": "certificate_data"})
+        # Also push to sheet
+        url = os.getenv("SHEET_URL", "")
+        if not url:
+            print("No sheet url found")
+            print("################ push_data_to_db node is called #######################")
+            return state
+        val, header = get_data_from_sheet(url)
+        worksheet = get_worksheet_from_url(url)
+        print("all data is ", alldata)
+        if not header:
+            header_val = list(alldata[0].keys())
+            header_val.append("Approval")
+            header_val.append("Email")
+            worksheet.append_row(header_val)
+            print("Added header")
+        for row in alldata:
+            valtopush = list(row.values())
+            valtopush.append("Pending")
+            valtopush.append(state.get("username", ""))
+            status = update_data_in_sheet(url, valtopush)
+            print("the status after update_data_in_sheet is ", status)
         print("################ push_data_to_db node is called #######################")
         return state
 
@@ -95,6 +118,19 @@ class Agent:
         for certificate_number in certificate_numbers:
             data = update_approval(certificate_number, state.get("username", ""))
         state.update({"push_to_calendar": True})
+        all_data = state.get("certificate_data", [])
+        url = os.getenv("SHEET_URL", "")
+        if not url:
+            print("No sheet url found")
+            print("################ push_to_calendar node is called #######################")
+            return state
+        if not all_data:
+            print("No certificate data found")
+            print("################ push_to_calendar node is called #######################")
+            return state
+        for cert in all_data:
+            status = update_approval_in_sheet(url, cert.get("duc_id", ""))
+            print("the status after update_approval_in_sheet is ", status)
         attempts = get_user_activity(state.get("username"))
         print(attempts)
         # if not attempts.get("data", []):

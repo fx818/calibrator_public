@@ -1,6 +1,11 @@
 import sqlite3
 import json
 from typing import List, Optional
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from utils.Sheets import delete_row_with_duc
+
 
 # Your JSON data (replace with loading from file if needed)
 # data = [
@@ -281,6 +286,8 @@ def delete_calibrated_data_from_db(pk: str, email: str) -> Optional[List]:
     cursor.execute(command, (pk, email, "approved"))
     conn.commit()
     conn.close()
+    status = delete_row_with_duc(pk)
+    print(status)
     return result
 
 
