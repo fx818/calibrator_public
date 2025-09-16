@@ -12,8 +12,10 @@ def get_worksheet_from_url(url):
         "https://www.googleapis.com/auth/spreadsheets"
     ]
     creds = Credentials.from_service_account_file(creds_file_path, scopes=scopes)
+    print("-------Credentials Set-------")
     client = gspread.authorize(creds)
     print("-------Authorised-------")
+    print("the url is ", url)
     sheet = client.open_by_url(url)
     return sheet.sheet1
 
@@ -47,25 +49,25 @@ def delete_data(duc_id, url):
     print("No row found with DUC ID:", duc_id)
     return {"status": "not found"}
 
-def update_data_in_sheet(url, data):
+def update_data_in_sheet(url, data, pk_idx=4):
     worksheet = get_worksheet_from_url(url)
-    duc_id = data[4]
+    primary_key = data[pk_idx]
     values = worksheet.get_all_values()
     if not values:
         print("Sheet is empty")
         return {"status": "Sheet is empty"}
     for i in range(1, len(values)):
         row = values[i]
-        if row[4] == duc_id:
-            print("Found row with DUC ID:", duc_id)
+        if row[pk_idx] == primary_key:
+            print("Found row with primary key :", primary_key)
             worksheet.delete_rows(i + 1)  # +1 because of 1-based index
-            print("Deleted row with DUC ID:", duc_id)
+            print("Deleted row with primary key :", primary_key)
             break
     data = [str(d) for d in data]
     worksheet.append_row(data)
     return {"status": "success"}
 
-def update_approval_in_sheet(url, duc_id):
+def update_approval_in_sheet(url, primary_key, pk_idx):
     worksheet = get_worksheet_from_url(url)
     values = worksheet.get_all_values()
     if not values:
@@ -74,40 +76,58 @@ def update_approval_in_sheet(url, duc_id):
     header = values[0]
     for i in range(1, len(values)):
         row = values[i]
-        if row[4] == duc_id:
-            print("Found row with DUC ID:", duc_id)
+        if row[pk_idx] == primary_key:
+            print("Found row with primary key:", primary_key)
             row[header.index("Approval")] = "Approved"
             worksheet.delete_rows(i + 1)  # +1 because of 1-based index
-            print("Deleted row with DUC ID:", duc_id)
+            print("Deleted row with primary key:", primary_key)
             row = [str(r) for r in row]
             worksheet.append_row(row)
-            print("Updated approval for DUC ID:", duc_id)
+            print("Updated approval for primary key:", primary_key)
             return {"status": "success"}
-    print("No row found with DUC ID:", duc_id)
+    print("No row found with primary key:", primary_key)
     return {"status": "not found"}
 
-def delete_row_with_duc(duc_id):
-    url = os.getenv("SHEET_URL", "")
-    if not url:
-        print("No sheet url found")
-        return {"status": "no sheet url found during the deletion"}
-    worksheet = get_worksheet_from_url(url)
-    values = worksheet.get_all_values()
-    if not values:
-        print("Sheet is empty")
-        return {"status": "Sheet is empty"}
-    header = values[0]
-    for i in range(1, len(values)):
-        row = values[i]
-        if row[4] == duc_id:
-            print("Found row with DUC ID:", duc_id)
-            worksheet.delete_rows(i + 1)  # +1 because of 1-based index
-            print("Deleted row with DUC ID:", duc_id)
-            return {"status": "success"}
+def delete_row_with_duc(pk, role):
+    if role == "calibration_manager":
+        url = os.getenv("SHEET_URL", "")
+        if not url:
+            print("No sheet url found")
+            return {"status": "no sheet url found during the deletion"}
+        worksheet = get_worksheet_from_url(url)
+        values = worksheet.get_all_values()
+        if not values:
+            print("Sheet is empty")
+            return {"status": "Sheet is empty"}
+        header = values[0]
+        for i in range(1, len(values)):
+            row = values[i]
+            if row[4] == pk:
+                print("Found row with DUC ID:", pk)
+                worksheet.delete_rows(i + 1)  # +1 because of 1-based index
+                print("Deleted row with DUC ID:", pk)
+                return {"status": "success"}
+    elif role == "warranty_claim_manager":
+        warranty_url = os.getenv("WARRANTY_SHEET_URL")
+        if not warranty_url:
+            print("No warranty sheet url found")
+            return {"status": "no warranty sheet url found during the deletion"}
+        worksheet = get_worksheet_from_url(warranty_url)
+        values = worksheet.get_all_values()
+        if not values:
+            print("Sheet is empty")
+            return {"status": "Sheet is empty"}
+        header = values[0]
+        for i in range(1, len(values)):
+            row = values[i]
+            if row[0] == pk:
+                print("Found row with warranty claim no:", pk)
+                worksheet.delete_rows(i + 1)  # +1 because of 1-based index
+                print("Deleted row with warranty claim no:", pk)
+                return {"status": "success"}
+
     return {"status": "not found, error dusring deletion from the sheet"}
 
-
-url = "https://docs.google.com/spreadsheets/d/1KhAt3I4Tb0ZtdSpmFlp8DiL6Nr-ps2MIdKGawmB-ZLE/edit?usp=sharing"
 
 def update_sheet_with_certificates(url, certificates):
     worksheet = get_worksheet_from_url(url)
@@ -142,4 +162,7 @@ def update_sheet_with_certificates(url, certificates):
 # certificates = get_certificate_data(all_cert_text)
 # status = update_sheet_with_certificates(url, certificates)
 # print(status)
-print(get_worksheet_from_url(url))
+# url = os.getenv("WARRANTY_SHEET_URL", "")
+# if not url:
+#     print("No warranty sheet url found")
+# print(get_worksheet_from_url(url))

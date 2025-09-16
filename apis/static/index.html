@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Extractor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<div class="p-8 bg-white rounded-lg shadow-lg text-center w-full max-w-sm">
+    <h1 class="text-3xl font-bold mb-2">Certificate Extractor</h1>
+    <button id="loginBtn" class="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700">Sign in with Google</button>
+    <div id="userInfo" class="hidden mt-4">
+        <p>Welcome, <span id="userEmail"></span> 🎉</p>
+        <button id="logoutBtn" class="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Logout</button>
+    </div>
+</div>
+
+<script>
+// No need for a global NGROK_URL variable anymore!
+
+document.getElementById("loginBtn").onclick = () => {
+    // Redirect to the login endpoint on the same domain
+    window.location.href = "/login";
+};
+
+document.getElementById("logoutBtn").onclick = async () => {
+    // Use a relative path for the API call
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    await fetch("/logout", {
+        method: "POST",
+        credentials: "include" // Good practice, but now it's same-origin by default
+    });
+    location.reload();
+};
+
+// Check login status
+async function checkLogin() {
+    try {
+        // Use a relative path for the API call
+        const res = await fetch("/me", {
+            credentials: "include"
+        });
+        if (res.ok) {
+            const data = await res.json();
+            console.log("the data recieved is ", data);
+            if (data.email) {
+                document.getElementById("loginBtn").style.display = "none";
+                document.getElementById("userInfo").style.display = "block";
+                document.getElementById("userEmail").textContent = data.email;
+                // Store email in localStorage
+                localStorage.setItem('userEmail', data.email);
+                localStorage.setItem('userRole', data.role);
+
+                console.log("User email from /me endpoint:", data.email);
+                console.log("User role from /me endpoint:", data.role);
+                console.log("User email from localStorage:", localStorage.getItem('userEmail'));
+                console.log("User role from localStorage:", localStorage.getItem('userRole'));
+
+                // Optional: You could redirect the user to the role selection page
+                // once they are authenticated.
+                // window.location.href = "/role";
+            }
+        }
+    } catch (err) {
+        console.error("Error checking login status:", err);
+    }
+}
+
+checkLogin();
+</script>
+</body>
+</html>

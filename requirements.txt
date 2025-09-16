@@ -11,3 +11,4 @@ google-auth-oauthlib
 gspread
 beautifulsoup4
 langgraph
+boto3

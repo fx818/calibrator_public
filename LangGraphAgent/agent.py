@@ -8,12 +8,13 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from dotenv import load_dotenv
 load_dotenv()
-from apis.database import get_user_activity, increment_attempts, reset_attempt
+from apis.database import get_user_activity, increment_attempts, push_data_warranty, reset_attempt
 
-from utils.utility import get_certificate_data, get_text_from_pdf
+from utils.utility import get_certificate_data, get_text_from_pdf, get_intent
 from apis.database import push_data, update_approval
 from gmail_work.gmail import fetch_emails_with_attachments
 from utils.Sheets import update_approval_in_sheet, update_sheet_with_certificates, update_data_in_sheet, get_data_from_sheet, get_worksheet_from_url
+from apis.awsS3.helper import upload_file_to_s3, create_presigned_url_for_viewing
 
 class State(TypedDict):
     username: str
@@ -25,6 +26,8 @@ class State(TypedDict):
     push_to_calendar: Optional[bool]
     prev_node: str
     curr_node: str
+    role: str
+    pdf_url: List[str]
 
 from langgraph.types import interrupt
 class Agent:
@@ -38,8 +41,31 @@ class Agent:
             raise ValueError("Bro, You need to login.")
         print("username is ", username)
         # increment_attempts(username)
-        all_paths = fetch_emails_with_attachments(username)
+        role = state.get("role", "")
+        if not role:
+            raise ValueError("Bro, role is not set.")
+        print("the role is ", role)
+        if role == "calibration_manager":
+            all_paths = fetch_emails_with_attachments(username, "Calibration")
+        elif role == "warranty_claim_manager":
+            all_paths = fetch_emails_with_attachments(username, "Warranty")
+        else:
+            all_paths = []
+        if not all_paths:
+            print("No new emails with attachments found for given role ", role)
+            return {"status": "No new emails with attachments found."}
         state.update({"pdf_file_path": all_paths})
+        all_file_path_url = []
+        try:
+            for path in all_paths:
+                print("Uploading file to S3: ", os.path.basename(path))
+                upload_file_to_s3(path, os.getenv("AWS_S3_BUCKET", ""), os.path.basename(path))
+                path_url = create_presigned_url_for_viewing(os.getenv("AWS_S3_BUCKET", ""), os.path.basename(path))
+                print("the path url is", path_url)
+                all_file_path_url.append(path_url)
+        except Exception as e:
+            print("Some error occurred while uploading to S3: ", e)
+        state.update({"pdf_url": all_file_path_url})
         print("################ Gmail node is called #######################")
         return state
 
@@ -47,47 +73,100 @@ class Agent:
         all_data = []
         for path in state.get("pdf_file_path", []):
             text = get_text_from_pdf(path)
+            print("the text is ", text)
             data = get_certificate_data(text)
+            print("the data extracted from the certificate is ", data)
             all_data.extend(data)
             # os.remove(path)  # Clean up file after processing
+        print()
+        print("all data extracted from all certificates is ", all_data)
         state.update({"certificate_data": all_data})
-        state.update({"certificate_number": [certi["certificate_number"] for certi in all_data]})
-        state.update({"curr_node": "certificate_data", "prev_node": "gmail_file_node"})
+        try:
+            state.update({"certificate_number": [certi["certificate_number"] for certi in all_data]})
+            state.update({"curr_node": "certificate_data", "prev_node": "gmail_file_node"})
+        except:
+            print("Error updating state with certificate data")
+            state.update({"certificate_number": []})
+            state.update({"curr_node": "certificate_data", "prev_node": "gmail_file_node"})
         print("################ certificate_data node is called #######################")
         return state
     
     def push_data_to_db(self, state:State):
         alldata = state.get("certificate_data", [])
         print("Data to be pushed to DB: ", alldata)
-        if alldata:
-            push_data(alldata, state.get("username", ""))
-            print("Data successfully pushed to DB")
-        else:
-            print("No data to push to DB")
+        if not alldata:
+            print("No certificate data found to push to DB.")
             return {"status": "No data to be pushed"}
-        state.update({"push_to_db": True})
+        for record in alldata:
+            print()
+            print()
+            print("each record is ", record)
+            print()
+            print()
+            print("The intent of record is ", record.get("intent"))
+            if record.get("intent") == "calibration_certificate":
+                # No prob here due to intent key
+                push_data(record, state.get("username", ""))
+                print("record successfully pushed to DB")
+                state.update({"push_to_db": True})
+            elif record.get("intent") == "Warranty_claim":
+                # Have to do here due to intent key
+                push_data_warranty(record, state.get("username", ""))
+                print("warranty record successfully pushed to DB")
+                state.update({"push_to_db": True})
+            
+        # Pushing to the sheet
         state.update({"curr_node": "push_data_to_db", "prev_node": "certificate_data"})
         # Also push to sheet
         url = os.getenv("SHEET_URL", "")
-        if not url:
-            print("No sheet url found")
-            print("################ push_data_to_db node is called #######################")
-            return state
-        val, header = get_data_from_sheet(url)
-        worksheet = get_worksheet_from_url(url)
-        print("all data is ", alldata)
-        if not header:
-            header_val = list(alldata[0].keys())
-            header_val.append("Approval")
-            header_val.append("Email")
-            worksheet.append_row(header_val)
-            print("Added header")
+        warranty_url = os.getenv("WARRANTY_SHEET_URL", "")
+        
         for row in alldata:
-            valtopush = list(row.values())
-            valtopush.append("Pending")
-            valtopush.append(state.get("username", ""))
-            status = update_data_in_sheet(url, valtopush)
-            print("the status after update_data_in_sheet is ", status)
+            if row["intent"] == "calibration_certificate":
+                if not url:
+                    print("No sheet url found")
+                    print("################ push_data_to_db node is called #######################")
+                    return state
+                _, header = get_data_from_sheet(url)
+                worksheet = get_worksheet_from_url(url)
+                print("all data is ", alldata)
+                if not header:
+                    header_val = list(row.keys())
+                    header_val.remove("intent")
+                    header_val.append("Approval")
+                    header_val.append("Email")
+                    worksheet.append_row(header_val)
+                    print("Added header")
+                row.pop("intent", None)
+                valtopush = list(row.values())
+                valtopush.append("Pending")
+                valtopush.append(state.get("username", ""))
+                status = update_data_in_sheet(url, valtopush, pk_idx=4)
+                row["intent"] = "calibration_certificate"
+                print("the status after update_data_in_sheet is ", status)
+            elif row["intent"] == "Warranty_claim":
+                # add the code logic here to push warranty data to sheet
+                if not warranty_url:
+                    print("No sheet url found")
+                    print("################ push_data_to_db node is called #######################")
+                    return state
+                _, header = get_data_from_sheet(warranty_url)
+                worksheet = get_worksheet_from_url(warranty_url)
+                print("all data is ", alldata)
+                if not header:
+                    header_val = list(row.keys())
+                    header_val.remove("intent")
+                    header_val.append("Approval")
+                    header_val.append("Email")
+                    worksheet.append_row(header_val)
+                    print("Added header in warranty claim sheet")
+                row.pop("intent", None)
+                valtopush = list(row.values())
+                valtopush.append("Pending")
+                valtopush.append(state.get("username", ""))
+                status = update_data_in_sheet(warranty_url, valtopush, pk_idx=0)
+                row["intent"] = "Warranty_claim"
+                print("the status after update_data_in_sheet is ", status)
         print("################ push_data_to_db node is called #######################")
         return state
 
@@ -99,7 +178,8 @@ class Agent:
         # state.update({"sentiment": True})
         pushdb = state.get("push_to_db", False)
         if not pushdb:
-            raise Exception("Data not pushed to DB yet.")
+            print("Data not pushed to DB yet.")
+            return {"status": "Data not pushed to DB yet."}
         
         # Pause until API provides user approval
         approval = interrupt({"message": "Waiting for user approval..."})
@@ -110,29 +190,54 @@ class Agent:
     
     def push_to_calendar(self, state: State):
         if not state.get("sentiment", False):
-            raise Exception("User approval not received.")
+            print("User approval not received.")
+            return {"status": "User approval not received."}
         # Logic to push to calendar can be added here
-        certificate_numbers = state.get("certificate_number", [])
-        if not certificate_numbers: raise Exception("no certificate extracted")
-        data = {}
-        for certificate_number in certificate_numbers:
-            data = update_approval(certificate_number, state.get("username", ""))
-        state.update({"push_to_calendar": True})
         all_data = state.get("certificate_data", [])
-        url = os.getenv("SHEET_URL", "")
-        if not url:
-            print("No sheet url found")
-            print("################ push_to_calendar node is called #######################")
-            return state
+        data = {}
         if not all_data:
             print("No certificate data found")
             print("################ push_to_calendar node is called #######################")
             return state
+        for record in all_data:
+            intent = record.get("intent", "")
+            if not intent:
+                print("No intent found in the record")
+                return {"status": "No intent found in the record"}
+            if intent == "calibration_certificate":
+                pk = record["duc_id"]
+                data = update_approval(pk, state.get("username", ""), intent)
+                print("response from the update_approval func is ", data)
+            elif intent == "Warranty_claim":
+                pk = record["warranty_claim_no"]
+                data = update_approval(pk, state.get("username", ""), intent)
+                print("response from the update_approval func is ", data)
+        state.update({"push_to_calendar": True})
+        url = os.getenv("SHEET_URL", "")
+        warranty_url = os.getenv("WARRANTY_SHEET_URL", "")
+        
         for cert in all_data:
-            status = update_approval_in_sheet(url, cert.get("duc_id", ""))
-            print("the status after update_approval_in_sheet is ", status)
-        attempts = get_user_activity(state.get("username"))
-        print(attempts)
+            if cert["intent"] == "calibration_certificate":
+                cert.pop("intent", None)
+                if not url:
+                    print("No sheet url found")
+                    print("################ push_to_calendar node is called #######################")
+                    return state
+                cert["intent"] = "calibration_certificate"
+                status = update_approval_in_sheet(url, cert.get("duc_id", ""), pk_idx = 4)
+                print("the status after update_approval_in_sheet is ", status)
+            elif cert["intent"] == "Warranty_claim":
+                cert.pop("intent", None)
+                if not warranty_url:
+                    print("No warranty sheet url found")
+                    print("################ push_to_calendar node is called #######################")
+                    return state
+                cert["intent"] = "Warranty_claim"
+                status = update_approval_in_sheet(warranty_url, cert.get("warranty_claim_no", ""), pk_idx = 0)
+                print("the status after update_approval_in_sheet is ", status)
+
+        # attempts = get_user_activity(state.get("username"))
+        # print(attempts)
         # if not attempts.get("data", []):
         #     return state
         # if data and attempts.get("data", []) and attempts.get("data", [])[0][2] > 2:

@@ -257,18 +257,174 @@ Important: Include the value of all the keys in the schema, don't make it empty 
 
 """
 
+
+warranty_prompt = """
+You are given a text that may contain one or more warranty claim certificates.
+
+Your task:
+- Extract each certificate into a JSON object according to the schema.
+- Output a single JSON array, where each element is one certificate object.
+
+Rules:
+- Follow the schema exactly (no extra keys, no arrays inside certificates).
+- If a field is missing, use "" for strings and null for numbers.
+- Output **only** valid JSON. No explanations, no markdown, no comments.
+- Include the value of all the keys in the schema, don't make it empty or null
+
+Schema:
+{
+  "type": "object",
+  "properties": {
+    "warranty_claim_no": {"type": "string"},
+    "warranty_rejection_advice_no": {"type": "string"},
+    "supplementary_claim_reference": {"type": "string"},
+    "claim_date": {"type": "string"},
+    "po_contract_no": {"type": "string"},
+    "po_contract_date": {"type": "string"},
+    "depot_lodging_claim": {"type": "string"},
+    "consignee_code": {"type": "string"},
+    "consignee_reporting_rejection": {"type": "string"},
+    "sub_consignee": {"type": "string"},
+    "complaint_no": {"type": "string"},
+    "complaint_date": {"type": "string"},
+    "supplier_name": {"type": "string"},
+    "supplier_address": {"type": "string"},
+    "ireps_code": {"type": "string"},
+    "challan_no": {"type": "string"},
+    "challan_date": {"type": "string"},
+    "ic_no": {"type": "string"},
+    "ic_date": {"type": "string"},
+    "pl_item_code": {"type": "string"},
+    "inspection_by": {"type": "string"},
+    "vendor_approving_agency": {"type": "string"},
+    "description": {"type": "string"},
+    "make_brand": {"type": "string"},
+    "batch_product_slno": {"type": "string"},
+    "warranty_period": {"type": "string"},
+    "coach_no": {"type": "string"},
+    "qty_rejected": {"type": "number"},
+    "qty_rejected_words": {"type": "string"},
+    "reason_of_rejection": {"type": "string"},
+    "remarks": {"type": "string"},
+    "pu_remarks": {"type": "string"},
+    "rate_per_unit": {"type": "number"},
+    "claim_amount": {"type": "number"},
+    "head_allocation": {"type": "string"},
+    "recovery_advice": {"type": "string"},
+    "remarks_for_inspection_agency": {"type": "string"},
+    "paying_authority": {"type": "string"},
+    "shop_depot_official": {"type": "string"},
+    "controlling_officer_name": {"type": "string"},
+    "controlling_officer_email": {"type": "string"},
+    "warranty_voucher_date": {"type": "string"},
+    "drop_remarks": {"type": "string"},
+    "signatories": {"type": "string"}
+  },
+  "required": [
+    "warranty_claim_no",
+    "warranty_rejection_advice_no",
+    "claim_date",
+    "po_contract_no",
+    "po_contract_date",
+    "supplier_name",
+    "supplier_address",
+    "description",
+    "make_brand",
+    "qty_rejected",
+    "reason_of_rejection",
+    "rate_per_unit",
+    "claim_amount",
+    "head_allocation",
+    "recovery_advice",
+    "paying_authority",
+    "controlling_officer_name",
+    "controlling_officer_email",
+    "warranty_voucher_date",
+    "signatories"
+  ],
+  "additionalProperties": False
+}
+
+Standard Output Example:
+[
+  {
+    "warranty_claim_no": "866A-25-02659",
+    "warranty_rejection_advice_no": "866A-25-02947",
+    "supplementary_claim_reference": "Claim No. 866A-25-02659 dt. 22-06-2025",
+    "claim_date": "2025-06-22",
+    "po_contract_no": "06220087101681",
+    "po_contract_date": "2022-05-24",
+    "depot_lodging_claim": "OS/COMP (Consignee Code: 866A) - Integral Coach Factory",
+    "consignee_code": "63344",
+    "consignee_reporting_rejection": "CDO/NR/VARANASI",
+    "sub_consignee": "CMM",
+    "complaint_no": "1155658",
+    "complaint_date": "2025-06-04",
+    "supplier_name": "PRAG POLYMERS-LUCKNOW",
+    "supplier_address": "B-1, Talkatora Industrial Estate, Lucknow, Uttar Pradesh - 226011, India",
+    "ireps_code": "61723",
+    "challan_no": "03705",
+    "challan_date": "2024-05-07",
+    "ic_no": "N/ICF/N22050680/PKG",
+    "ic_date": "2024-02-02",
+    "pl_item_code": "31560271",
+    "inspection_by": "RITES",
+    "vendor_approving_agency": "ICF",
+    "description": "Automatic Sliding Door for Train-18 Coaches",
+    "make_brand": "PRAG POLYMERS-LUCKNOW",
+    "batch_product_slno": "",
+    "warranty_period": "As per PO",
+    "coach_no": "NR242634",
+    "qty_rejected": 1,
+    "qty_rejected_words": "Only One Set",
+    "reason_of_rejection": "Sealing arrangement viz. bristles, rubber beading etc not provided",
+    "remarks": "",
+    "pu_remarks": "Within the warranty period as per PO specifications, hence accepted.",
+    "rate_per_unit": 10577565.50,
+    "claim_amount": 10577565.50,
+    "head_allocation": "20712205",
+    "recovery_advice": "Any Paying Authority across IR may take action for with-holding, recovery etc.",
+    "remarks_for_inspection_agency": "RITES may take necessary action against Inspecting Officials",
+    "paying_authority": "All Paying Authority across IR",
+    "shop_depot_official": "MOHAMED SACKLA",
+    "controlling_officer_name": "SATHYANARAYANARAO RAVI KUMAR",
+    "controlling_officer_email": "dycmmfd@icf.railnet.gov.in",
+    "warranty_voucher_date": "2025-06-26",
+    "drop_remarks": "",
+    "signatories": "MOHAMED SACKLA; SATHYANARAYANARAO RAVI KUMAR"
+  }
+]
+
+"""
+
 import json
 import re
 
 allCertificate_number = []
 
 def get_certificate_data(all_cert_text):
-    response = client.responses.create(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
-        instructions=prompt,
-        input=all_cert_text,
-        
-    )
+    intent = get_intent(all_cert_text)
+    print()
+    print()
+    print("The intent recieved is ", intent)
+    print()
+    print()
+    if intent == "calibration_certificate":
+        response = client.responses.create(
+            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            instructions=prompt,
+            input=all_cert_text,
+        )
+    elif intent == "Warranty_claim":
+        response = client.responses.create(
+            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            instructions=warranty_prompt,
+            input=all_cert_text,
+        )
+    else:
+        print("❌ Unknown intent, cannot process")
+        return []
+    
     raw_text = response.output_text.strip()
     # 🔹 Remove markdown fences like ```json ... ```
     raw_text = re.sub(r"```(json)?", "", raw_text).strip()
@@ -278,23 +434,65 @@ def get_certificate_data(all_cert_text):
     for obj in json_objects:
         try:
             parsed = json.loads(obj)
+            parsed["intent"] = intent
             certificates_list.append(parsed)
         except Exception as e:
             print("⚠️ Could not parse an object:", e)
-            certificates_list.append({"raw_text": obj})
+            certificates_list.append({"raw_text": obj, "intent": "unknown"})
 
     # # Save as one clean JSON array
     # with open("new2_all_certificatesModelOSS.json", "w", encoding="utf-8") as f:
     #     json.dump(certificates_list, f, indent=4, ensure_ascii=False)
 
     print(f"✅ Extracted {len(certificates_list)} certificates")
-    for certi in certificates_list:
-        allCertificate_number.append(certi["certificate_number"])
+    # for certi in certificates_list:
+    #     allCertificate_number.append(certi["certificate_number"])
     return certificates_list
 
 
 def get_all_certificate_numbers():
     return allCertificate_number
+
+
+def get_intent(text: str):
+    intent_prompt = """
+        You are an intent classification model. 
+        Classify the intent of the given text into one of these categories:
+        - "calibration_certificate": If the text contains calibration certificate data.
+        - "Warranty_claim": If the text contains warranty claim or warranty claim rejection information.
+
+        Only respond with: calibration_certificate or Warranty_claim.
+
+        Examples:
+
+        Text: "Calibration Certificate No: 12345 issued for pressure gauge..."
+        Intent: calibration_certificate
+
+        Text: "Warranty Claim No: WC-789 regarding rejected components..."
+        Intent: Warranty_claim
+
+        Text: "This is to certify that the thermometer has been calibrated successfully."
+        Intent: calibration_certificate
+
+        Text: "Warranty Rejection Advice No: WRA-456 against claim WC-123."
+        Intent: Warranty_claim
+
+        Now classify the following text:
+        {text}
+    """
+
+    response = client.responses.create(
+        model="meta-llama/llama-4-scout-17b-16e-instruct",
+        instructions=intent_prompt,
+        input=text,
+    )
+    intent = response.output_text.strip().lower()
+    if "calibration" in intent:
+        return "calibration_certificate"
+    elif "warranty" in intent:
+        return "Warranty_claim"
+    else:
+        return "unknown"
 
 
 def get_worksheet_from_url(url):

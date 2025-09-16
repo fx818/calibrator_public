@@ -37,6 +37,7 @@ initial_state = State(
     push_to_calendar=None,
     curr_node="",
     prev_node="",
+    role="",
 )
 
 app = FastAPI()
@@ -86,6 +87,7 @@ CLIENT_SECRET = os.getenv(
 # REDIRECT_URI = "https://calibration.prossimatech.com/auth/callback"
 REDIRECT_URI = "http://127.0.0.1:8000/auth/callback"
 FRONTEND_URL = "https://fx818.github.io/frontend_calibrator/testpage2.html" # Separate frontend
+ROLE_FRONTEND_URL = "https://fx818.github.io/frontend_calibrator/user_role.html" # Separate frontend
 SCOPES = [
     "https://mail.google.com/",
     "https://www.googleapis.com/auth/calendar",
@@ -190,7 +192,7 @@ def redirect_to_frontend():
     <html>
       <head>
         <script>
-          window.location.href = "{FRONTEND_URL}";
+          window.location.href = "{ROLE_FRONTEND_URL}";
         </script>
       </head>
       <body>
@@ -343,6 +345,24 @@ from pydantic import BaseModel
 @app.get("/")
 def read_root():
     return {"status": "API is running"}
+
+@app.post("/define_role")
+def define_role(role: str):
+    """Define the role for the agent"""
+    email = initial_state.get("username", "")
+    if not email: 
+        return {"error": "You need to be logged in to define role"}
+    try:
+        add_user(email, role)
+        print("User added to DB with role:", role)
+    except Exception as e:
+        print("Error adding user to DB:", str(e))
+        return {"error": "Failed to add user to DB"}
+    
+    initial_state["role"] = role
+    print("Role set to:", role)
+    
+    return {"success": True, "message": f"Role set to {role}", "redirect_url": FRONTEND_URL}
 class ExtractRequest(BaseModel):
     username: str
     vendor_email: str
@@ -353,13 +373,13 @@ def extract_certificates():
     """Start workflow: fetch → extract → push DB → wait for approval"""
     try:
         username = initial_state.get("username", "")
-        if not username:
-            raise ValueError("You need to login bro.")
-        status = add_user(username)
+        role = initial_state.get("role", "")
+        if not username or not role:
+            raise ValueError("You need to login bro, email or role is not set")
+        status = add_user(username, role)
         # if status.get("exist"):
         # increment_attempts(username)
         print("user added in the db")
-        print("res.username is ")
         result = {}
         print("######################################################################################################")
         result = compiled_graph.invoke(initial_state, config=thread_config)
@@ -367,7 +387,7 @@ def extract_certificates():
         raw_certs = result.get("certificate_data", []) or []
         certificates = [
             {
-                "certificate_number": cert if isinstance(cert, str) else cert.get("certificate_number"),
+                "certificate_number": cert if isinstance(cert, str) else cert.get("certificate_number", ""),
                 "status": "pending",
             }
             for cert in raw_certs
@@ -418,9 +438,11 @@ def take_approval(user_input: str):
 @app.post("/get_calibrated_data")
 def get_calibrated_data():
     email = initial_state.get("username", "")
-    if not email:
-        raise ValueError("You need to be logged in to see the data")
-    data = get_calibrated_data_from_db(email)
+    role = initial_state.get("role", "")
+    print("the role is ", role)
+    if not email or not role:
+        raise ValueError("You need to be logged in to see the data or the role is not set")
+    data = get_calibrated_data_from_db(email, role)
     print("the data is ", data)
     return {
         "data": data
@@ -431,9 +453,12 @@ def delete_records(pk: str):
     email = initial_state.get("username", "")
     if not email:
         raise ValueError("You need to be logged in to see the data")
-    data = delete_calibrated_data_from_db(pk, email)
+    data, intent = delete_calibrated_data_from_db(pk, email)
     print("The data that is to be inserted in the deleteddb is ", data)
-    deleted_push_data(data, email)
+    if intent == 'calibration_certificate':
+        deleted_push_data(data, email)
+    elif intent == "Warranty_claim":
+        print("you have to delete the warranty claim ",pk)
     print("the data is ", data)
     return {
         "data": data
