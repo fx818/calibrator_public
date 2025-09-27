@@ -4,212 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Role Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.2em;
-            font-weight: 300;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .role-selector {
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            color: #444;
-            font-weight: 500;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        select {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: white;
-            color: #333;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            padding-right: 50px;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        select:hover {
-            border-color: #667eea;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            min-width: 150px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 500;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .message.show {
-            opacity: 1;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
-
-        .api-config {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .api-config input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .api-config label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
+        .spinner {
+            animation: spin 1s linear infinite;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Agent Role Manager</h1>
-        <p class="subtitle">Select and configure the agent's role</p>
-        
-        <div class="api-config">
-            <label for="apiUrl">API Base URL:</label>
-            <input type="text" id="apiUrl" value="http://localhost:8000" placeholder="http://localhost:8000">
-        </div>
+<body class="bg-slate-50 dark:bg-slate-900 flex items-center justify-center min-h-screen p-4">
 
-        <form id="roleForm">
-            <div class="role-selector">
-                <label for="roleSelect">Choose Agent Role:</label>
-                <select id="roleSelect" required>
-                    <option value="">-- Select a Role --</option>
-                    <option value="calibration_manager">Calibration Manager</option>
-                    <option value="warranty_claim_manager">Warranty Claim Manager</option>
-                    <option value="maintenance_coordinator">Maintenance Coordinator</option>
-                    <option value="inventory_manager">Inventory Manager</option>
-                    <option value="quality_assurance">Quality Assurance</option>
-                    <option value="customer_support">Customer Support</option>
-                </select>
+    <div class="w-full max-w-md">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
+            <div class="p-6 md:p-8 text-center border-b border-slate-200 dark:border-slate-700">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Select Your Role</h1>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Choose your designated role to proceed to the dashboard.</p>
             </div>
             
-            <button type="submit" class="submit-btn" id="submitBtn">
-                Set Role
-            </button>
-        </form>
-        
-        <div id="message" class="message"></div>
+            <form id="roleForm" class="p-6 md:p-8">
+                <div class="mb-6">
+                    <label for="roleSelect" class="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300">Agent Role</label>
+                    <select id="roleSelect" required class="mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200 shadow-sm ring-1 ring-inset ring-slate-300 dark:ring-slate-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <option value="">-- Select a Role --</option>
+                        <option value="calibration_manager">Calibration Manager</option>
+                        <option value="warranty_claim_manager">Warranty Claim Manager</option>
+                        <option value="maintenance_coordinator">Maintenance Coordinator</option>
+                        <option value="inventory_manager">Inventory Manager</option>
+                        <option value="quality_assurance">Quality Assurance</option>
+                        <option value="customer_support">Customer Support</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-6 rounded-lg disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors" id="submitBtn">
+                    Set Role & Continue
+                </button>
+            </form>
+            
+            <div class="px-6 md:px-8 pb-6">
+                <div id="message" class="hidden"></div>
+            </div>
+        </div>
+        <div class="text-center mt-6">
+            <a href="/" class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:underline">Back to Login</a>
+        </div>
     </div>
 
     <script>
@@ -217,47 +63,50 @@
         const roleSelect = document.getElementById('roleSelect');
         const submitBtn = document.getElementById('submitBtn');
         const messageDiv = document.getElementById('message');
-        const apiUrlInput = document.getElementById('apiUrl');
-        const API_BASE_URL = "http://127.0.0.1:8000"
+        const API_BASE_URL = "http://127.0.0.1:8000";
+
         function showMessage(text, type = 'success') {
+            const typeMap = {
+                success: { bg: 'bg-green-50 dark:bg-green-900/50', text: 'text-green-800 dark:text-green-200' },
+                error: { bg: 'bg-red-50 dark:bg-red-900/50', text: 'text-red-800 dark:text-red-200' }
+            };
+            const config = typeMap[type];
             messageDiv.textContent = text;
-            messageDiv.className = `message ${type} show`;
+            messageDiv.className = `p-4 rounded-lg text-center font-medium text-sm ${config.bg} ${config.text}`;
+            messageDiv.classList.remove('hidden');
             
             setTimeout(() => {
-                messageDiv.classList.remove('show');
+                messageDiv.classList.add('hidden');
             }, 5000);
         }
 
         function showLoading() {
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loading"></span>Setting Role...';
+            submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Setting Role...`;
         }
 
         function hideLoading() {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Set Role';
+            submitBtn.innerHTML = 'Set Role & Continue';
         }
+
         async function submitRole(selectedRole) {
             try {
                 showLoading();
-                const API_BASE_URL = "http://127.0.0.1:8000";
-                
-                // Build URL with role as query parameter
                 const url = `${API_BASE_URL}/define_role?role=${encodeURIComponent(selectedRole)}`;
                 
                 const response = await fetch(url, {
                     method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                    }
+                    headers: { 'Accept': 'application/json' },
+                    credentials: 'include' // Important for sending session cookies
                 });
         
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorData = await response.json().catch(() => ({ error: `HTTP error! Status: ${response.status}` }));
+                    throw new Error(errorData.error || `HTTP error! Status: ${response.status}`);
                 }
         
                 const data = await response.json();
-                console.log('Response data:', data); // Debug log
                 
                 if (data.error) {
                     throw new Error(data.error);
@@ -265,16 +114,13 @@
                 
                 if (data.success) {
                     showMessage(data.message || `Role successfully set to: ${selectedRole}`, 'success');
-                    
-                    // Check if redirect_url exists and redirect
                     if (data.redirect_url) {
-                        console.log('Redirecting to:', data.redirect_url); // Debug log
                         setTimeout(() => {
                             window.location.href = data.redirect_url;
-                        }, 1500); // Reduced timeout for faster redirect
+                        }, 1500);
                     }
                 } else {
-                    showMessage(data.message || `Role set to: ${selectedRole}`, 'success');
+                    showMessage(data.message || `An unknown issue occurred.`, 'error');
                 }
                 
             } catch (error) {
@@ -304,3 +150,4 @@
     </script>
 </body>
 </html>
+

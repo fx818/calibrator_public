@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Calibrated Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Simple transition for table rows */
+        tbody tr {
+            transition: background-color 0.15s ease-in-out;
+        }
+        /* Styles for the confirmation modal */
+        .modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-panel {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <!-- Page Header -->
+        <header class="flex items-center justify-between mb-8">
+            <div>
+                <h1 id="pageTitle" class="text-3xl font-bold text-gray-900">Approved Records</h1>
+                <p class="mt-1 text-gray-600">Browse and search through all approved records.</p>
+            </div>
+            <a href="/static/home.html" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back to Home
+            </a>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="bg-white rounded-2xl shadow-lg border border-gray-200">
+            <!-- Filters and Search Bar -->
+            <div class="p-4 md:p-6 border-b border-gray-200">
+                 <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Filters</h2>
+                    <button id="download-csv-btn" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline disabled:text-gray-400 disabled:no-underline disabled:cursor-not-allowed">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        Download CSV
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="search-input" class="sr-only">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input type="search" id="search-input" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Search records...">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="column-filter" class="sr-only">Filter by column</label>
+                        <select id="column-filter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <!-- Filter options will be populated by JS -->
+                        </select>
+                    </div>
+                </div>
+                <div id="date-filter-container" class="hidden grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <select id="date-column-filter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                        <!-- Date column options -->
+                    </select>
+                    <input type="date" id="start-date-filter" class="block w-full border-gray-300 rounded-md sm:text-sm focus:ring-blue-500 focus:border-blue-500">
+                    <input type="date" id="end-date-filter" class="block w-full border-gray-300 rounded-md sm:text-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                 <div class="mt-4">
+                    <button id="reset-filters-btn" class="text-sm font-semibold text-gray-600 hover:text-blue-600">Reset Filters</button>
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50" id="table-header">
+                        <!-- Table headers will be dynamically inserted here -->
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="table-body">
+                        <!-- Table rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Loading and No Data States -->
+            <div id="loading-state" class="hidden text-center p-10 text-gray-500">
+                <p>Loading records...</p>
+            </div>
+            <div id="no-data-state" class="hidden text-center p-10 text-gray-500">
+                <p>No approved records found.</p>
+            </div>
+             <div id="error-state" class="hidden text-center p-10 text-red-600">
+                <p id="error-message"></p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Deletion Confirmation Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div id="delete-modal-backdrop" class="fixed inset-0 bg-gray-500 bg-opacity-75 modal-backdrop" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div id="delete-modal-panel" class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full modal-panel">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Delete Record</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">Are you sure you want to delete this record? This action cannot be undone.</p>
+                                <p id="modal-error" class="text-sm text-red-500 mt-2"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="confirm-delete-btn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Delete
+                    </button>
+                    <button type="button" id="cancel-delete-btn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let originalData = [];
+            let filteredData = [];
+            let columnDefinitions = [];
+
+            const userRole = localStorage.getItem('userRole');
+            const pageTitle = document.getElementById('pageTitle');
+            const searchInput = document.getElementById('search-input');
+            const columnFilter = document.getElementById('column-filter');
+            const tableHeader = document.getElementById('table-header');
+            const tableBody = document.getElementById('table-body');
+            const loadingState = document.getElementById('loading-state');
+            const noDataState = document.getElementById('no-data-state');
+            const errorState = document.getElementById('error-state');
+            const errorMessage = document.getElementById('error-message');
+            
+            const dateFilterContainer = document.getElementById('date-filter-container');
+            const dateColumnFilter = document.getElementById('date-column-filter');
+            const startDateFilter = document.getElementById('start-date-filter');
+            const endDateFilter = document.getElementById('end-date-filter');
+            const resetFiltersBtn = document.getElementById('reset-filters-btn');
+            const downloadCsvBtn = document.getElementById('download-csv-btn');
+            
+            const deleteModal = document.getElementById('delete-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+            const modalError = document.getElementById('modal-error');
+
+            const roleConfigs = {
+                calibration_manager: {
+                    title: 'Approved Calibration Certificates',
+                    filterColumn: { key: 'customer_name', name: 'Customer' },
+                    columns: [
+                        { key: 'certificate_number', name: 'Certificate No.' },
+                        { key: 'customer_name', name: 'Customer' },
+                        { key: 'duc_id', name: 'DUC ID', isId: true },
+                        { key: 'standard_equipment_name', name: 'Standard Equipment' },
+                        { key: 'calibration_date_received', name: 'Date Received', isDate: true },
+                        { key: 'calibration_next_due', name: 'Next Due Date', isDate: true }
+                    ]
+                },
+                warranty_claim_manager: {
+                    title: 'Approved Warranty Claims',
+                    filterColumn: { key: 'supplier_name', name: 'Supplier' },
+                    columns: [
+                        { key: 'warranty_claim_no', name: 'Claim No.', isId: true },
+                        { key: 'supplier_name', name: 'Supplier' },
+                        { key: 'ic_no', name: 'IC No.' },
+                        { key: 'inspection_by', name: 'Inspected By' },
+                        { key: 'claim_date', name: 'Claim Date', isDate: true },
+                        { key: 'qty_rejected', name: 'Qty Rejected' }
+                    ]
+                }
+            };
+            
+            async function fetchData() {
+                loadingState.classList.remove('hidden');
+                downloadCsvBtn.disabled = true;
+                try {
+                    const response = await fetch('/get_calibrated_data', {
+                         method: 'POST',
+                         headers: { 'Accept': 'application/json' }
+                    });
+                    if (!response.ok) {
+                        const errorResult = await response.json().catch(() => null);
+                        throw new Error(errorResult?.error || `HTTP error! Status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    originalData = result.data || [];
+                    filteredData = [...originalData];
+
+                    if (originalData.length > 0) {
+                        setupFilters();
+                        renderTable(originalData);
+                        downloadCsvBtn.disabled = false;
+                    } else {
+                        noDataState.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch data:", error);
+                    errorMessage.textContent = `Failed to load data: ${error.message}`;
+                    errorState.classList.remove('hidden');
+                } finally {
+                    loadingState.classList.add('hidden');
+                }
+            }
+            
+            function setupUI() {
+                const config = roleConfigs[userRole];
+                if (!config) {
+                    console.error('Invalid user role');
+                    errorMessage.textContent = 'Invalid user role specified.';
+                    errorState.classList.remove('hidden');
+                    return;
+                }
+                pageTitle.textContent = config.title;
+                columnDefinitions = config.columns;
+
+                tableHeader.innerHTML = `<tr>${columnDefinitions.map(col => `<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${col.name}</th>`).join('')}<th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th></tr>`;
+            }
+
+            function setupFilters() {
+                const config = roleConfigs[userRole];
+                const filterKey = config.filterColumn.key;
+                
+                const uniqueValues = [...new Set(originalData.map(item => item[filterKey]).filter(Boolean))];
+                uniqueValues.sort();
+                columnFilter.innerHTML = `<option value="">Filter by ${config.filterColumn.name}...</option>`;
+                uniqueValues.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = value;
+                    columnFilter.appendChild(option);
+                });
+
+                const dateColumns = columnDefinitions.filter(c => c.isDate);
+                if (dateColumns.length > 0) {
+                    dateFilterContainer.classList.remove('hidden');
+                    dateFilterContainer.classList.add('grid');
+                    dateColumnFilter.innerHTML = `<option value="">Select date column...</option>`;
+                    dateColumns.forEach(col => {
+                         const option = document.createElement('option');
+                         option.value = col.key;
+                         option.textContent = col.name;
+                         dateColumnFilter.appendChild(option);
+                    });
+                }
+            }
+
+            function renderTable(data) {
+                tableBody.innerHTML = '';
+                if (data.length === 0) {
+                     tableBody.innerHTML = `<tr><td colspan="${columnDefinitions.length + 1}" class="px-6 py-4 text-center text-sm text-gray-500">No matching records found.</td></tr>`;
+                     downloadCsvBtn.disabled = true;
+                     return;
+                }
+                downloadCsvBtn.disabled = false;
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-gray-50";
+                    
+                    const idKey = columnDefinitions.find(c => c.isId)?.key;
+                    const recordId = idKey ? item[idKey] : null;
+
+                    let cells = '';
+                    columnDefinitions.forEach(col => {
+                        const value = item[col.key] || 'N/A';
+                        cells += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${value}</td>`;
+                    });
+                    
+                    const deleteButton = recordId ? `<button data-pk="${recordId}" class="delete-btn font-medium text-red-600 hover:text-red-800 hover:underline">Delete</button>` : '';
+                    cells += `<td class="px-6 py-4 whitespace-nowrap text-sm text-right">${deleteButton}</td>`;
+
+                    row.innerHTML = cells;
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            function applyFilters() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filterValue = columnFilter.value;
+                const config = roleConfigs[userRole];
+                
+                const dateCol = dateColumnFilter.value;
+                const startDate = startDateFilter.value ? new Date(startDateFilter.value) : null;
+                const endDate = endDateFilter.value ? new Date(endDateFilter.value) : null;
+                if(startDate) startDate.setHours(0,0,0,0);
+                if(endDate) endDate.setHours(23,59,59,999);
+
+                filteredData = originalData.filter(item => {
+                    const matchesFilter = !filterValue || item[config.filterColumn.key] === filterValue;
+                    
+                    const matchesSearch = !searchTerm || Object.values(item).some(val => 
+                        String(val).toLowerCase().includes(searchTerm)
+                    );
+                    
+                    let matchesDate = true;
+                    if (dateCol && (startDate || endDate)) {
+                        const itemDateValue = item[dateCol];
+                        if (itemDateValue) {
+                           try {
+                               const itemDate = new Date(itemDateValue);
+                               if (!isNaN(itemDate)) {
+                                   const startsAfter = !startDate || itemDate >= startDate;
+                                   const endsBefore = !endDate || itemDate <= endDate;
+                                   matchesDate = startsAfter && endsBefore;
+                               } else { matchesDate = false; }
+                           } catch (e) { matchesDate = false; }
+                        } else { matchesDate = false; }
+                    }
+
+                    return matchesFilter && matchesSearch && matchesDate;
+                });
+                
+                renderTable(filteredData);
+            }
+
+            function showDeleteModal(pk) {
+                modalError.textContent = '';
+                confirmDeleteBtn.dataset.pk = pk;
+                deleteModal.classList.remove('hidden');
+            }
+
+            function hideDeleteModal() {
+                deleteModal.classList.add('hidden');
+            }
+
+            async function deleteRecord(pk) {
+                confirmDeleteBtn.disabled = true;
+                confirmDeleteBtn.textContent = 'Deleting...';
+                modalError.textContent = '';
+
+                try {
+                    const response = await fetch(`/delete_records?pk=${encodeURIComponent(pk)}`, {
+                        method: 'DELETE',
+                        headers: { 'Accept': 'application/json' },
+                    });
+                    if (!response.ok) {
+                        const err = await response.json().catch(() => ({error: 'Failed to delete.'}));
+                        throw new Error(err.error || `HTTP error! Status: ${response.status}`);
+                    }
+                    
+                    originalData = originalData.filter(item => {
+                        const idKey = columnDefinitions.find(c => c.isId)?.key;
+                        return item[idKey] != pk;
+                    });
+                    applyFilters(); 
+                    setupFilters(); 
+                    hideDeleteModal();
+
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    modalError.textContent = `Error: ${error.message}`;
+                } finally {
+                    confirmDeleteBtn.disabled = false;
+                    confirmDeleteBtn.textContent = 'Delete';
+                }
+            }
+
+            function resetFilters() {
+                searchInput.value = '';
+                columnFilter.value = '';
+                dateColumnFilter.value = '';
+                startDateFilter.value = '';
+                endDateFilter.value = '';
+                applyFilters();
+            }
+
+            function downloadCSV() {
+                const headers = columnDefinitions.map(c => c.name);
+                const keys = columnDefinitions.map(c => c.key);
+
+                const csvRows = [
+                    headers.join(','), 
+                    ...filteredData.map(row => 
+                        keys.map(key => {
+                            let cellValue = row[key] === null || row[key] === undefined ? '' : row[key];
+                            const colDef = columnDefinitions.find(c => c.key === key);
+
+                            if (colDef && colDef.isDate && cellValue) {
+                                // Assuming date is in a format JS can parse (like YYYY-MM-DD)
+                                const dateStr = String(cellValue).split('T')[0]; // Handle ISO strings
+                                const parts = dateStr.split('-');
+                                if (parts.length === 3) {
+                                    // Reformat to MM/DD/YYYY for better CSV compatibility
+                                    cellValue = `${parts[1]}/${parts[2]}/${parts[0]}`;
+                                }
+                            }
+                            
+                            let cell = String(cellValue);
+                            cell = cell.includes(',') ? `"${cell}"` : cell;
+                            return cell;
+                        }).join(',')
+                    )
+                ];
+                
+                const csvString = csvRows.join('\n');
+                const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+                
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                const fileName = `${userRole}_data_${new Date().toISOString().split('T')[0]}.csv`;
+                link.setAttribute('download', fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            setupUI();
+            if (roleConfigs[userRole]) {
+                fetchData();
+            }
+
+            // Event Listeners
+            [searchInput, columnFilter, dateColumnFilter, startDateFilter, endDateFilter].forEach(el => {
+                el.addEventListener('input', applyFilters);
+                el.addEventListener('change', applyFilters);
+            });
+
+            resetFiltersBtn.addEventListener('click', resetFilters);
+            downloadCsvBtn.addEventListener('click', downloadCSV);
+
+            tableBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const pk = e.target.dataset.pk;
+                    if (pk) showDeleteModal(pk);
+                }
+            });
+
+            cancelDeleteBtn.addEventListener('click', hideDeleteModal);
+            document.getElementById('delete-modal-backdrop').addEventListener('click', hideDeleteModal);
+            confirmDeleteBtn.addEventListener('click', () => {
+                const pk = confirmDeleteBtn.dataset.pk;
+                if (pk) deleteRecord(pk);
+            });
+        });
+    </script>
+</body>
+</html>
+

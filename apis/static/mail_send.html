@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Scheduler</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Important */
+            font-size: 1rem;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #response-message {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 4px;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        .success {
+            background-color: #eaf7e9;
+            color: #4caf50;
+        }
+        .error {
+            background-color: #fce8e6;
+            color: #e74c3c;
+        }
+        .warning {
+            font-size: 0.8rem;
+            color: #e67e22;
+            text-align: center;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Schedule a Gmail Message</h1>
+        <form id="schedule-form">
+            <div class="form-group">
+                <label for="receiver_email">Recipient's Email:</label>
+                <input type="email" id="receiver_email" name="receiver_email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="body">Message Body:</label>
+                <textarea id="body" name="body" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="send_at">Schedule for:</label>
+                <input type="datetime-local" id="send_at" name="send_at" required>
+            </div>
+            <div class="form-group">
+                <label for="token_data">User Token Data (JSON):</label>
+                <textarea id="token_data" name="token_data" required></textarea>
+                <p class="warning">⚠️ For demo only. Never expose tokens in a real frontend application.</p>
+            </div>
+            <button type="submit">Schedule Email</button>
+        </form>
+        <div id="response-message"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('schedule-form');
+        const responseMessageDiv = document.getElementById('response-message');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Stop the default form submission
+
+            // Clear previous messages
+            responseMessageDiv.style.display = 'none';
+            responseMessageDiv.textContent = '';
+            responseMessageDiv.className = '';
+
+            // 1. Get data from the form
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // 2. Prepare the payload for the API
+            let payload;
+            try {
+                // The 'send_at' value from datetime-local is already in a format
+                // that FastAPI can understand. We just need to add 'Z' to specify UTC.
+                const sendAtISO = data.send_at + ":00Z";
+
+                payload = {
+                    receiver_email: data.receiver_email,
+                    subject: data.subject,
+                    body: data.body,
+                    send_at: sendAtISO,
+                    token_data: JSON.parse(data.token_data) // Parse the token string into an object
+                };
+            } catch (error) {
+                showResponseMessage('Error: The Token Data is not valid JSON.', 'error');
+                return;
+            }
+
+            // 3. Send data to the FastAPI endpoint
+            try {
+                const response = await fetch('/schedule-gmail-redis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showResponseMessage(result.message, 'success');
+                    form.reset(); // Clear the form on success
+                } else {
+                    // Show detailed error from FastAPI if available
+                    const errorDetail = result.detail || 'An unknown error occurred.';
+                    showResponseMessage(`Error: ${errorDetail}`, 'error');
+                }
+            } catch (error) {
+                showResponseMessage('Network error or server is down.', 'error');
+            }
+        });
+
+        function showResponseMessage(message, type) {
+            responseMessageDiv.textContent = message;
+            responseMessageDiv.className = type; // 'success' or 'error'
+            responseMessageDiv.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

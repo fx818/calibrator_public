@@ -5,19 +5,42 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 
-creds_file_path = '../utils/credentials.json'
+# creds_file_path = '../utils/credentials.json'
+
+# def get_worksheet_from_url(url):
+#     scopes = [
+#         "https://www.googleapis.com/auth/spreadsheets"
+#     ]
+#     creds = Credentials.from_service_account_file(creds_file_path, scopes=scopes)
+#     print("-------Credentials Set-------")
+#     client = gspread.authorize(creds)
+#     print("-------Authorised-------")
+#     print("the url is ", url)
+#     sheet = client.open_by_url(url)
+#     return sheet.sheet1
+
+# In your main application file (e.g., main.py)
+
+from .gspread_client import get_gspread_client # Import the new function
 
 def get_worksheet_from_url(url):
-    scopes = [
-        "https://www.googleapis.com/auth/spreadsheets"
-    ]
-    creds = Credentials.from_service_account_file(creds_file_path, scopes=scopes)
-    print("-------Credentials Set-------")
-    client = gspread.authorize(creds)
-    print("-------Authorised-------")
-    print("the url is ", url)
-    sheet = client.open_by_url(url)
-    return sheet.sheet1
+    """
+    Gets a worksheet from a URL using the shared, pre-authorized gspread client.
+    This is fast and efficient.
+    """
+    try:
+        # Get the single, shared client instance. 
+        # This will be instant after the first call.
+        client = get_gspread_client()
+        
+        # Open the sheet and return the first worksheet
+        sheet = client.open_by_url(url)
+        return sheet.sheet1
+    except Exception as e:
+        # It's good practice to log the error
+        print(f"An error occurred while accessing Google Sheet: {e}")
+        # Depending on your app's logic, you might want to return None or raise the exception
+        return None
 
 def get_data_from_sheet(url):
     worksheet = get_worksheet_from_url(url)
@@ -162,7 +185,7 @@ def update_sheet_with_certificates(url, certificates):
 # certificates = get_certificate_data(all_cert_text)
 # status = update_sheet_with_certificates(url, certificates)
 # print(status)
-# url = os.getenv("WARRANTY_SHEET_URL", "")
-# if not url:
-#     print("No warranty sheet url found")
-# print(get_worksheet_from_url(url))
+url = os.getenv("WARRANTY_SHEET_URL", "https://docs.google.com/spreadsheets/d/1yzCuxbA2p0dn4fqHYB_aH-80e868I35i-RG2oZXAYXM")
+if not url:
+    print("No warranty sheet url found")
+print(get_worksheet_from_url(url))

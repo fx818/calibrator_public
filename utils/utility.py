@@ -440,6 +440,7 @@ def get_certificate_data(all_cert_text):
             print("⚠️ Could not parse an object:", e)
             certificates_list.append({"raw_text": obj, "intent": "unknown"})
 
+    
     # # Save as one clean JSON array
     # with open("new2_all_certificatesModelOSS.json", "w", encoding="utf-8") as f:
     #     json.dump(certificates_list, f, indent=4, ensure_ascii=False)

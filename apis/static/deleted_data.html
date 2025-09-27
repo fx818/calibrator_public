@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Out of life Docs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        /* Custom Scrollbar Styling */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Header -->
+        <header class="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900">Out Of Life Equipments</h1>
+                <p id="role-display" class="mt-2 text-lg text-gray-600">Detecting user role...</p>
+            </div>
+            <div class="flex items-center gap-4">
+                 <a href="/static/home.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                     </svg>
+                     Go to Home
+                 </a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Data Viewing Section -->
+            <section class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Expired Records</span>
+                </h2>
+                
+                <!-- This is where the table or status message will be injected by JavaScript -->
+                <div id="data-container" class="mt-6">
+                     <div class="text-center p-10 border-2 border-dashed rounded-lg text-gray-500 bg-gray-50">
+                        <div class="w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full spinner mx-auto mb-4"></div>
+                        <p>Loading data...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // --- Column Definitions for Each Role ---
+
+        const calibrationColumns = [
+            { key: 'certificate_number', displayName: 'Certificate No.' },
+            { key: 'customer_name', displayName: 'Customer' },
+            { key: 'duc_id', displayName: 'DUC ID' },
+            { key: 'standard_equipment_name', displayName: 'Standard Equipment' },
+            { key: 'calibration_date_received', displayName: 'Date Received' },
+            { key: 'calibration_next_due', displayName: 'Next Due Date' }
+        ];
+
+        const warrantyColumns = [
+            { key: 'warranty_claim_no', displayName: 'Claim No.' },
+            { key: 'supplier_name', displayName: 'Supplier' },
+            { key: 'ic_no', displayName: 'IC No.' },
+            { key: 'inspection_by', displayName: 'Inspected By' },
+            { key: 'claim_date', displayName: 'Claim Date' },
+            { key: 'qty_rejected', displayName: 'Qty Rejected' }
+        ];
+        
+        // --- Main Logic on Page Load ---
+
+        window.onload = async function() {
+            const dataContainer = document.getElementById('data-container');
+            const roleDisplay = document.getElementById('role-display');
+
+            // 1. Get user role from localStorage
+            const userRole = localStorage.getItem('userRole'); // 'calibration_manager' or 'warranty_claim_manager'
+
+            let desiredColumns;
+            let roleName;
+
+            if (userRole === 'calibration_manager') {
+                desiredColumns = calibrationColumns;
+                roleName = 'Calibration Manager';
+            } else if (userRole === 'warranty_claim_manager') {
+                desiredColumns = warrantyColumns;
+                roleName = 'Warranty Claim Manager';
+            } else {
+                roleDisplay.textContent = 'No role defined.';
+                dataContainer.innerHTML = createStatusMessageHTML('Error: User role not found in localStorage. Please login and set a role.');
+                return;
+            }
+
+            roleDisplay.textContent = `Viewing as: ${roleName}`;
+
+            // 2. Fetch data from the endpoint
+            try {
+                const response = await fetch('/get_deleted_data');
+                const result = await response.json();
+
+                if (!response.ok) {
+                    const errorMessage = result.status || 'Failed to load data. Please try again.';
+                    throw new Error(errorMessage);
+                }
+
+                const data = result.data;
+
+                if (!data || data.length === 0) {
+                    dataContainer.innerHTML = createStatusMessageHTML('No deleted records found.');
+                    return;
+                }
+
+                // 3. Create and display the table
+                createTable(dataContainer, data, desiredColumns);
+
+            } catch (error) {
+                dataContainer.innerHTML = createStatusMessageHTML(`Error: ${error.message}`);
+            }
+        };
+
+        // --- Helper Functions ---
+
+        function createTable(container, data, columns) {
+            let tableHTML = `
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 table-fixed">
+                        <thead class="bg-gray-50">
+                            <tr>`;
+
+            // Create headers
+            for (const col of columns) {
+                tableHTML += `<th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${col.displayName}</th>`;
+            }
+
+            tableHTML += `</tr></thead><tbody class="bg-white divide-y divide-gray-200">`;
+
+            // Create rows
+            for (const row of data) {
+                tableHTML += `<tr class="hover:bg-gray-50">`;
+                for (const col of columns) {
+                    const cellData = escapeHtml(row[col.key] || 'N/A');
+                    // Wrap cell content in a div for scrolling long text
+                    tableHTML += `<td class="p-4 text-sm text-gray-600">
+                                    <div class="max-h-20 overflow-y-auto pr-2 custom-scrollbar">${cellData}</div>
+                                  </td>`;
+                }
+                tableHTML += `</tr>`;
+            }
+
+            tableHTML += `</tbody></table></div>`;
+            container.innerHTML = tableHTML;
+        }
+
+        function createStatusMessageHTML(message) {
+            return `<div class="text-center p-10 border-2 border-dashed rounded-lg text-gray-500 bg-gray-50">
+                        <p>${message}</p>
+                    </div>`;
+        }
+
+        function escapeHtml(unsafe) {
+            if (unsafe === null || typeof unsafe === 'undefined') return '';
+            return String(unsafe)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+
+</body>
+</html>
+

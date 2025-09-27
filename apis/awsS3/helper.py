@@ -93,7 +93,7 @@ bucket_name = "prossima"
 object_key = "warranty.pdf"
 region = "ap-south-1"  # Replace with your bucket's region
 
-def create_presigned_url_for_viewing(bucket_name, object_key, region=region, expiration=3600):
+def create_presigned_url_for_viewing(bucket_name, object_key, region=region, expiration=46400):
     """
     Generates a pre-signed URL for viewing a private S3 object in a browser.
 
@@ -132,6 +132,3 @@ def create_presigned_url_for_viewing(bucket_name, object_key, region=region, exp
 
 
 
-
-url = create_presigned_url_for_viewing(bucket_name, object_key, region)
-print(url)

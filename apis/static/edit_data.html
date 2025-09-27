@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Records</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <!-- Page Header -->
+        <header class="flex items-center justify-between mb-8">
+            <div>
+                <h1 id="pageTitle" class="text-3xl font-bold text-gray-900">Edit Records</h1>
+                <p class="mt-1 text-gray-600">Select a record to view its document and edit details.</p>
+            </div>
+            <a href="/static/home.html" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back to Home
+            </a>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            <!-- Left Column: PDF Viewer -->
+            <div class="lg:col-span-7">
+                 <div id="pdf-viewer-container" class="sticky top-8 bg-white rounded-xl shadow-lg border border-gray-200">
+                    <div class="p-4 border-b border-gray-200">
+                         <h2 class="font-semibold text-gray-800">Document Viewer</h2>
+                    </div>
+                    <div id="pdfContainer" class="p-2 h-[85vh] rounded-b-xl">
+                        <!-- PDF iframe will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Record Cards & Edit Panel -->
+            <div class="lg:col-span-5">
+                <div id="recordsList" class="space-y-4">
+                    <!-- Record cards will be dynamically inserted here -->
+                </div>
+
+                <div id="noRecordsMessage" class="hidden text-center text-gray-500 mt-12 p-8 border-2 border-dashed rounded-lg">
+                     <p class="font-semibold">No records found to edit.</p>
+                     <p class="text-sm mt-2">Please ensure you have fetched the data from the previous page.</p>
+                </div>
+
+                <!-- Edit Form Panel (Hidden by default) -->
+                <div id="editFormContainer" class="hidden bg-white rounded-2xl shadow-lg border border-gray-200">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h2 id="modalTitle" class="text-xl font-bold text-gray-800">Edit Record</h2>
+                            <button id="closeEditBtn" class="text-gray-400 hover:text-gray-600 transition-colors text-2xl font-bold">&times;</button>
+                        </div>
+                    </div>
+                    <form id="editForm" class="p-6">
+                        <!-- Dynamic form fields go here -->
+                    </form>
+                    <div class="p-6 bg-gray-50 rounded-b-2xl border-t border-gray-200">
+                        <div id="modalStatusMessage" class="text-center text-sm font-medium mb-4"></div>
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" id="cancelBtn" class="px-5 py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-lg border border-gray-300 hover:bg-gray-50">Cancel</button>
+                            <button type="submit" form="editForm" id="saveBtn" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-slate-400">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- ALL JAVASCRIPT LOGIC IS PRESERVED ---
+            const userRole = localStorage.getItem('userRole');
+            const recordsDataString = localStorage.getItem('currentCertificates');
+            let records = [];
+
+            const recordsListContainer = document.getElementById('recordsList');
+            const noRecordsMessage = document.getElementById('noRecordsMessage');
+            const pageTitle = document.getElementById('pageTitle');
+            
+            const editFormContainer = document.getElementById('editFormContainer');
+            const modalTitle = document.getElementById('modalTitle');
+            const formContainer = document.getElementById('editForm');
+            const closeEditBtn = document.getElementById('closeEditBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const modalStatusMessage = document.getElementById('modalStatusMessage');
+
+            if (recordsDataString) {
+                try {
+                    records = JSON.parse(recordsDataString);
+                } catch (e) {
+                    console.error("Failed to parse records from localStorage", e);
+                    noRecordsMessage.classList.remove('hidden');
+                }
+            }
+
+            if (records.length > 0) {
+                renderRecordsList(records, userRole);
+            } else {
+                noRecordsMessage.classList.remove('hidden');
+                document.getElementById('pdf-viewer-container').style.display = 'none';
+            }
+            
+            function renderRecordsList(records, role) {
+                const pdfContainer = document.getElementById('pdfContainer');
+                const pdfUrlsString = localStorage.getItem('pdf_url_path');
+                let pdfHtmlContent = '';
+
+                if (pdfUrlsString) {
+                    try {
+                        const pdfUrlArray = JSON.parse(pdfUrlsString);
+                        if (Array.isArray(pdfUrlArray) && pdfUrlArray.length > 0) {
+                            pdfUrlArray.forEach(url => {
+                                pdfHtmlContent += `<iframe src="${url}" class="w-full h-full" title="PDF Document"><p>Your browser does not support iframes.</p></iframe>`;
+                            });
+                            pdfContainer.innerHTML = pdfHtmlContent;
+                        } else {
+                            pdfContainer.innerHTML = '<p class="text-center text-gray-500 mt-12">No PDF URLs found.</p>';
+                        }
+                    } catch (e) {
+                        console.error("Failed to parse PDF URLs from localStorage:", e);
+                        pdfContainer.innerHTML = '<p class="text-center text-red-500 mt-12">Error loading PDF data.</p>';
+                    }
+                } else {
+                    pdfContainer.innerHTML = '<p class="text-center text-gray-500 mt-12">No PDF available.</p>';
+                }
+
+                recordsListContainer.innerHTML = '';
+                let titleText = 'Edit Records';
+                if (role === 'calibration_manager') titleText = 'Edit Calibration Certificates';
+                if (role === 'warranty_claim_manager') titleText = 'Edit Warranty Claims';
+                pageTitle.innerText = titleText;
+
+                records.forEach((record, index) => {
+                    const identifier = role === 'calibration_manager' ? record.certificate_number : record.warranty_claim_no;
+                    const subtext = role === 'calibration_manager' ? `Customer: ${record.customer_name}` : `Supplier: ${record.supplier_name}`;
+
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-xl shadow-sm p-4 border border-gray-200';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold text-gray-800 truncate">${identifier}</h3>
+                                <p class="text-sm text-gray-500 mt-1">${subtext}</p>
+                            </div>
+                            <button data-index="${index}" class="edit-btn text-sm font-semibold text-blue-600 hover:underline">
+                                Edit
+                            </button>
+                        </div>
+                    `;
+                    recordsListContainer.appendChild(card);
+                });
+            }
+
+            recordsListContainer.addEventListener('click', (e) => {
+                if (e.target && e.target.classList.contains('edit-btn')) {
+                    const recordIndex = e.target.getAttribute('data-index');
+                    openEditPanel(records[recordIndex], userRole);
+                }
+            });
+
+            closeEditBtn.addEventListener('click', () => closeEditPanel());
+            cancelBtn.addEventListener('click', () => closeEditPanel());
+
+            function openEditPanel(record, role) {
+                modalStatusMessage.innerHTML = '';
+                const identifier = role === 'calibration_manager' ? record.certificate_number : record.warranty_claim_no;
+                modalTitle.innerText = `Editing: ${identifier}`;
+                formContainer.innerHTML = generateFormHTML(record, role);
+                populateForm(formContainer, record);
+                recordsListContainer.classList.add('hidden');
+                editFormContainer.classList.remove('hidden');
+            }
+
+            function closeEditPanel() {
+                editFormContainer.classList.add('hidden');
+                recordsListContainer.classList.remove('hidden');
+            }
+
+            function parseFlexibleDate(dateString) {
+                if (!dateString || typeof dateString !== 'string') return null;
+                if (dateString.includes('/')) {
+                    const parts = dateString.split('/');
+                    if (parts.length === 3) {
+                        const [day, month, year] = parts;
+                        if (day.length <= 2 && month.length <= 2 && year.length === 4) {
+                           return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                        }
+                    }
+                }
+                let cleanedString = dateString.replace(/(\d+)([a-zA-Z]+)/, '$1 $2').replace(/([a-zA-Z]+)(\d+)/, '$1 $2').replace(/([a-zA-Z])(\d{4})/, '$1 $2').replace(/\s+/g, ' ');
+                const date = new Date(cleanedString);
+                if (!isNaN(date.getTime())) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+                return null;
+            }
+            
+            function populateForm(form, data) {
+                 for (const key in data) {
+                    const field = form.elements[key];
+                    if (field) {
+                        if (field.type === 'date' && data[key]) {
+                            try {
+                                const formattedDate = parseFlexibleDate(data[key]);
+                                if (formattedDate) field.value = formattedDate;
+                                else console.warn(`Could not parse date for ${key}: '${data[key]}'`);
+                            } catch (e) { 
+                                console.warn(`Error processing date for ${key}: ${data[key]}`, e); 
+                            }
+                        } else {
+                            field.value = data[key];
+                        }
+                    }
+                }
+            }
+            
+            document.getElementById('editForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const saveBtn = document.getElementById('saveBtn');
+                saveBtn.disabled = true;
+                saveBtn.innerText = 'Saving...';
+                modalStatusMessage.innerHTML = '';
+                const formData = new FormData(e.target);
+                const params = new URLSearchParams(formData);
+                const endpoint = userRole === 'calibration_manager' ? '/update_data_calibration' : '/update_data_warranty';
+
+                try {
+                    const response = await fetch(`${endpoint}?${params.toString()}`, {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    const result = await response.json();
+                    if (response.ok && result.status === 'success') {
+                        modalStatusMessage.innerHTML = `<p class="text-green-600">Record updated successfully!</p>`;
+                        setTimeout(() => {
+                            closeEditPanel();
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        throw new Error(result.error || result.status || 'An unknown error occurred.');
+                    }
+                } catch (error) {
+                    modalStatusMessage.innerHTML = `<p class="text-red-600">Update failed: ${error.message}</p>`;
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.innerText = 'Save Changes';
+                }
+            });
+
+            function generateFormHTML(record, role) {
+                const inputClasses = "block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow duration-150";
+                const labelClasses = "block text-sm font-medium leading-6 text-gray-700 mb-2";
+                const fieldWrapperClasses = "col-span-1";
+                const fullWidthWrapperClasses = "md:col-span-2";
+
+                const formContent = (fields) => `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">${fields}</div>`;
+                const field = (label, input, isFullWidth = false) => `<div class="${isFullWidth ? fullWidthWrapperClasses : fieldWrapperClasses}"><label class="${labelClasses}">${label}</label>${input}</div>`;
+
+                if (role === 'calibration_manager') {
+                    return formContent(`
+                        <input type="hidden" name="certificate_number" value="${record.certificate_number || ''}">
+                        ${field('Standard Equipment', `<input type="text" name="standard_equipment_name" class="${inputClasses}">`)}
+                        ${field('DUC ID', `<input type="text" name="duc_id" class="${inputClasses}">`)}
+                        ${field('DUC Range', `<input type="text" name="duc_range" class="${inputClasses}">`)}
+                        ${field('Calibration Done At', `<input type="text" name="calibration_done_at" class="${inputClasses}">`)}
+                        ${field('Customer Address', `<textarea name="customer_address" rows="3" class="${inputClasses}"></textarea>`, true)}
+                        ${field('Date Received', `<input type="date" name="calibration_date_received" class="${inputClasses}">`)}
+                        ${field('Next Due Date', `<input type="date" name="calibration_next_due" class="${inputClasses}">`)}
+                        ${field('Approval', `<select name="approval" class="${inputClasses}"><option value="pending">Pending</option><option value="approved">Approved</option></select>`)}
+                    `);
+                } else if (role === 'warranty_claim_manager') {
+                     return formContent(`
+                        <input type="hidden" name="warranty_claim_no" value="${record.warranty_claim_no || ''}">
+                        ${field('Claim Date', `<input type="date" name="claim_date" class="${inputClasses}">`)}
+                        ${field('Supplier Name', `<input type="text" name="supplier_name" class="${inputClasses}">`)}
+                        ${field('Supplier Address', `<textarea name="supplier_address" rows="2" class="${inputClasses}"></textarea>`, true)}
+                        ${field('IC No.', `<input type="text" name="ic_no" class="${inputClasses}">`)}
+                        ${field('Inspected By', `<input type="text" name="inspection_by" class="${inputClasses}">`)}
+                        ${field('Description', `<textarea name="description" rows="2" class="${inputClasses}"></textarea>`, true)}
+                        ${field('Qty Rejected', `<input type="number" name="qty_rejected" class="${inputClasses}">`)}
+                        ${field('Reason for Rejection', `<textarea name="reason_of_rejection" rows="2" class="${inputClasses}"></textarea>`, true)}
+                        ${field('Signatories', `<input type="text" name="signatories" class="${inputClasses}">`)}
+                        ${field('Approval', `<select name="approval" class="${inputClasses}"><option value="pending">Pending</option><option value="approved">Approved</option></select>`)}
+                    `);
+                }
+                return '<p>Invalid user role. Cannot generate form.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

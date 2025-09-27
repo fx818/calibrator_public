@@ -179,6 +179,28 @@ def get_message_details(service, message_id, msg_format='metadata', metadata_hea
     except Exception as e:
         raise GmailException(f"Error fetching message details: {e}")
 
+
+from PyPDF2 import PdfMerger
+
+def merge_pdfs(all_files, output_path):
+    from PyPDF2 import PdfMerger
+
+    merger = PdfMerger()
+
+    # all_files may be list of (path, date)
+    for item in all_files:
+        if isinstance(item, tuple):
+            pdf_path = item[0]  # take the file path
+        else:
+            pdf_path = item
+
+        merger.append(pdf_path)
+
+    merger.write(output_path)
+    merger.close()
+
+
+
 def fetch_emails_with_attachments(username, subject):
     # gmail_service, ig1 , ig2 = create_service("client.json", ["gmail", "calendar"], ["v1", "v3"], SCOPES, username)
 
@@ -198,33 +220,69 @@ def fetch_emails_with_attachments(username, subject):
     query_string = f"has:attachment subject:({subject}) is:unread"
     save_location = "downloaded_attachments"
     email_messages = search_emails(gmail_service,query_string)
-    all_paths = []
+
+    from email.utils import parsedate_to_datetime
+    from datetime import datetime
+
+    all_files = []  # store (file_path, date)
+
     for email_message in email_messages:
         msg_id = email_message['id']
-        message_detail = get_message_details(gmail_service, msg_id, msg_format='full', metadata_headers=['parts'])
+        message_detail = get_message_details(
+            gmail_service, msg_id, msg_format='full', metadata_headers=['parts']
+        )
         message_detailPayload = message_detail.get('payload', {})
+        
+        # Extract date from headers
+        headers = message_detail.get("payload", {}).get("headers", [])
+        date_str = None
+        for header in headers:
+            if header["name"].lower() == "date":
+                date_str = header["value"]
+                break
+        
+        # Convert Gmail date to datetime
+        msg_date = None
+        if date_str:
+            try:
+                msg_date = parsedate_to_datetime(date_str)
+            except Exception:
+                msg_date = datetime.now()
+
         if 'parts' in message_detailPayload:
             for msgPayload in message_detailPayload['parts']:
                 filename = msgPayload.get('filename')
-                # ext = filename.split('.')[-1]
-                # Check if the filename exists and ends with .pdf before proceeding
                 if not filename or not filename.lower().endswith('.pdf'):
                     continue
                 body = msgPayload.get('body', {})
                 if 'attachmentId' in body:
                     attachment_id = body['attachmentId']
-                    attachment_content = get_file_data(gmail_service, msg_id, attachment_id, filename, save_location)
-                    print(f"Attachment content type: {type(attachment_content)}")
+                    attachment_content = get_file_data(
+                        gmail_service, msg_id, attachment_id, filename, save_location
+                    )
                     if not os.path.exists(save_location):
                         os.makedirs(save_location)
                     
-                    with open(os.path.join(save_location, filename), 'wb') as _f:
+                    file_path = os.path.join(save_location, filename)
+                    with open(file_path, 'wb') as _f:
                         _f.write(attachment_content)
+                    
                     print(f"Saved attachment: {filename} at {save_location}")
-                    all_paths.append(os.path.join(save_location, filename))
+                    all_files.append((file_path, msg_date))
+        
         mark_as_read(gmail_service, msg_id)
+
         time.sleep(1)
-    return all_paths
+    # After collecting all PDFs in all_files
+    all_files.sort(key=lambda x: x[1] or datetime.utcnow())
+
+    if all_files:
+        merged_file = os.path.join(save_location, f"{username}_merged_pdfs.pdf")
+        merge_pdfs(all_files, merged_file)
+        print(f"✅ All PDFs merged into: {merged_file}")
+        all_files = [merged_file]
+        print("the merged file is, ", merged_file)
+    return all_files
 
 
 CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar']

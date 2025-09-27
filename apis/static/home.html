@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Header -->
+        <header class="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+                <p class="mt-2 text-lg text-gray-600">Extract, approve, and manage your certificates.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                 <a href="/static/config_page.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                         <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                     </svg>
+                     Settings
+                 </a>
+            </div>
+        </header>
+
+        <main class="space-y-8">
+            <!-- Extraction Section -->
+            <section id="extraction-section" class="bg-white rounded-2xl shadow-lg border border-gray-200">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                            <span>Extract New Certificates</span>
+                        </h2>
+                        <button id="extractBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed">
+                            Extract Certificates
+                        </button>
+                    </div>
+                    <div id="extractStatus" class="mt-6"></div>
+                </div>
+
+                <!-- PDF and Data Viewer -->
+                <div id="main-view-container" class="hidden mt-2 p-6 md:p-8 border-t border-gray-200 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div id="pdf-panel" class="lg:col-span-7">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Document Viewer</h3>
+                        <div id="pdfContainer" class="rounded-lg overflow-hidden h-[700px] border border-gray-300 bg-gray-100"></div>
+                    </div>
+                    <div id="data-panel" class="lg:col-span-5">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Extracted Data</h3>
+                        <div id="extractedCertificates" class="max-h-[700px] overflow-y-auto pr-2"></div>
+                    </div>
+                </div>
+
+                <!-- Approval Section -->
+                <div id="approvalSection" class="hidden mx-6 md:mx-8 mb-6 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                    <h3 class="text-lg font-semibold text-blue-800">Approval Required</h3>
+                    <p id="approvalMessage" class="text-blue-700 mt-1">Waiting for your approval...</p>
+                    <div class="mt-4 flex gap-4">
+                        <button id="approveBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-lg">Approve</button>
+                        <button id="rejectBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-5 rounded-lg">Edit</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Viewing Section -->
+             <section class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>View Stored Records</span>
+                    </h2>
+                     <a href="/static/calibration_data.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg inline-flex items-center gap-2">
+                         <span>View All Records</span>
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                         </svg>
+                     </a>
+                </div>
+            </section>
+            
+            <!-- Actions Section -->
+            <section class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    <span>Manage Records</span>
+                </h2>
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                     <a id="updateCalibrationDiv" href="update_calibration.html" class="hidden p-6 bg-gray-50 rounded-xl hover:bg-blue-50 border border-gray-200 hover:border-blue-400 transition-all group">
+                         <h3 class="font-bold text-gray-800 group-hover:text-blue-600">Update Calibration</h3>
+                         <p class="text-sm text-gray-500 mt-1">Manually update existing calibration data.</p>
+                     </a>
+                     <a id="updateWarrantyDiv" href="update_warranty.html" class="hidden p-6 bg-gray-50 rounded-xl hover:bg-blue-50 border border-gray-200 hover:border-blue-400 transition-all group">
+                         <h3 class="font-bold text-gray-800 group-hover:text-blue-600">Update Warranty Data</h3>
+                         <p class="text-sm text-gray-500 mt-1">Manually update existing warranty claims.</p>
+                     </a>
+                     <a href="edit_data.html" class="p-6 bg-gray-50 rounded-xl hover:bg-blue-50 border border-gray-200 hover:border-blue-400 transition-all group">
+                         <h3 class="font-bold text-gray-800 group-hover:text-blue-600">Edit Extracted Data</h3>
+                         <p class="text-sm text-gray-500 mt-1">Review and modify the last set of extracted records.</p>
+                     </a>
+                     <a href="/static/deleted_data.html" class="p-6 bg-gray-50 rounded-xl hover:bg-blue-50 border border-gray-200 hover:border-blue-400 transition-all group">
+                         <h3 class="font-bold text-gray-800 group-hover:text-blue-600">View Deleted Records</h3>
+                         <p class="text-sm text-gray-500 mt-1">Browse and review records that have been deleted.</p>
+                     </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    // --- JAVASCRIPT LOGIC IS PRESERVED WITH UI ENHANCEMENTS ---
+
+    async function checkLogin() {
+        try {
+            const res = await fetch("/me", { credentials: "include" });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.email) {
+                    localStorage.setItem('userEmail', data.email);
+                    localStorage.setItem('userRole', data.role);
+                }
+            }
+        } catch (err) {
+            console.error("Error checking login status:", err);
+        }
+    }
+
+    function initializeApp() {
+        checkLogin();
+        const userRole = localStorage.getItem("userRole");
+        if (userRole === "calibration_manager") {
+            document.getElementById("updateCalibrationDiv").style.display = "block";
+        }
+        if (userRole === "warranty_claim_manager") {
+            document.getElementById("updateWarrantyDiv").style.display = "block";
+        }
+    }
+    
+    // --- UI HELPER FUNCTIONS ---
+
+    function createStatusMessage(type, message) {
+        const typeMap = {
+            waiting: { bg: 'bg-blue-50', text: 'text-blue-800', icon: '⏳' },
+            completed: { bg: 'bg-green-50', text: 'text-green-800', icon: '✅' },
+            error: { bg: 'bg-red-50', text: 'text-red-800', icon: '❌' }
+        };
+        const config = typeMap[type] || typeMap.error;
+        return `<div class="p-4 rounded-lg text-center font-medium ${config.bg} ${config.text}">${config.icon} ${message}</div>`;
+    }
+
+    function createLoadingState(message) {
+        return `<div class="text-center p-6 text-gray-500">
+            <div class="w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full spinner mx-auto mb-4"></div>
+            <p>${message}</p>
+        </div>`;
+    }
+
+    function createEmptyState(message, icon = '📋') {
+        return `<div class="flex flex-col items-center justify-center h-full text-center p-10 border-2 border-dashed border-gray-300 rounded-lg text-gray-400">
+            <div class="text-4xl mb-2">${icon}</div>
+            <p class="font-semibold">${message}</p>
+        </div>`;
+    }
+    
+    let currentCertificates = [];
+
+    document.getElementById('extractBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('extractBtn');
+        const statusDiv = document.getElementById('extractStatus');
+        const approvalSection = document.getElementById('approvalSection');
+        const mainView = document.getElementById('main-view-container');
+
+        btn.disabled = true;
+        btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Extracting...`;
+        statusDiv.innerHTML = createLoadingState('Extracting certificates...');
+        mainView.style.display = 'none';
+        approvalSection.style.display = 'none';
+        document.getElementById('pdfContainer').innerHTML = '';
+        document.getElementById('extractedCertificates').innerHTML = '';
+
+        try {
+            const response = await fetch('/extract_certificates', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                mode: 'cors'
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'Waiting') {
+                statusDiv.innerHTML = createStatusMessage('waiting', data.message);
+                currentCertificates = data.raw_certs || [];
+                localStorage.setItem('currentCertificates', JSON.stringify(currentCertificates));
+                localStorage.setItem("pdf_url_path", JSON.stringify(data.pdf_url_path));
+
+                mainView.style.display = 'grid';
+                approvalSection.style.display = 'block';
+                document.getElementById('approvalMessage').textContent = data.message;
+                displayCertificates(currentCertificates);
+                displayPdf(data.pdf_url_path);
+
+            } else if (data.status === 'Completed') {
+                statusDiv.innerHTML = createStatusMessage('completed', data.message);
+                currentCertificates = data.raw_certs || [];
+                mainView.style.display = 'grid';
+                approvalSection.style.display = 'none';
+                displayCertificates(currentCertificates);
+                displayPdf(data.pdf_url_path);
+
+            } else if (data.status === 'Error') {
+                statusDiv.innerHTML = createStatusMessage('error', data.message);
+            }
+
+        } catch (error) {
+            statusDiv.innerHTML = createStatusMessage('error', `Error: ${error.message}`);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Extract Certificates';
+        }
+    });
+
+    document.getElementById('approveBtn').addEventListener('click', () => handleApproval('yes'));
+    document.getElementById('rejectBtn').addEventListener('click', () => handleApproval('no'));
+
+    async function handleApproval(decision) {
+        const approvalSection = document.getElementById('approvalSection');
+        const statusDiv = document.getElementById('extractStatus');
+        
+        if (decision === "no"){
+            window.location.href = "/static/edit_data.html";
+            return;
+        }
+
+        try {
+            const response = await fetch(`/approval?user_input=${decision}`, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                mode: 'cors'
+            });
+            const data = await response.json();
+
+            if (data.status === 'Approved') {
+                statusDiv.innerHTML = createStatusMessage('completed', 'Certificates approved successfully!');
+                approvalSection.style.display = 'none';
+            } else if (data.status === 'Rejected') {
+                statusDiv.innerHTML = createStatusMessage('error', data.message);
+                approvalSection.style.display = 'none';
+            }
+        } catch (error) {
+            statusDiv.innerHTML = createStatusMessage('error', `Approval error: ${error.message}`);
+        }
+    }
+
+    function displayPdf(pdfUrls) {
+        const pdfContainer = document.getElementById('pdfContainer');
+        if (!pdfUrls || pdfUrls.length === 0) {
+            pdfContainer.innerHTML = createEmptyState('No PDF to display.', '📄');
+            return;
+        }
+        pdfContainer.innerHTML = pdfUrls.map(url => `<iframe src="${url}" class="w-full h-full border-0" title="PDF Document"><p>Your browser does not support iframes.</p></iframe>`).join('');
+    }
+
+    function renderDetailItem(label, value) {
+        if (!value) return '';
+        return `<div class="flex justify-between text-sm">
+            <span class="font-medium text-gray-500">${label}:</span>
+            <span class="text-gray-800 text-right">${value}</span>
+        </div>`;
+    }
+
+    function renderCalibrationCard(cert) {
+        const statusMap = {
+            approved: { bg: 'bg-green-100', text: 'text-green-800' },
+            pending: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+        };
+        const status = (cert.status || 'pending').toLowerCase();
+        const config = statusMap[status] || statusMap.pending;
+
+        return `
+            <div class="bg-white rounded-lg p-4 border border-gray-200 space-y-3">
+                <div class="flex justify-between items-start">
+                    <p class="font-bold text-blue-600">#${cert.certificate_number || 'Unknown'}</p>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full ${config.bg} ${config.text}">${cert.status || 'pending'}</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-gray-200">
+                    ${renderDetailItem('Customer', cert.customer_name)}
+                    ${renderDetailItem('Issue Date', cert.issue_date)}
+                    ${renderDetailItem('Next Due', cert.calibration_next_due)}
+                    ${renderDetailItem('Device ID', cert.duc_id)}
+                </div>
+            </div>`;
+    }
+
+    function renderWarrantyCard(claim) {
+       const statusMap = {
+            approved: { bg: 'bg-green-100', text: 'text-green-800' },
+            pending: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+        };
+        const status = (claim.status || 'pending').toLowerCase();
+        const config = statusMap[status] || statusMap.pending;
+
+        return `
+            <div class="bg-white rounded-lg p-4 border border-gray-200 space-y-3">
+                <div class="flex justify-between items-start">
+                    <p class="font-bold text-blue-600">Claim #${claim.warranty_claim_no || 'Unknown'}</p>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full ${config.bg} ${config.text}">${claim.status || 'pending'}</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-gray-200">
+                    ${renderDetailItem('Supplier', claim.supplier_name)}
+                    ${renderDetailItem('Claim Date', claim.claim_date)}
+                    ${renderDetailItem('Qty Rejected', claim.qty_rejected)}
+                    ${renderDetailItem('Amount', claim.claim_amount)}
+                </div>
+            </div>`;
+    }
+
+    function displayCertificates(certificates) {
+        const container = document.getElementById('extractedCertificates');
+        if (!certificates || certificates.length === 0) {
+            container.innerHTML = createEmptyState('No certificates found');
+            return;
+        }
+        container.innerHTML = `<div class="space-y-4">${certificates.map(cert => cert.intent === 'calibration_certificate' ? renderCalibrationCard(cert) : renderWarrantyCard(cert)).join('')}</div>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
+

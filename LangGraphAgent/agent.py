@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph, START, END
-from typing import List, Optional
+from typing import Dict, List, Optional
 from langgraph.types import Command
 from langgraph.checkpoint.memory import MemorySaver
 from typing_extensions import TypedDict
@@ -28,6 +28,7 @@ class State(TypedDict):
     curr_node: str
     role: str
     pdf_url: List[str]
+    config: Optional[Dict]
 
 from langgraph.types import interrupt
 class Agent:
@@ -53,7 +54,8 @@ class Agent:
             all_paths = []
         if not all_paths:
             print("No new emails with attachments found for given role ", role)
-            return {"status": "No new emails with attachments found."}
+            # return {"status": "No new emails with attachments found."}
+            return state
         state.update({"pdf_file_path": all_paths})
         all_file_path_url = []
         try:
@@ -70,8 +72,15 @@ class Agent:
         return state
 
     def certificate_data(self, state: State):
+        print()
+        print("Enterig into the certificate node")
+        print()
         all_data = []
-        for path in state.get("pdf_file_path", []):
+        all_paths = state.get("pdf_file_path", [])
+        if not all_paths:
+            print("No path found")
+            return state
+        for path in all_paths:
             text = get_text_from_pdf(path)
             print("the text is ", text)
             data = get_certificate_data(text)
@@ -92,6 +101,9 @@ class Agent:
         return state
     
     def push_data_to_db(self, state:State):
+        print()
+        print("Entering into push db node")
+        print()
         alldata = state.get("certificate_data", [])
         print("Data to be pushed to DB: ", alldata)
         if not alldata:
@@ -118,9 +130,12 @@ class Agent:
         # Pushing to the sheet
         state.update({"curr_node": "push_data_to_db", "prev_node": "certificate_data"})
         # Also push to sheet
-        url = os.getenv("SHEET_URL", "")
-        warranty_url = os.getenv("WARRANTY_SHEET_URL", "")
-        
+        # url = os.getenv("SHEET_URL", "")
+        # warranty_url = os.getenv("WARRANTY_SHEET_URL", "")
+        url = state.get("config").get("sheet")
+        warranty_url = state.get("config").get("sheet")
+        print("Both the url is ", url)
+        print("Both the url is ", warranty_url)
         for row in alldata:
             if row["intent"] == "calibration_certificate":
                 if not url:
@@ -214,7 +229,7 @@ class Agent:
                 print("response from the update_approval func is ", data)
         state.update({"push_to_calendar": True})
         url = os.getenv("SHEET_URL", "")
-        warranty_url = os.getenv("WARRANTY_SHEET_URL", "")
+        warranty_url = state.get("config")
         
         for cert in all_data:
             if cert["intent"] == "calibration_certificate":
