@@ -2,7 +2,10 @@ import json
 import os, sys
 import sqlite3
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-TOKEN_DIR = os.getenv("TOKEN_DIR","")
+TOKEN_DIR = os.getenv("TOKEN_DIR","tokens")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # apis/
+DB_PATH = os.path.join("", "calibration.db")
+
 
 def get_token_path(account_email: str):
     """Return the file path for a user's token file."""
@@ -24,7 +27,7 @@ def load_tokens(account_email: str):
 
 def load_settings(username):
     """Get from db"""
-    conn = sqlite3.connect('calibration.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT calibration_sheet, warranty_sheet, store_dept_email, vendor_email, calibration_dept_email FROM config WHERE email = ?", (username,))
@@ -46,7 +49,7 @@ def load_settings(username):
 
 def load_new_settings(email):
     """Get from db"""
-    conn = sqlite3.connect('calibration.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT email, sheet, scheduled_emails FROM configs WHERE email = ?", (email,))
@@ -62,5 +65,10 @@ def load_new_settings(email):
     except Exception as e:
         print(f"Error loading configs for {email}: {e}")
         conn.close()
-        return {"error": str(e)}
+        return {
+                "email": email,
+                "sheet": "",
+                "scheduled_emails": {},
+                "error": True
+            }
 

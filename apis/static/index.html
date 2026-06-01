@@ -59,7 +59,7 @@
                     
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="/static/home.html" class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-semibold">
-                            Go to Home Page
+                            Dashboard
                         </a>
                         <button id="logoutBtn" class="w-full px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300">
                             Logout
@@ -69,11 +69,7 @@
             </div>
         </div>
     </div>
-
 <script>
-// --- NO CHANGES TO JAVASCRIPT LOGIC ---
-// All logic remains identical to your original file.
-
 document.getElementById("loginBtn").onclick = () => {
     window.location.href = "/login";
 };
@@ -90,34 +86,43 @@ document.getElementById("logoutBtn").onclick = async () => {
 
 async function checkLogin() {
     try {
-        const res = await fetch("/me", {
-            credentials: "include"
-        });
+        const res = await fetch("/me", { credentials: "include" });
         if (res.ok) {
             const data = await res.json();
-            console.log("the data recieved is ", data);
             if (data.email) {
-                // Hide the login button's parent section for better control
-                document.getElementById("loginSection").style.display = "none";
-                document.getElementById("userInfo").style.display = "block";
-                document.getElementById("userEmail").textContent = data.email;
-                
+                // Store user info locally
                 localStorage.setItem('userEmail', data.email);
                 localStorage.setItem('userRole', data.role);
 
-                console.log("User email from /me endpoint:", data.email);
-                console.log("User role from /me endpoint:", data.role);
-                console.log("User email from localStorage:", localStorage.getItem('userEmail'));
-                console.log("User role from localStorage:", localStorage.getItem('userRole'));
+                // Check if this is the first visit in this session
+                if (!sessionStorage.getItem('visitedIndex')) {
+                    // Mark as visited
+                    sessionStorage.setItem('visitedIndex', 'true');
+
+                    // First-time visit and logged in → redirect to home.html
+                    window.location.href = "/static/home.html";
+                    return;
+                }
+
+                // Not first visit → show user info but stay on index.html
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("userInfo").style.display = "block";
+                document.getElementById("userEmail").textContent = data.email;
+                return;
             }
         }
     } catch (err) {
         console.error("Error checking login status:", err);
     }
+
+    // Not logged in → show login button
+    document.getElementById("loginSection").style.display = "block";
+    document.getElementById("userInfo").style.display = "none";
 }
 
 checkLogin();
 </script>
+
 </body>
 </html>
 

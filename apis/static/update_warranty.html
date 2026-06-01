@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,112 +15,190 @@
         }
     </style>
 </head>
+
 <body class="bg-slate-50">
-    <div class="min-h-screen flex items-center justify-center px-4 py-12">
-        <div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-gray-200 p-8 sm:p-10 relative">
-            
-            <a href="/static/home.html" title="Back to Home" class="absolute top-8 right-8 inline-flex items-center justify-center px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors duration-300 text-sm font-medium text-slate-700">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <header
+            class="bg-white rounded-2xl shadow-md border border-gray-200 p-6 flex flex-wrap items-center justify-between gap-y-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+                <p class="mt-1 text-md text-gray-500">Overview of certificate data and actions.</p>
+            </div>
+
+            <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+                <a href="/static/home.html" class="text-gray-600 hover:text-blue-800 transition-colors">Dashboard</a>
+                <a href="/static/edit_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Edit
+                    Data</a>
+                <a href="/static/pending_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Pending
+                    Data</a>
+                <a href="/static/calibration_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">All
+                    Records</a>
+                <a href="/static/deleted_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Deleted
+                    Records</a>
+                <a id="manualUpdateLink" href="#" class="text-blue-500 hover:text-blue-600 transition-colors">Manual
+                    Update</a>
+                <a href="/" class="text-gray-500 hover:text-blue-600 transition-colors">Profile</a>
+                <a href="/static/config_page.html"
+                    class="inline-flex items-center gap-x-2 rounded-md bg-gray-100 px-3 py-2 text-gray-700 hover:bg-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+        </header>
+
+        <!-- <header class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-y-4 mb-10">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900">Manual Update</h1>
+                <p class="mt-2 text-lg text-gray-600">Manually update the data.</p>
+            </div>
+            <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-semibold">
+                <a href="/static/home.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+                <a href="/static/edit_data.html" class="text-gray-600 hover:text-blue-600">Edit Data</a>
+                <a href="/static/pending_data.html" class="text-gray-600 hover:text-blue-600">Pending Data</a>
+                <a href="/static/calibration_data.html" class="text-gray-600 hover:text-blue-600">All Records</a>
+                <a href="/static/deleted_data.html" class="text-gray-600 hover:text-blue-600">Deleted Records</a>
+                <a id="manualUpdateLink" href="#" class="hidden text-gray-600 hover:text-blue-600">Manual Update</a>
+                <a href="/static/config_page.html" class="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734-2.106-2.106a1.532 1.532 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+        </header>
+         -->
+        <div
+            class="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8 sm:p-10 relative">
+
+            <!-- <a href="/static/home.html" title="Back to Home" class="absolute top-8 right-8 inline-flex items-center justify-center px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors duration-300 text-sm font-medium text-slate-700">
                 <svg class="w-4 h-4 mr-2 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
                 <span>Back to Home</span>
-            </a>
+            </a> -->
 
             <div class="text-center mb-8">
-                 <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Warranty Claim Update</h1>
-                 <p class="mt-2 text-sm leading-6 text-gray-600">Fill in the details below to update the warranty claim record.</p>
+                <!-- <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Warranty Claim Update</h1> -->
+                <p class="mt-2 text-sm leading-6 text-gray-600">Fill in the details below to update the warranty claim
+                    record.</p>
             </div>
-            
-            <!-- Warranty Claim Form -->
+
             <form id="warrantyForm" novalidate>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                    <!-- Helper function for creating input fields -->
-                    
-                    <!-- Warranty Claim No -->
+
                     <div>
-                        <label for="warranty_claim_no" class="block text-sm font-semibold leading-6 text-gray-900">Warranty Claim No.</label>
+                        <label for="warranty_claim_no"
+                            class="block text-sm font-semibold leading-6 text-gray-900">Warranty Claim No.</label>
                         <div class="mt-2.5">
-                            <input type="text" id="warranty_claim_no" name="warranty_claim_no" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g., WCN-00123" required>
+                            <input type="text" id="warranty_claim_no" name="warranty_claim_no"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="e.g., WCN-00123" required>
                         </div>
                     </div>
 
-                    <!-- Claim Date -->
                     <div>
-                        <label for="claim_date" class="block text-sm font-semibold leading-6 text-gray-900">Claim Date</label>
+                        <label for="claim_date" class="block text-sm font-semibold leading-6 text-gray-900">Claim
+                            Date</label>
                         <div class="mt-2.5">
-                            <input type="date" id="claim_date" name="claim_date" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                            <input type="date" id="claim_date" name="claim_date"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                required>
                         </div>
                     </div>
 
-                    <!-- Supplier Name -->
                     <div>
-                        <label for="supplier_name" class="block text-sm font-semibold leading-6 text-gray-900">Supplier Name</label>
+                        <label for="supplier_name" class="block text-sm font-semibold leading-6 text-gray-900">Supplier
+                            Name</label>
                         <div class="mt-2.5">
-                            <input type="text" id="supplier_name" name="supplier_name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g., ACME Corp" required>
-                        </div>
-                    </div>
-                    
-                    <!-- IC No -->
-                    <div>
-                        <label for="ic_no" class="block text-sm font-semibold leading-6 text-gray-900">Incoming Challan No.</label>
-                        <div class="mt-2.5">
-                            <input type="text" id="ic_no" name="ic_no" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g., IC-54321" required>
+                            <input type="text" id="supplier_name" name="supplier_name"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="e.g., ACME Corp" required>
                         </div>
                     </div>
 
-                    <!-- Supplier Address -->
+                    <div>
+                        <label for="ic_no" class="block text-sm font-semibold leading-6 text-gray-900">Incoming Challan
+                            No.</label>
+                        <div class="mt-2.5">
+                            <input type="text" id="ic_no" name="ic_no"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="e.g., IC-54321" required>
+                        </div>
+                    </div>
+
                     <div class="md:col-span-2">
-                        <label for="supplier_address" class="block text-sm font-semibold leading-6 text-gray-900">Supplier Address</label>
+                        <label for="supplier_address"
+                            class="block text-sm font-semibold leading-6 text-gray-900">Supplier Address</label>
                         <div class="mt-2.5">
-                            <textarea id="supplier_address" name="supplier_address" rows="3" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="456 Supplier Ave, Business City" required></textarea>
+                            <textarea id="supplier_address" name="supplier_address" rows="3"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="456 Supplier Ave, Business City" required></textarea>
                         </div>
                     </div>
-                    
-                    <!-- Description -->
+
                     <div class="md:col-span-2">
-                        <label for="description" class="block text-sm font-semibold leading-6 text-gray-900">Description of Goods</label>
+                        <label for="description" class="block text-sm font-semibold leading-6 text-gray-900">Description
+                            of Goods</label>
                         <div class="mt-2.5">
-                             <textarea id="description" name="description" rows="3" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Describe the item or goods..." required></textarea>
+                            <textarea id="description" name="description" rows="3"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="Describe the item or goods..." required></textarea>
                         </div>
                     </div>
 
-                    <!-- Qty Rejected -->
                     <div>
-                        <label for="qty_rejected" class="block text-sm font-semibold leading-6 text-gray-900">Quantity Rejected</label>
+                        <label for="qty_rejected" class="block text-sm font-semibold leading-6 text-gray-900">Quantity
+                            Rejected</label>
                         <div class="mt-2.5">
-                            <input type="number" id="qty_rejected" name="qty_rejected" min="0" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0" required>
+                            <input type="number" id="qty_rejected" name="qty_rejected" min="0"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="0" required>
                         </div>
                     </div>
 
-                    <!-- Inspection By -->
                     <div>
-                        <label for="inspection_by" class="block text-sm font-semibold leading-6 text-gray-900">Inspected By</label>
+                        <label for="inspection_by" class="block text-sm font-semibold leading-6 text-gray-900">Inspected
+                            By</label>
                         <div class="mt-2.5">
-                             <input type="text" id="inspection_by" name="inspection_by" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g., John Doe" required>
+                            <input type="text" id="inspection_by" name="inspection_by"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="e.g., John Doe" required>
                         </div>
                     </div>
 
-                     <!-- Reason of Rejection -->
-                     <div class="md:col-span-2">
-                        <label for="reason_of_rejection" class="block text-sm font-semibold leading-6 text-gray-900">Reason for Rejection</label>
+                    <div class="md:col-span-2">
+                        <label for="reason_of_rejection"
+                            class="block text-sm font-semibold leading-6 text-gray-900">Reason for Rejection</label>
                         <div class="mt-2.5">
-                            <textarea id="reason_of_rejection" name="reason_of_rejection" rows="3" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g., Fails to meet specification XYZ..." required></textarea>
+                            <textarea id="reason_of_rejection" name="reason_of_rejection" rows="3"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="e.g., Fails to meet specification XYZ..." required></textarea>
                         </div>
                     </div>
 
-                    <!-- Signatories -->
                     <div>
-                        <label for="signatories" class="block text-sm font-semibold leading-6 text-gray-900">Signatories</label>
+                        <label for="signatories"
+                            class="block text-sm font-semibold leading-6 text-gray-900">Signatories</label>
                         <div class="mt-2.5">
-                             <input type="text" id="signatories" name="signatories" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g., Manager Name" required>
+                            <input type="text" id="signatories" name="signatories"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="e.g., Manager Name" required>
                         </div>
                     </div>
-                    
-                    <!-- Approval Status -->
+
                     <div>
-                        <label for="approval" class="block text-sm font-semibold leading-6 text-gray-900">Approval Status</label>
+                        <label for="approval" class="block text-sm font-semibold leading-6 text-gray-900">Approval
+                            Status</label>
                         <div class="mt-2.5">
-                             <select id="approval" name="approval" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                            <select id="approval" name="approval"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                required>
                                 <option value="pending">Pending</option>
                                 <option value="approved">Approved</option>
                             </select>
@@ -127,17 +206,20 @@
                     </div>
                 </div>
 
-                <!-- Status Message Area -->
                 <div id="statusMessage" class="mt-6 text-center text-sm font-medium"></div>
 
-                <!-- Submit Button -->
                 <div class="mt-8">
-                    <button type="submit" id="submitButton" class="w-full flex justify-center items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 transition-colors duration-300">
+                    <button type="submit" id="submitButton"
+                        class="w-full flex justify-center items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 transition-colors duration-300">
                         <span id="buttonText">Update Record</span>
                         <span id="buttonSpinner" class="hidden">
-                            <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
                             </svg>
                             Processing...
                         </span>
@@ -160,7 +242,7 @@
                             localStorage.setItem('userRole', data.role);
                             console.log("User Logged In:", data.email, "Role:", data.role);
                         } else {
-                             console.log("User is not logged in. /me endpoint returned no email.");
+                            console.log("User is not logged in. /me endpoint returned no email.");
                         }
                     } else {
                         console.warn("Could not verify login status. Response not OK.", res.status);
@@ -200,7 +282,7 @@
                 for (const [key, value] of formData.entries()) {
                     params.append(key, value);
                 }
-                
+
                 const endpoint = `/update_data_warranty?${params.toString()}`;
 
                 try {
@@ -231,5 +313,5 @@
         });
     </script>
 </body>
-</html>
 
+</html>

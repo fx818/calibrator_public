@@ -30,12 +30,40 @@ class State(TypedDict):
     pdf_url: List[str]
     config: Optional[Dict]
 
+import io
+import requests
+from PyPDF2 import PdfMerger
+
+def merge_pdf_via_pre_signed_url(url1, url2):
+    print("inside the function call")
+    pdf1 = io.BytesIO(requests.get(url1).content)
+    pdf2 = io.BytesIO(requests.get(url2).content)
+
+    merger = PdfMerger()
+    merger.append(pdf1)
+    merger.append(pdf2)
+
+    with open("merged.pdf", "wb") as f:
+        merger.write(f)
+    merger.close()
+
+    upload_file_to_s3("merged.pdf", os.getenv("AWS_S3_BUCKET", ""), "merged.pdf")
+    presigned_url = create_presigned_url_for_viewing(os.getenv("AWS_S3_BUCKET", ""), "merged.pdf")
+    os.remove("merged.pdf")
+    print("Function call ends here")
+    return presigned_url
+
 from langgraph.types import interrupt
 class Agent:
     def __init__(self):
         self.graph = self.build_graph()
 
     def gmail_file_node(self, state: State):
+        print()
+        print()
+        print("Previous urls is ", state.get("pdf_url", []))
+        print()
+        print()
         username = state.get("username", "")
         state.update({"curr_node": "gmail_file_node", "prev_node": "Starting point"})
         if not username:
@@ -67,13 +95,23 @@ class Agent:
                 all_file_path_url.append(path_url)
         except Exception as e:
             print("Some error occurred while uploading to S3: ", e)
+        prev_pdf_url = state.get("pdf_url", [])
+        if prev_pdf_url and all_file_path_url:
+            # Lets merge both pdfs
+            try:
+                new_url = merge_pdf_via_pre_signed_url(prev_pdf_url[0], all_file_path_url[0])
+                print("new url is ", new_url)
+                all_file_path_url = [new_url]
+            except Exception as e:
+                print("Error while fucntion call for merging pdfs: ", e)
         state.update({"pdf_url": all_file_path_url})
+        print("the final pdf url is ", state.get("pdf_url", []))
         print("################ Gmail node is called #######################")
         return state
 
     def certificate_data(self, state: State):
         print()
-        print("Enterig into the certificate node")
+        print("Entering into the certificate node")
         print()
         all_data = []
         all_paths = state.get("pdf_file_path", [])

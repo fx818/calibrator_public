@@ -20,7 +20,12 @@ def get_gspread_client():
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
         
         # Best practice: Load credentials path from an environment variable
-        creds_file_path = "../utils/prossimawork.json" 
+        # creds_file_path = "../utils/prossimawork.json" 
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        CREDENTIALS_FILE = os.path.join(
+            BASE_DIR, "prossimawork.json"
+        )
+        creds_file_path = CREDENTIALS_FILE
         if not creds_file_path:
             raise ValueError("GOOGLE_CREDS_FILE environment variable not set.")
 

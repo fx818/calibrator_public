@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +15,14 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
     <div class="container mx-auto p-4 md:p-8">
-        
+
         <!-- Page Header -->
-        <header class="flex items-center justify-between mb-8">
+        <!-- <header class="flex items-center justify-between mb-8">
             <div>
-                <h1 id="pageTitle" class="text-3xl font-bold text-gray-900">Edit Records</h1>
+                <h1  class="text-3xl font-bold text-gray-900">Edit Records</h1>
                 <p class="mt-1 text-gray-600">Select a record to view its document and edit details.</p>
             </div>
             <a href="/static/home.html" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline">
@@ -29,15 +31,67 @@
                 </svg>
                 Back to Home
             </a>
+        </header> -->
+
+        <header
+            class="bg-white rounded-2xl shadow-md border border-gray-200 p-6 flex flex-wrap items-center justify-between gap-y-4 mb-8">
+            <div>
+                <h1 id="pageTitle" class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+                <p class="mt-1 text-md text-gray-500">Overview of certificate data and actions.</p>
+            </div>
+
+            <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+                <a href="/static/home.html" class="text-gray-500 hover:text-blue-800 transition-colors">Dashboard</a>
+                <a href="/static/edit_data.html" class="text-blue-600 hover:text-blue-600 transition-colors">Edit
+                    Data</a>
+                <a href="/static/pending_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Pending
+                    Data</a>
+                <a href="/static/calibration_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">All
+                    Records</a>
+                <a href="/static/deleted_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Deleted
+                    Records</a>
+                <a id="manualUpdateLink" href="#"
+                    class="hidden text-gray-500 hover:text-blue-600 transition-colors">Manual Update</a>
+                <a href="/" class="text-gray-500 hover:text-blue-600 transition-colors">Profile</a>
+                <a href="/static/config_page.html"
+                    class="inline-flex items-center gap-x-2 rounded-md bg-gray-100 px-3 py-2 text-gray-700 hover:bg-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
         </header>
+
+
+        <!-- <header class="flex flex-wrap items-center justify-between gap-y-4 mb-8">
+            <div>
+                <h1 id="pageTitle" class="text-4xl font-bold tracking-tight text-gray-900">Edit Records</h1>
+                <p class="mt-2 text-lg text-gray-600">Select a record to view its document and edit details.</p>
+            </div>
+            <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-semibold">
+                <a href="/static/home.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+                <a href="/static/pending_data.html" class="text-gray-600 hover:text-blue-600">Pending Data</a>
+                <a href="/static/calibration_data.html" class="text-gray-600 hover:text-blue-600">All Records</a>
+                <a href="/static/deleted_data.html" class="text-gray-600 hover:text-blue-600">Deleted Records</a>
+                <a id="manualUpdateLink" href="#" class="hidden text-gray-600 hover:text-blue-600">Manual Update</a>
+                 <a href="/static/config_page.html" class="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0_0_20_20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734-2.106-2.106a1.532 1.532 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>
+                    Settings
+                </a>
+            </nav>
+        </header> -->
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
             <!-- Left Column: PDF Viewer -->
             <div class="lg:col-span-7">
-                 <div id="pdf-viewer-container" class="sticky top-8 bg-white rounded-xl shadow-lg border border-gray-200">
+                <div id="pdf-viewer-container"
+                    class="sticky top-8 bg-white rounded-xl shadow-lg border border-gray-200">
                     <div class="p-4 border-b border-gray-200">
-                         <h2 class="font-semibold text-gray-800">Document Viewer</h2>
+                        <h2 class="font-semibold text-gray-800">Document Viewer</h2>
                     </div>
                     <div id="pdfContainer" class="p-2 h-[85vh] rounded-b-xl">
                         <!-- PDF iframe will be injected here -->
@@ -51,9 +105,10 @@
                     <!-- Record cards will be dynamically inserted here -->
                 </div>
 
-                <div id="noRecordsMessage" class="hidden text-center text-gray-500 mt-12 p-8 border-2 border-dashed rounded-lg">
-                     <p class="font-semibold">No records found to edit.</p>
-                     <p class="text-sm mt-2">Please ensure you have fetched the data from the previous page.</p>
+                <div id="noRecordsMessage"
+                    class="hidden text-center text-gray-500 mt-12 p-8 border-2 border-dashed rounded-lg">
+                    <p class="font-semibold">No records found to edit.</p>
+                    <p class="text-sm mt-2">Please ensure you have fetched the data from the previous page.</p>
                 </div>
 
                 <!-- Edit Form Panel (Hidden by default) -->
@@ -61,7 +116,8 @@
                     <div class="p-6 border-b border-gray-200">
                         <div class="flex justify-between items-center">
                             <h2 id="modalTitle" class="text-xl font-bold text-gray-800">Edit Record</h2>
-                            <button id="closeEditBtn" class="text-gray-400 hover:text-gray-600 transition-colors text-2xl font-bold">&times;</button>
+                            <button id="closeEditBtn"
+                                class="text-gray-400 hover:text-gray-600 transition-colors text-2xl font-bold">&times;</button>
                         </div>
                     </div>
                     <form id="editForm" class="p-6">
@@ -70,8 +126,11 @@
                     <div class="p-6 bg-gray-50 rounded-b-2xl border-t border-gray-200">
                         <div id="modalStatusMessage" class="text-center text-sm font-medium mb-4"></div>
                         <div class="flex justify-end space-x-4">
-                            <button type="button" id="cancelBtn" class="px-5 py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-lg border border-gray-300 hover:bg-gray-50">Cancel</button>
-                            <button type="submit" form="editForm" id="saveBtn" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-slate-400">Save Changes</button>
+                            <button type="button" id="cancelBtn"
+                                class="px-5 py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-lg border border-gray-300 hover:bg-gray-50">Cancel</button>
+                            <button type="submit" form="editForm" id="saveBtn"
+                                class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-slate-400">Save
+                                Changes</button>
                         </div>
                     </div>
                 </div>
@@ -82,21 +141,69 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // const data = await fetchPendingData();
             // --- ALL JAVASCRIPT LOGIC IS PRESERVED ---
             const userRole = localStorage.getItem('userRole');
-            const recordsDataString = localStorage.getItem('currentCertificates');
+            // const recordsDataString = localStorage.getItem('currentCertificates');
             let records = [];
 
             const recordsListContainer = document.getElementById('recordsList');
             const noRecordsMessage = document.getElementById('noRecordsMessage');
             const pageTitle = document.getElementById('pageTitle');
-            
+
             const editFormContainer = document.getElementById('editFormContainer');
             const modalTitle = document.getElementById('modalTitle');
             const formContainer = document.getElementById('editForm');
             const closeEditBtn = document.getElementById('closeEditBtn');
             const cancelBtn = document.getElementById('cancelBtn');
             const modalStatusMessage = document.getElementById('modalStatusMessage');
+
+
+            const role = localStorage.getItem('userRole');
+            if (role) {
+                const manualUpdateLink = document.getElementById('manualUpdateLink');
+
+                if (role === 'calibration_manager') {
+                    manualUpdateLink.href = '/static/update_calibration.html';
+                    manualUpdateLink.classList.remove('hidden');
+                } else if (role === 'warranty_claim_manager') {
+                    manualUpdateLink.href = '/static/update_warranty.html';
+                    manualUpdateLink.classList.remove('hidden');
+                }
+
+            } else {
+                const msg = createEmptyState('Please log in and set a role to view data.');
+                document.getElementById('extracted-data-content').innerHTML = msg;
+                document.getElementById('recent-data-content').innerHTML = msg;
+            }
+
+
+
+            // Adding by myself
+            async function fetchPendingData() {
+                const response = await fetch("/get_pending_data", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include"   // 🔥 VERY IMPORTANT to send session cookies!
+                });
+
+                if (!response.ok) {
+                    console.error("Error fetching data:", response.statusText);
+                    return;
+                }
+
+                const data = await response.json();
+                console.log("Pending data:", data.data);
+                localStorage.setItem('currentCertificates', JSON.stringify(data.data));
+                console.log("the local storage data is ", localStorage.getItem('currentCertificates'));
+                return data;  // ✅ this returns the data to whoever calls the function
+            }
+
+            fetchPendingData();
+            const recordsDataString = localStorage.getItem('currentCertificates');
+
 
             if (recordsDataString) {
                 try {
@@ -113,7 +220,7 @@
                 noRecordsMessage.classList.remove('hidden');
                 document.getElementById('pdf-viewer-container').style.display = 'none';
             }
-            
+
             function renderRecordsList(records, role) {
                 const pdfContainer = document.getElementById('pdfContainer');
                 const pdfUrlsString = localStorage.getItem('pdf_url_path');
@@ -140,8 +247,8 @@
 
                 recordsListContainer.innerHTML = '';
                 let titleText = 'Edit Records';
-                if (role === 'calibration_manager') titleText = 'Edit Calibration Certificates';
-                if (role === 'warranty_claim_manager') titleText = 'Edit Warranty Claims';
+                if (role === 'calibration_manager') titleText = 'Edit Certificates';
+                if (role === 'warranty_claim_manager') titleText = 'Edit Certificates';
                 pageTitle.innerText = titleText;
 
                 records.forEach((record, index) => {
@@ -197,7 +304,7 @@
                     if (parts.length === 3) {
                         const [day, month, year] = parts;
                         if (day.length <= 2 && month.length <= 2 && year.length === 4) {
-                           return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
                         }
                     }
                 }
@@ -211,9 +318,9 @@
                 }
                 return null;
             }
-            
+
             function populateForm(form, data) {
-                 for (const key in data) {
+                for (const key in data) {
                     const field = form.elements[key];
                     if (field) {
                         if (field.type === 'date' && data[key]) {
@@ -221,8 +328,8 @@
                                 const formattedDate = parseFlexibleDate(data[key]);
                                 if (formattedDate) field.value = formattedDate;
                                 else console.warn(`Could not parse date for ${key}: '${data[key]}'`);
-                            } catch (e) { 
-                                console.warn(`Error processing date for ${key}: ${data[key]}`, e); 
+                            } catch (e) {
+                                console.warn(`Error processing date for ${key}: ${data[key]}`, e);
                             }
                         } else {
                             field.value = data[key];
@@ -230,7 +337,7 @@
                     }
                 }
             }
-            
+
             document.getElementById('editForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const saveBtn = document.getElementById('saveBtn');
@@ -286,7 +393,7 @@
                         ${field('Approval', `<select name="approval" class="${inputClasses}"><option value="pending">Pending</option><option value="approved">Approved</option></select>`)}
                     `);
                 } else if (role === 'warranty_claim_manager') {
-                     return formContent(`
+                    return formContent(`
                         <input type="hidden" name="warranty_claim_no" value="${record.warranty_claim_no || ''}">
                         ${field('Claim Date', `<input type="date" name="claim_date" class="${inputClasses}">`)}
                         ${field('Supplier Name', `<input type="text" name="supplier_name" class="${inputClasses}">`)}
@@ -305,4 +412,5 @@
         });
     </script>
 </body>
+
 </html>

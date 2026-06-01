@@ -7,12 +7,31 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from utils.Sheets import delete_row_with_duc
 from gmail_work.gmail import create_event
 from utils.date_extraction import extract_date
-from config import load_tokens, load_new_settings
-from mail_scheduler.tests import schedule_email_via_api
+from apis.config import load_tokens, load_new_settings
+from apis.mail_scheduler.tests import schedule_email_via_api
 
 from dateutil.parser import parse
 from datetime import datetime, timezone
 from datetime import timedelta
+
+import os
+
+import os
+
+import os
+
+import os
+
+import os
+
+# jobs.py is in apis/cron_job → go one level up to apis/
+import os
+
+# Always anchor DB to the apis/ folder
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # apis/
+DB_PATH = os.path.join(BASE_DIR, "calibration.db")
+
+print("DB Path:", DB_PATH, "Exists:", os.path.exists(DB_PATH))
 
 
 def parse_flexible_date(date_string: str) -> datetime | None:
@@ -162,7 +181,7 @@ def parse_flexible_date(date_string: str) -> datetime | None:
 # ]
 
 # Connect to SQLite DB
-# conn = sqlite3.connect("calibration.db")
+# conn = sqlite3.connect(DB_PATH)
 # cursor = conn.cursor()
 # cursor.execute("delete from calibration_data")
 # result = cursor.fetchall()
@@ -275,7 +294,7 @@ def push_data(record, email):
     if not email: 
         raise ValueError("You are not logged in or some error in fetching mail, see push_db node")
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         # Insert data
         pk = record.get("duc_id")
@@ -335,7 +354,7 @@ def push_data(record, email):
     
 def push_data_warranty(record, email):
     # Write the logic here
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         if not email: 
@@ -411,7 +430,7 @@ def push_data_warranty(record, email):
     
 def deleted_push_data_warranty(record, email):
     # Write the logic here
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         if not email: 
@@ -486,19 +505,24 @@ def deleted_push_data_warranty(record, email):
         return {"status": "Some error while pushing the warranty data in the db"}
 
 def update_approval(pk, email, intent):
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         if intent == "calibration_certificate":
-            command = """
-            UPDATE calibration_data
-            SET approval = ?
-            where duc_id = ? and email = ?
-            """
-            cursor.execute(command,("approved", pk, email))
+            command = "UPDATE calibration_data SET approval = ? WHERE duc_id = ? AND email = ?"
+            cursor.execute(command, ("approved", pk, email))
+
+            print("-------------------------------------------------------")
+            print("DEBUG:", pk, type(pk), email, type(email))
+            print("SQL COMMAND:", command)
+            print("PARAMS:", ("approved", pk, email))
+            cursor.execute(command, ("approved", pk, email))
+
+            print("-------------------------------------------------------")
+            # cursor.execute(command,("approved", pk, email))
             # calendar event creation
             due_date = cursor.execute("SELECT calibration_next_due FROM calibration_data WHERE duc_id = ?", (pk,)).fetchone()[0]
-            calibration_date = cursor.execute("SELECT calibration_data from calibration_data where duc_id = ?", (pk)).fetchone()[0]
+            calibration_date = cursor.execute("SELECT calibration_date from calibration_data where duc_id = ?", (pk,)).fetchone()[0]
             print(due_date)
             due_date = extract_date(due_date)
             create_event(email, due_date, pk)
@@ -534,8 +558,6 @@ def update_approval(pk, email, intent):
 
                     print(f"\nFinal scheduled time in UTC: {time_to_send}")
                     schedule_email_via_api(token_data=tokens, receiver=reciever, subject=f"Callibration Email schdule - {pk}", body=f"This is in regards to the certificate no {pk}. This certificate is now due. Please co-ordinate within due time", send_at=time_to_send)
-
-
 
                 # print(extract_date(claim_date), type(extract_date(claim_date)))
                 print("Scheduler confirmed")
@@ -582,8 +604,6 @@ def update_approval(pk, email, intent):
                     print(f"\nFinal scheduled time in UTC: {time_to_send}")
                     schedule_email_via_api(token_data=tokens, receiver=reciever, subject=f"Warranty Email schdule - {pk}", body=f"This is in regards to the warranty claim no {pk}. This certificate is now due. Please co-ordinate within due time", send_at=time_to_send)
 
-
-
                 # print(extract_date(claim_date), type(extract_date(claim_date)))
                 print("Scheduler confirmed")
                 print()
@@ -598,7 +618,7 @@ def update_approval(pk, email, intent):
 
 
 def get_calibrated_data_from_db(email: str, role: str) -> Optional[List[Dict[str, Any]]]:
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         if role == "calibration_manager":
@@ -611,7 +631,7 @@ def get_calibrated_data_from_db(email: str, role: str) -> Optional[List[Dict[str
             column_names = [description[0] for description in cursor.description]
             result_dicts = [dict(zip(column_names, row)) for row in result]
             print()
-            print(result_dicts)
+            # print(result_dicts)
             print()
             conn.close()
             return result_dicts
@@ -633,14 +653,14 @@ def get_calibrated_data_from_db(email: str, role: str) -> Optional[List[Dict[str
         return []
 
 def get_pending_data_from_db(email: str, role: str) -> Optional[List[Dict[str, Any]]]:
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         if role == "calibration_manager":
             command = """
                 SELECT * FROM calibration_data WHERE email = ? AND approval = ?
             """
-            cursor.execute(command, (email, "pending"))
+            cursor.execute(command, (email, "Pending"))
             result = cursor.fetchall()
             # Get column names and convert to dict format
             column_names = [description[0] for description in cursor.description]
@@ -669,7 +689,7 @@ def get_pending_data_from_db(email: str, role: str) -> Optional[List[Dict[str, A
 
 
 def update_callibration_pending_data(email, standard_equipment_name, duc_id, duc_range, customer_address, calibration_done_at, certificate_number, calibration_date_received, calibration_next_due, approval):
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         query = """
@@ -748,7 +768,7 @@ def update_callibration_pending_data(email, standard_equipment_name, duc_id, duc
 
 
 def update_warranty_pending_data(email,warranty_claim_no, claim_date, supplier_name, supplier_address, ic_no, inspection_by, description, qty_rejected, reason_of_rejection, signatories, approval):
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         query = """
@@ -830,7 +850,7 @@ def update_warranty_pending_data(email,warranty_claim_no, claim_date, supplier_n
 
 def get_record_from_db(email, role, pk):
     if role == "calibration_manager":
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         try:
             cursor = conn.cursor()
             command = """
@@ -845,7 +865,7 @@ def get_record_from_db(email, role, pk):
             return {"status":"error", "error":f"Error {e}"}
     
     elif role == "warranty_claim_manager":
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         try:
             cursor = conn.cursor()
             command = """
@@ -864,7 +884,7 @@ def get_record_from_db(email, role, pk):
 def delete_calibrated_data_from_db(pk: str, email: str, role: str):
     
     if role == "calibration_manager":
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         get_data = cursor.execute("SELECT * FROM calibration_data WHERE duc_id = ? AND email = ? AND approval = ?", (pk, email, "approved"))
         try:
@@ -879,7 +899,7 @@ def delete_calibrated_data_from_db(pk: str, email: str, role: str):
             print("No such record found to delete", e)
             return {"status": "No such record found"}, None
     elif role == "warranty_claim_manager":
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         get_data = cursor.execute("SELECT * FROM warranty_claims WHERE warranty_claim_no = ? AND email = ? AND approval = ?", (pk, email, "approved"))
         try:
@@ -903,7 +923,7 @@ def delete_calibrated_data_from_db(pk: str, email: str, role: str):
 
 def create_user_table():
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         table_name = "user"
         cursor.execute(f"""
@@ -923,7 +943,7 @@ def create_user_table():
 
 def add_user(username: str, role: str):
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         command = """
         SELECT * FROM user WHERE username = ?
@@ -944,7 +964,7 @@ def add_user(username: str, role: str):
 
 def get_user_activity(username):
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         command = """
         SELECT * FROM user
@@ -961,7 +981,7 @@ def get_user_activity(username):
 
 def increment_attempts(username: str):
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         command = """
         Update user set attempts = attempts + 1 where username = ?
@@ -975,7 +995,7 @@ def increment_attempts(username: str):
 
 def reset_attempt(username: str):
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         command = """
         UPDATE user SET attempts = ? WHERE username = ?
@@ -1000,7 +1020,7 @@ def deleted_push_data(record, email):
             print("No record data found to push to deleted_db")
             return {"status":"failed"}
         
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         # Insert data
         pk = record[5]
@@ -1032,7 +1052,7 @@ def deleted_push_data(record, email):
 
 def create_config_table():
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         table_name = "config"
         cursor.execute(f"""
@@ -1054,7 +1074,7 @@ def create_config_table():
     
 def create_new_config_table():
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         table_name = "configs"
         cursor.execute(f"""
@@ -1072,7 +1092,7 @@ def create_new_config_table():
         return {"status": "failed to create table"}
 
 def add_new_config(email: str, sheet: str, scheduled_emails: dict):
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     try:
         cursor = conn.cursor()
         command = """
@@ -1108,7 +1128,7 @@ def add_new_config(email: str, sheet: str, scheduled_emails: dict):
 
 def add_config(email, calibration_sheet, warranty_sheet, calibration_dept_email, store_dept_email, vendor_email):
     try:
-        conn = sqlite3.connect("calibration.db")
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         command = """
         SELECT * FROM config WHERE email = ?
@@ -1145,7 +1165,7 @@ def add_config(email, calibration_sheet, warranty_sheet, calibration_dept_email,
 def get_deleted_data_from_db(email: str, role: str):
     if not email: 
         raise ValueError("You are not logged in or some error in fetching mail, see push_db node")
-    conn = sqlite3.connect("calibration.db")
+    conn = sqlite3.connect(DB_PATH)
     if role == "calibration_manager":
         try:
             cursor = conn.cursor()
@@ -1187,7 +1207,125 @@ def get_deleted_data_from_db(email: str, role: str):
 
 
 
+# Scheduler Work
+def create_scheduler_table():
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS scheduled_data
+                       (email text primary key,
+                       role text,
+                       data text
+                       );
+        """)
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print("Error creating table", e)
+        return {"error": f"Some error occured as {e}"}
 
+def add_data_scheduler(email: str, role: str, scheduled_data: dict):
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        cursor = conn.cursor()
+        command = """
+        SELECT * FROM scheduled_data WHERE email = ?
+        """
+        cursor.execute(command, (email,))
+        record = cursor.fetchall()
+        scheduled_data = json.dumps(scheduled_data) 
+        if record:
+            command = """
+                UPDATE scheduled_data SET 
+                data = ?
+                WHERE email = ? and role = ?
+            """
+            cursor.execute(command, (scheduled_data, email, role))
+            conn.commit()
+            conn.close()
+            return {"status":"updated", "exist":True}
+        command = """
+        INSERT INTO scheduled_data (email, role, data) VALUES (?, ?, ?)
+        """
+        cursor.execute(command, (email, role, scheduled_data))
+        conn.commit()
+        conn.close()
+        return {"status":"created", "exist":False}
+    except Exception as e:
+        conn.close()
+        print("Some error while adding config data", e)
+        return {"status": "failed", "exist":False}
+
+def remove_data_scheduler(email: str, role: str):
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        cursor = conn.cursor()
+        command = """
+        DELETE FROM scheduled_data WHERE email = ? and role = ?
+        """
+        cursor.execute(command, (email, role))
+        conn.commit()
+        conn.close()
+        return {"status":"deleted"}
+    except Exception as e:
+        conn.close()
+        print("Some error while deleting config data", e)
+        return {"status": "failed"}
+    
+# Getting data in key value pair
+import sqlite3
+import json
+
+def get_data_scheduler(email: str, role: str):
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        cursor = conn.cursor()
+        command = """
+        SELECT * FROM scheduled_data WHERE email = ? AND role = ?
+        """
+        cursor.execute(command, (email, role))
+        record = cursor.fetchone()   # just one row
+        print(record)
+        print(email, role)
+        if record:
+            # Get column names from cursor.description
+            columns = [col[0] for col in cursor.description]
+            record_dict = dict(zip(columns, record))
+            return {"status": "found", "data": record_dict}
+        return {"status": "not found", "data": {}}
+    except Exception as e:
+        print("Error occurred while fetching scheduled data from db", e)
+        return {"status": f"Error occurred while fetching scheduled data from db {e}", "data": {}}
+    finally:
+        conn.close()
+
+def get_all_user():
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        print("Fetching all users from the db")
+        cursor = conn.cursor()
+        command = """
+        SELECT * FROM user
+        """
+        cursor.execute(command)
+        records = cursor.fetchall()
+        if records:
+            column_names = [description[0] for description in cursor.description]
+            records = [dict(zip(column_names, row)) for row in records]
+        conn.close()
+        print("The records are ", records)
+        return {"status":"successful", "data": records}
+    except Exception as e:
+        conn.close()
+        return {"status":f"failed with error {e}", "data": []}
+# raw_certs = [{'id': None, 'certificate_number': 'N/150525/2/3', 'issue_date': '16/05/2025', 'customer_name': 'Prag Polymers', 'customer_address': 'A-40 & A-41 Talkatora Industrial Area Lucknow, Uttar Pradesh Pin Code : 226011', 'duc_id': '', 'duc_serial_number': '', 'duc_make_model': '', 'duc_range': '', 'duc_least_count': None, 'duc_condition_at_receipt': '', 'duc_location': '', 'calibration_done_at': 'Modtech Lab', 'calibration_date': '15/05/2025', 'calibration_next_due': '14/05/2026', 'calibration_date_received': '15/05/2025', 'calibration_procedure_references_types': '', 'standard_equipment_id': '', 'standard_equipment_name': '', 'standard_equipment_serial_number': '', 'standard_equipment_certificate_number': '', 'standard_equipment_calibration_date': '', 'standard_equipment_calibration_due_date': '', 'result_duc_value': 'None', 'result_std_value': 'None', 'result_error': 'None', 'result_expanded_uncertainty': 'None', 'remarks': '', 'notes': '', 'approval': 'approved', 'email': 'testingbyme818@gmail.com'}]
+# data = {"status": "Waiting", "message": "msg" or "Waiting approval...", "certificates": [], "raw_certs": raw_certs, "pdf_url_path": ""}
+# add_data_scheduler(
+#     email="testingbyme818@gmail.com",
+#     role="calibration_manager",
+#     scheduled_data=data
+# )
 
 # create_new_config_table()
 # email = "anuragfx818@gmail.com"
@@ -1203,7 +1341,7 @@ def get_deleted_data_from_db(email: str, role: str):
 # print(add_user("testuser"))
 # data = get_user_activity("testuser")
 # print(data)
-# conn = sqlite3.connect("calibration.db")
+# conn = sqlite3.connect(DB_PATH)
 # cursor = conn.cursor()
 # cursor.execute("delete from calibration_data")
 # conn.commit()
@@ -1212,3 +1350,6 @@ def get_deleted_data_from_db(email: str, role: str):
 # print(data)
 # data = get_record_from_db("220104076@hbtu.ac.in", "warranty_claim_manager", "866A-25-02659")
 # print(data.get("result"))
+# print(get_all_user())
+
+# create_scheduler_table()

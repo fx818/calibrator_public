@@ -1,5 +1,5 @@
 # backend.py
-from dbm import sqlite3
+import sqlite3
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, RedirectResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,7 +13,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from langgraph.types import Command
 from LangGraphAgent.agent import Agent, State
-from database import add_user, get_calibrated_data_from_db, delete_calibrated_data_from_db, deleted_push_data, get_pending_data_from_db, update_callibration_pending_data,  get_record_from_db, update_warranty_pending_data, add_config, add_new_config, deleted_push_data_warranty, get_deleted_data_from_db
+from database import add_user, get_calibrated_data_from_db, delete_calibrated_data_from_db, deleted_push_data, get_pending_data_from_db, update_callibration_pending_data,  get_record_from_db, update_warranty_pending_data, add_config, add_new_config, deleted_push_data_warranty, get_deleted_data_from_db, get_data_scheduler, add_data_scheduler, remove_data_scheduler
 from config import save_tokens, load_tokens, load_settings, load_new_settings
 from utils.Sheets import update_data_in_sheet, update_approval_in_sheet
 load_dotenv()
@@ -65,6 +65,8 @@ app.add_middleware(
     secret_key=SECRET_KEY,
     # "lax" is a secure default for same-origin apps
     same_site="lax",
+    session_cookie="session",
+    max_age=60 * 60 * 24 * 7
     # https_only=True,
     # domain=".ngrok-free.app"
 )
@@ -79,8 +81,9 @@ def sanitize_for_thread_id(s: str) -> str:
     return re.sub(r"[^0-9a-zA-Z_]", "_", s or "anonymous")
 
 
-def get_initial_state_for_user(username: str, role: str | None, settings: dict | None) -> State:
+def get_initial_state_for_user(username: str, role: str | None, settings: dict | None, prev_pdf_url: list[str] | None) -> State:
     """Return a fresh State for a user's LangGraph invocation."""
+    print("the prev pdf url in initial state is ", prev_pdf_url)
     return State(
         username=username,
         certificate_number=None,
@@ -92,7 +95,7 @@ def get_initial_state_for_user(username: str, role: str | None, settings: dict |
         curr_node="",
         prev_node="",
         role=role or "",
-        pdf_url=[],
+        pdf_url=prev_pdf_url or [],
         config=settings or None
     )
 
@@ -172,6 +175,13 @@ def me(request: Request):
     """Returns the logged-in user's email."""
     email = request.session.get("account_email")
     role = request.session.get("role")
+    print()
+    print()
+    print("------------------------------------------------")
+    print(request.session.get("prev_certificate_data", []))
+    print("------------------------------------------------")
+    print()
+    print()
     if not email:
         return JSONResponse({"error": "Not logged in"}, status_code=401)
     return {"email": email, "role": role}
@@ -236,6 +246,7 @@ def load_settings_endpoint(request: Request):
     """Loads user-specific settings from the database."""
     email = request.session.get("account_email")
     role = request.session.get("role")
+    print("Email and role in load setting is", email, role)
     if not email or not role:
         return JSONResponse({"error": "Login & set role"}, status_code=401)
     
@@ -272,11 +283,10 @@ class ExtractRequest(BaseModel):
     vendor_email: str
     number_of_email_to_fetch: int
 
-@app.post("/extract_certificates")
-def extract_certificates(request: Request):
+@app.post("/internal_extract_certificates")
+def internal_extract_certificates(email: str, role: str):
     """Initiates the certificate extraction workflow."""
-    email = request.session.get("account_email")
-    role = request.session.get("role")
+    print("the email and role is ", email, role)
     if not email or not role:
         return JSONResponse({"status": "Error", "message": "Login & set role"}, status_code=401)
     # settings = {
@@ -292,7 +302,7 @@ def extract_certificates(request: Request):
     print()
     print()
     print(settings)
-    request.session["config"] = settings
+    # request.session["config"] = settings
     state = get_initial_state_for_user(email, role, settings)
     thread_config = get_user_thread_config(email)
     print()
@@ -307,6 +317,7 @@ def extract_certificates(request: Request):
     print()
     print("Everything is great here2..........")
     raw_certs = result.get("certificate_data", []) or []
+    print(raw_certs)
     print()
     print()
     print()
@@ -327,7 +338,80 @@ def extract_certificates(request: Request):
         raw_msg = result["__interrupt__"][0].value
         msg = raw_msg.get("message") if isinstance(raw_msg, dict) else str(raw_msg)
         print("The pdf path url is ", result.get("pdf_url"))
-        return {"status": "Waiting", "message": msg or "Waiting approval...", "certificates": certificates, "raw_certs": raw_certs, "pdf_url_path": result.get("pdf_url")}
+        return_value = {"status": "Waiting", "message": msg or "Waiting approval...", "certificates": certificates, "raw_certs": raw_certs, "pdf_url_path": result.get("pdf_url")}
+        status = add_data_scheduler(email=email, role=role, scheduled_data=return_value)
+        print(status)
+        return return_value
+
+    return {"status": "Completed", "message": "Certificates extracted", "certificates": certificates, "result": result}
+
+@app.post("/extract_certificates")
+def extract_certificates(request: Request):
+    """Initiates the certificate extraction workflow."""
+    email = request.session.get("account_email")
+    role = request.session.get("role")
+    print("the email and role is ", email, role)
+    if not email or not role:
+        return JSONResponse({"status": "Error", "message": "Login & set role"}, status_code=401)
+    # settings = {
+    #     "calibration_dept_email": request.session.get("calibration_dept_email"),
+    #     "vendor_email": request.session.get("vendor_email"),
+    #     "store_dept_email": request.session.get("store_dept_email"),
+    #     "calibration_sheet": request.session.get("calibration_sheet"),
+    #     "warranty_sheet": request.session.get("warranty_sheet")
+    # }
+    settings = load_new_settings(email)
+    print()
+    print()
+    print()
+    print()
+    print(settings)
+    request.session["config"] = settings
+    prev_pdf_url = request.session.get("pdf_url", [])
+    
+   
+    print()
+    print()
+
+    state = get_initial_state_for_user(email, role, settings, prev_pdf_url)
+    thread_config = get_user_thread_config(email)
+    print()
+    print()
+    print()
+    print()
+    print("Everything is great here..........")
+    result = compiled_graph.invoke(state, config=thread_config)
+    print()
+    print()
+    print()
+    print()
+    print("Everything is great here2..........")
+    raw_certs = result.get("certificate_data", []) or []
+    print(raw_certs)
+    print()
+    print()
+    print()
+    print("Everything is great here3..........")
+    certificates = [{"certificate_number": c if isinstance(c, str) else c.get("certificate_number", ""), "status": "pending"} for c in raw_certs]
+    print()
+    print()
+    print()
+    print()
+    print("Everything is great here4..........")
+    print()
+    print()
+    print()
+    print()
+
+    if "__interrupt__" in result:
+        raw_msg = result["__interrupt__"][0].value
+        msg = raw_msg.get("message") if isinstance(raw_msg, dict) else str(raw_msg)
+        print("The pdf path url is ----------", result.get("pdf_url"))
+        return_value = {"status": "Waiting", "message": msg or "Waiting approval...", "certificates": certificates, "raw_certs": raw_certs, "pdf_url_path": result.get("pdf_url")}
+        status = add_data_scheduler(email=email, role=role, scheduled_data=return_value)
+        print(status)
+        request.session["pdf_url"] = result.get("pdf_url")
+        return return_value
 
     return {"status": "Completed", "message": "Certificates extracted", "certificates": certificates, "result": result}
 
@@ -444,6 +528,18 @@ def get_deleted_data(request: Request):
     
     data = get_deleted_data_from_db(email, role)
     return data
+
+
+
+# data scheduler db endpoints
+@app.get("/fetch_scheduler_data")
+def fetch_scheduler_data(request: Request):
+    email = request.session.get('account_email')
+    role = request.session.get('role')
+    data = get_data_scheduler(email, role)
+    print(data)
+    return data
+
 
 
 # --- Pydantic Model for Request Body ---

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,39 +12,65 @@
         :root {
             font-family: 'Inter', sans-serif;
         }
+
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
+
         /* Style for valid and invalid input fields */
         .input-valid {
-            --tw-ring-color: #22c55e; /* green-500 */
+            --tw-ring-color: #22c55e;
+            /* green-500 */
         }
+
         .input-invalid {
-            --tw-ring-color: #ef4444; /* red-500 */
+            --tw-ring-color: #ef4444;
+            /* red-500 */
         }
+
         .input-pristine {
-             --tw-ring-color: #d1d5db; /* gray-300 */
+            --tw-ring-color: #d1d5db;
+            /* gray-300 */
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
 
-    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
-        
-        <!-- Header -->
-        <header class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-4xl font-bold tracking-tight text-gray-900">Application Settings</h1>
-                <p class="mt-2 text-lg text-gray-600">Manage and configure your integration settings below.</p>
-            </div>
-             <a href="/static/home.html" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    <!-- Header -->
+    <header class="bg-white rounded-2xl shadow-md border border-gray-200 p-6 flex flex-wrap items-center justify-between gap-y-4 mb-8" style="width: 80%; margin: 20px auto;">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Configuration</h1>
+            <p class="mt-1 text-md text-gray-500">Update the settings here.</p>
+        </div>
+
+        <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+            <a href="/static/home.html" class="text-gray-600 hover:text-blue-800 transition-colors">Dashboard</a>
+            <a href="/static/edit_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Edit
+                Data</a>
+            <a href="/static/pending_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Pending
+                Data</a>
+            <a href="/static/calibration_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">All
+                Records</a>
+            <a href="/static/deleted_data.html" class="text-gray-500 hover:text-blue-600 transition-colors">Deleted
+                Records</a>
+            <a id="manualUpdateLink" href="#"
+                class="text-gray-500 hover:text-blue-600 transition-colors">Manual Update</a>
+            <a href="/" class="text-gray-500 hover:text-blue-600 transition-colors">Profile</a>
+            <a href="/static/config_page.html"
+                class="inline-flex items-center gap-x-2 rounded-md bg-gray-100 px-3 py-2 text-blue-700 hover:bg-gray-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                        clip-rule="evenodd" />
                 </svg>
-                Back to Home
+                Settings
             </a>
-        </header>
+        </nav>
+    </header>
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
+
 
         <!-- Main Settings Card -->
         <main id="settings-card" class="bg-white rounded-2xl shadow-lg border border-gray-200">
@@ -64,16 +91,22 @@
                     <section id="sheet-section">
                         <div class="border-b border-gray-200 pb-5">
                             <h2 class="text-lg font-semibold leading-7 text-gray-900 flex items-center gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 <span>Google Sheet Configuration</span>
                             </h2>
-                            <p class="mt-1 text-sm text-gray-600">Provide the full URL for the Google Sheet where data will be stored.</p>
+                            <p class="mt-1 text-sm text-gray-600">Provide the full URL for the Google Sheet where data
+                                will be stored.</p>
                         </div>
                         <div class="mt-6">
-                            <label for="sheet" id="sheet-label" class="block text-sm font-medium leading-6 text-gray-700">Google Sheet URL</label>
-                            <input type="url" id="sheet" name="sheet" class="mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow duration-150" placeholder="https://docs.google.com/spreadsheets/d/...">
+                            <label for="sheet" id="sheet-label"
+                                class="block text-sm font-medium leading-6 text-gray-700">Google Sheet URL</label>
+                            <input type="url" id="sheet" name="sheet"
+                                class="mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow duration-150"
+                                placeholder="https://docs.google.com/spreadsheets/d/...">
                         </div>
                     </section>
 
@@ -81,26 +114,34 @@
                     <section>
                         <div class="border-b border-gray-200 pb-5">
                             <h2 class="text-lg font-semibold leading-7 text-gray-900 flex items-center gap-3">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 <span>Email Notifications</span>
                             </h2>
-                            <p class="mt-1 text-sm text-gray-600">Add or remove email addresses for various department notifications.</p>
+                            <p class="mt-1 text-sm text-gray-600">Add or remove email addresses for various department
+                                notifications.</p>
                         </div>
-                        
+
                         <!-- Form to add new emails -->
                         <div class="mt-6 grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                             <div class="md:col-span-2">
-                                <label for="new_dept_name" class="block text-sm font-medium leading-6 text-gray-700">Department Name</label>
-                                <input type="text" id="new_dept_name" placeholder="e.g., Calibration Team" class="mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                                <label for="new_dept_name"
+                                    class="block text-sm font-medium leading-6 text-gray-700">Department Name</label>
+                                <input type="text" id="new_dept_name" placeholder="e.g., Calibration Team"
+                                    class="mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
                             </div>
                             <div class="md:col-span-2">
-                                <label for="new_dept_email" class="block text-sm font-medium leading-6 text-gray-700">Department Email</label>
-                                <input type="email" id="new_dept_email" placeholder="team@example.com" class="input-pristine mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                                <label for="new_dept_email"
+                                    class="block text-sm font-medium leading-6 text-gray-700">Department Email</label>
+                                <input type="email" id="new_dept_email" placeholder="team@example.com"
+                                    class="input-pristine mt-2 block w-full rounded-md border-0 px-3 py-2.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
                             </div>
                             <div class="md:col-span-1">
-                                <button type="button" id="add-email-btn" class="w-full inline-flex items-center justify-center bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2.5 px-4 rounded-lg transition-colors duration-150">
+                                <button type="button" id="add-email-btn"
+                                    class="w-full inline-flex items-center justify-center bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2.5 px-4 rounded-lg transition-colors duration-150">
                                     Add
                                 </button>
                             </div>
@@ -112,11 +153,13 @@
                         </div>
                     </section>
                 </div>
-                
+
                 <!-- Form Actions -->
-                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-4 rounded-b-2xl">
+                <div
+                    class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-4 rounded-b-2xl">
                     <div id="save-status" class="text-sm font-medium"></div>
-                    <button type="submit" id="saveBtn" class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors duration-150">
+                    <button type="submit" id="saveBtn"
+                        class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors duration-150">
                         Save Changes
                     </button>
                 </div>
@@ -125,64 +168,94 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const loadingState = document.getElementById('loading-state');
-        const errorState = document.getElementById('error-state');
-        const errorMessage = document.getElementById('error-message');
-        const settingsForm = document.getElementById('settingsForm');
-        const saveBtn = document.getElementById('saveBtn');
-        const saveStatus = document.getElementById('save-status');
-        
-        const addEmailBtn = document.getElementById('add-email-btn');
-        const newDeptNameInput = document.getElementById('new_dept_name');
-        const newDeptEmailInput = document.getElementById('new_dept_email');
-        const emailListContainer = document.getElementById('email-list-container');
-        
-        const sheetSection = document.getElementById('sheet-section');
-        const sheetLabel = document.getElementById('sheet-label');
-        const sheetInput = document.getElementById('sheet');
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        function validateEmail(input) {
-            if (input.value === '') {
-                input.classList.remove('input-valid', 'input-invalid');
-                input.classList.add('input-pristine');
-                return true;
-            }
-            if (emailRegex.test(input.value)) {
-                input.classList.remove('input-invalid', 'input-pristine');
-                input.classList.add('input-valid');
-                return true;
-            } else {
-                input.classList.remove('input-valid', 'input-pristine');
-                input.classList.add('input-invalid');
-                return false;
+        async function checkLogin() {
+            try {
+                const res = await fetch("/me", {
+                    credentials: "include"
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    console.log("the data recieved is ", data);
+                    if (data.email) {
+
+                        localStorage.setItem('userEmail', data.email);
+                        localStorage.setItem('userRole', data.role);
+
+                        console.log("User email from /me endpoint:", data.email);
+                        console.log("User role from /me endpoint:", data.role);
+                        console.log("User email from localStorage:", localStorage.getItem('userEmail'));
+                        console.log("User role from localStorage:", localStorage.getItem('userRole'));
+                    }
+                }
+            } catch (err) {
+                console.error("Error checking login status:", err);
             }
         }
 
-        function setupRoleBasedUI() {
-            const userRole = localStorage.getItem('userRole');
 
-            if (userRole === 'calibration_manager') {
-                sheetLabel.textContent = 'Calibration Sheet URL';
-                sheetSection.style.display = 'block';
-            } else if (userRole === 'warranty_claim_manager') {
-                sheetLabel.textContent = 'Warranty Sheet URL';
-                sheetSection.style.display = 'block';
-            } else {
-                sheetSection.style.display = 'none';
-                console.warn('User role not found or not recognized. Hiding sheet configuration.');
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLogin();
+            const loadingState = document.getElementById('loading-state');
+            const errorState = document.getElementById('error-state');
+            const errorMessage = document.getElementById('error-message');
+            const settingsForm = document.getElementById('settingsForm');
+            const saveBtn = document.getElementById('saveBtn');
+            const saveStatus = document.getElementById('save-status');
+
+            const addEmailBtn = document.getElementById('add-email-btn');
+            const newDeptNameInput = document.getElementById('new_dept_name');
+            const newDeptEmailInput = document.getElementById('new_dept_email');
+            const emailListContainer = document.getElementById('email-list-container');
+
+            const sheetSection = document.getElementById('sheet-section');
+            const sheetLabel = document.getElementById('sheet-label');
+            const sheetInput = document.getElementById('sheet');
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            function validateEmail(input) {
+                if (input.value === '') {
+                    input.classList.remove('input-valid', 'input-invalid');
+                    input.classList.add('input-pristine');
+                    return true;
+                }
+                if (emailRegex.test(input.value)) {
+                    input.classList.remove('input-invalid', 'input-pristine');
+                    input.classList.add('input-valid');
+                    return true;
+                } else {
+                    input.classList.remove('input-valid', 'input-pristine');
+                    input.classList.add('input-invalid');
+                    return false;
+                }
             }
-        }
-        
-        function createEmailListItem(name, email) {
-            const div = document.createElement('div');
-            div.className = 'email-item flex items-center justify-between p-3 bg-gray-100 rounded-lg';
-            div.dataset.name = name;
-            div.dataset.email = email;
 
-            div.innerHTML = `
+            function setupRoleBasedUI() {
+                const userRole = localStorage.getItem('userRole');
+
+                if (userRole === 'calibration_manager') {
+                    sheetLabel.textContent = 'Calibration Sheet URL';
+                    sheetSection.style.display = 'block';
+                } else if (userRole === 'warranty_claim_manager') {
+                    sheetLabel.textContent = 'Warranty Sheet URL';
+                    sheetSection.style.display = 'block';
+                } else {
+                    sheetSection.style.display = 'none';
+                    console.warn('User role not found or not recognized. Hiding sheet configuration.');
+                }
+            }
+
+            function createEmailListItem(name, email) {
+                const div = document.createElement('div');
+                div.className = 'email-item flex items-center justify-between p-3 bg-gray-100 rounded-lg';
+                div.dataset.name = name;
+                div.dataset.email = email;
+
+                div.innerHTML = `
                 <div>
                     <span class="font-semibold text-gray-800">${name}</span>
                     <span class="text-gray-600 ml-2 text-sm">${email}</span>
@@ -194,150 +267,162 @@
                 </button>
             `;
 
-            div.querySelector('.remove-email-btn').addEventListener('click', () => {
-                div.remove();
-            });
+                div.querySelector('.remove-email-btn').addEventListener('click', () => {
+                    div.remove();
+                });
 
-            return div;
-        }
-
-        addEmailBtn.addEventListener('click', () => {
-            const deptName = newDeptNameInput.value.trim();
-            const deptEmail = newDeptEmailInput.value.trim();
-
-            if (!deptName) {
-                alert('Please enter a department name.');
-                return;
-            }
-            if (!validateEmail(newDeptEmailInput)) {
-                 alert('Please enter a valid email address.');
-                return;
-            }
-            
-            if (document.querySelector(`.email-item[data-name="${deptName}"]`)) {
-                alert('A department with this name already exists.');
-                return;
+                return div;
             }
 
-            emailListContainer.appendChild(createEmailListItem(deptName, deptEmail));
-            newDeptNameInput.value = '';
-            newDeptEmailInput.value = '';
-            validateEmail(newDeptEmailInput);
-        });
-        
-        newDeptEmailInput.addEventListener('input', () => validateEmail(newDeptEmailInput));
+            addEmailBtn.addEventListener('click', () => {
+                const deptName = newDeptNameInput.value.trim();
+                const deptEmail = newDeptEmailInput.value.trim();
 
-        async function loadSettings() {
-            try {
-                const response = await fetch('/load_settings');
-
-                if (response.status === 404) {
-                    console.log("No settings found. Displaying empty form for initial configuration.");
-                    const infoMessage = document.createElement('div');
-                    infoMessage.className = 'mb-6 p-4 bg-blue-50 text-blue-800 rounded-lg text-sm';
-                    infoMessage.textContent = 'Welcome! No previous settings were found. Please configure your settings below and save for the first time.';
-                    settingsForm.querySelector('.p-6').prepend(infoMessage);
+                if (!deptName) {
+                    alert('Please enter a department name.');
+                    return;
+                }
+                if (!validateEmail(newDeptEmailInput)) {
+                    alert('Please enter a valid email address.');
                     return;
                 }
 
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
+                if (document.querySelector(`.email-item[data-name="${deptName}"]`)) {
+                    alert('A department with this name already exists.');
+                    return;
                 }
-                
-                populateForm(data.settings);
 
-            } catch (error) {
-                errorMessage.textContent = `Failed to load settings: ${error.message}`;
-                loadingState.style.display = 'none';
-                errorState.style.display = 'block';
-            } finally {
-                loadingState.style.display = 'none';
-                settingsForm.style.display = 'block';
-            }
-        }
+                emailListContainer.appendChild(createEmailListItem(deptName, deptEmail));
+                newDeptNameInput.value = '';
+                newDeptEmailInput.value = '';
+                validateEmail(newDeptEmailInput);
+            });
 
-        function populateForm(settings) {
-            if (!settings) return;
-            
-            if (settings.sheet && sheetInput) {
-                sheetInput.value = settings.sheet;
-            }
+            newDeptEmailInput.addEventListener('input', () => validateEmail(newDeptEmailInput));
 
-            if (settings.scheduled_emails) {
-                emailListContainer.innerHTML = '';
-                for (const name in settings.scheduled_emails) {
-                    const email = settings.scheduled_emails[name];
-                    emailListContainer.appendChild(createEmailListItem(name, email));
+            async function loadSettings() {
+                try {
+                    const response = await fetch('/load_settings');
+                    console.log("The resp is ", response);
+                    if (response.status === 404) {
+                        console.log("No settings found. Displaying empty form for initial configuration.");
+                        const infoMessage = document.createElement('div');
+                        infoMessage.className = 'mb-6 p-4 bg-blue-50 text-blue-800 rounded-lg text-sm';
+                        infoMessage.textContent = 'Welcome! No previous settings were found. Please configure your settings below and save for the first time.';
+                        settingsForm.querySelector('.p-6').prepend(infoMessage);
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+                    }
+
+                    populateForm(data.settings);
+
+                } catch (error) {
+                    errorMessage.textContent = `Failed to load settings: ${error.message}`;
+                    loadingState.style.display = 'none';
+                    errorState.style.display = 'block';
+                } finally {
+                    loadingState.style.display = 'none';
+                    settingsForm.style.display = 'block';
                 }
             }
-        }
 
-        settingsForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+            function populateForm(settings) {
+                if (!settings) return;
 
-            saveBtn.disabled = true;
-            saveBtn.innerHTML = `
+                if (settings.sheet && sheetInput) {
+                    sheetInput.value = settings.sheet;
+                }
+
+                if (settings.scheduled_emails) {
+                    emailListContainer.innerHTML = '';
+                    for (const name in settings.scheduled_emails) {
+                        const email = settings.scheduled_emails[name];
+                        emailListContainer.appendChild(createEmailListItem(name, email));
+                    }
+                }
+            }
+
+            settingsForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = `
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
                 Saving...`;
-            saveStatus.textContent = '';
-            
-            const sheetUrl = sheetInput.value;
-            const scheduledEmails = {};
-            document.querySelectorAll('#email-list-container .email-item').forEach(item => {
-                const name = item.dataset.name;
-                const email = item.dataset.email;
-                if (name && email) {
-                    scheduledEmails[name] = email;
+                saveStatus.textContent = '';
+
+                const sheetUrl = sheetInput.value;
+                const scheduledEmails = {};
+                document.querySelectorAll('#email-list-container .email-item').forEach(item => {
+                    const name = item.dataset.name;
+                    const email = item.dataset.email;
+                    if (name && email) {
+                        scheduledEmails[name] = email;
+                    }
+                });
+
+                const settingsData = {
+                    sheet: sheetUrl,
+                    scheduled_emails: scheduledEmails
+                };
+
+                try {
+                    const response = await fetch('/save_settings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(settingsData),
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Failed to save settings.');
+                    }
+
+                    saveStatus.textContent = 'Settings saved successfully!';
+                    saveStatus.className = 'text-sm font-medium text-green-600';
+
+                    // --- REDIRECT REMOVED ---
+                    // The page will now stay after a successful save.
+
+                } catch (error) {
+                    saveStatus.textContent = `Error: ${error.message}`;
+                    saveStatus.className = 'text-sm font-medium text-red-600';
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = 'Save Changes';
+                    // Clear the status message after 3 seconds
+                    setTimeout(() => { saveStatus.textContent = ''; }, 3000);
                 }
             });
 
-            const settingsData = {
-                sheet: sheetUrl,
-                scheduled_emails: scheduledEmails
-            };
-
-            try {
-                const response = await fetch('/save_settings', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(settingsData),
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.error || 'Failed to save settings.');
-                }
-                
-                saveStatus.textContent = 'Settings saved successfully!';
-                saveStatus.className = 'text-sm font-medium text-green-600';
-                
-                // --- REDIRECT REMOVED ---
-                // The page will now stay after a successful save.
-
-            } catch (error) {
-                saveStatus.textContent = `Error: ${error.message}`;
-                saveStatus.className = 'text-sm font-medium text-red-600';
-            } finally {
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = 'Save Changes';
-                // Clear the status message after 3 seconds
-                setTimeout(() => { saveStatus.textContent = ''; }, 3000);
-            }
+            // --- Initial setup ---
+            setupRoleBasedUI();
+            loadSettings();
         });
 
-        // --- Initial setup ---
-        setupRoleBasedUI();
-        loadSettings();
-    });
+        window.onload = () => {
+            if (!sessionStorage.getItem("reloaded")) {
+                sessionStorage.setItem("reloaded", "true");
+                location.reload();
+            } else {
+                sessionStorage.removeItem("reloaded"); // reset for next visit
+            }
+        };
+
+        console.log("User email from localStorage:", localStorage.getItem('userEmail'));
+        console.log("User role from localStorage:", localStorage.getItem('userRole'));
     </script>
 </body>
-</html>
 
+</html>

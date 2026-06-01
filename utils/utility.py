@@ -11,8 +11,8 @@ from gmail_work.gmail import create_event
 load_dotenv()
 
 client = OpenAI(
-    api_key=os.environ.get("GROQ_API_KEY"),
-    base_url="https://api.groq.com/openai/v1"
+    api_key=os.environ.get("OPENROUTER"),
+    base_url="https://openrouter.ai/api/v1"
 )
 
 import re
@@ -409,23 +409,43 @@ def get_certificate_data(all_cert_text):
     print("The intent recieved is ", intent)
     print()
     print()
+    # if intent == "calibration_certificate":
+    #     response = client.responses.create(
+    #         model="meta-llama/llama-4-scout",
+    #         instructions=prompt,
+    #         input=all_cert_text,
+    #     )
+    # elif intent == "Warranty_claim":
+    #     response = client.responses.create(
+    #         model="meta-llama/llama-4-scout",
+    #         instructions=warranty_prompt,
+    #         input=all_cert_text,
+    #     )
+    # else:
+    #     print("❌ Unknown intent, cannot process")
+    #     return []
     if intent == "calibration_certificate":
-        response = client.responses.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
-            instructions=prompt,
-            input=all_cert_text,
+        completion = client.chat.completions.create(
+            model="meta-llama/llama-4-scout",
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": all_cert_text},
+            ],
         )
     elif intent == "Warranty_claim":
-        response = client.responses.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
-            instructions=warranty_prompt,
-            input=all_cert_text,
+        completion = client.chat.completions.create(
+            model="meta-llama/llama-4-scout",
+            messages=[
+                {"role": "system", "content": warranty_prompt},
+                {"role": "user", "content": all_cert_text},
+            ],
         )
     else:
         print("❌ Unknown intent, cannot process")
         return []
+    raw_text = completion.choices[0].message.content.strip()
     
-    raw_text = response.output_text.strip()
+    # raw_text = response.output_text.strip()
     # 🔹 Remove markdown fences like ```json ... ```
     raw_text = re.sub(r"```(json)?", "", raw_text).strip()
     # 🔹 Extract all JSON objects (not assuming single array)
@@ -482,12 +502,16 @@ def get_intent(text: str):
         {text}
     """
 
-    response = client.responses.create(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
-        instructions=intent_prompt,
-        input=text,
+    completion = client.chat.completions.create(
+        model="meta-llama/llama-4-scout",
+        messages=[
+            {"role": "system", "content": intent_prompt},
+            {"role": "user", "content": text},
+        ],
     )
-    intent = response.output_text.strip().lower()
+
+    intent = completion.choices[0].message.content.strip().lower()
+    # intent = response.output_text.strip().lower()
     if "calibration" in intent:
         return "calibration_certificate"
     elif "warranty" in intent:
